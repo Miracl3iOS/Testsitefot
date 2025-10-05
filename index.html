@@ -72,6 +72,16 @@
     @media (max-width:420px){
       .title{font-size:calc(18px + 4vw)}
     }
+.bg-wrap{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(154,106,255,0.08), transparent 10%),
+    radial-gradient(circle at 90% 80%, rgba(94,224,255,0.06), transparent 10%),
+    url('background.jpg'); /* ← твоё фото */
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.9) contrast(1.1) saturate(1.05);
+}
   </style>
 </head>
 <body>
