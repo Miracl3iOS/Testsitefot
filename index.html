@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Работа в Башкортостане</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a001a, #1a0033);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* --- Загрузочный экран --- */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #1a0033 20%, #0a001a 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    #loader h2 {
+      font-size: 2rem;
+      color: #d39aff;
+      margin-top: 20px;
+      text-shadow: 0 0 15px #d39aff;
+      animation: pulse 1.5s infinite;
+    }
+
+    .gear {
+      font-size: 3rem;
+      animation: spin 3s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .job-tip {
+      position: absolute;
+      opacity: 0;
+      animation: floatText 1.5s ease-in-out forwards;
+      text-shadow: 0 0 10px #b982ff;
+      color: #fff;
+      font-size: 1rem;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    @keyframes floatText {
+      0% { opacity: 0; transform: translateY(30px); }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-30px); }
+    }
+
+    /* --- Основная страница --- */
+    #main-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #d39aff;
+      text-shadow: 0 0 15px #d39aff, 0 0 25px #9a6aff;
+      white-space: pre-line;
+      border-right: 3px solid #d39aff;
+      width: 32ch;
+      overflow: hidden;
+      animation: typing 5s steps(32), blink .75s step-end infinite alternate;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 32ch; }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent; }
+      50% { border-color: #d39aff; }
+    }
+
+    p {
+      font-size: 1rem;
+      color: #caa8ff;
+      margin-top: 0.8rem;
+    }
+
+    .search-box {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 0.6rem 1rem;
+      box-shadow: 0 0 10px rgba(211, 154, 255, 0.3);
+    }
+
+    .search-box select {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .contacts-btn {
+      position: absolute;
+      bottom: 40px;
+      background: #9a6aff;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      box-shadow: 0 0 15px #9a6aff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contacts-btn:hover {
+      background: #b482ff;
+      box-shadow: 0 0 25px #b482ff;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.6rem; width: 26ch; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="gear">⚙️</div>
+    <h2>Загрузка...</h2>
+  </div>
+
+  <div id="main-content">
+    <h1>Работа в Башкортостане.\nБыстро. Лояльно.\nДля всех</h1>
+    <p>Возраст не помеха</p>
+
+    <div class="search-box">
+      <span>🔍</span>
+      <select id="city-select" onchange="goToCity()">
+        <option selected disabled>введите ваш город</option>
+        <option>Уфа</option>
+        <option>Чишмы</option>
+        <option>Иглино</option>
+        <option>Благовещенск</option>
+        <option>Бирск</option>
+        <option>Дюртюли</option>
+        <option>Давлеканово</option>
+        <option>Кандры</option>
+        <option>Октябрьский</option>
+        <option>Туймазы</option>
+        <option>Белебей</option>
+        <option>Толбазы</option>
+        <option>Стерлитамак</option>
+        <option>Салават</option>
+        <option>Ишимбай</option>
+      </select>
+    </div>
+
+    <button class="contacts-btn" onclick="window.location.href='https://example.com'">Наши контакты</button>
+  </div>
+
+  <script>
+    const jobTips = [
+      '🛒🛍️ Продавец — заработок ~2500–4000₽ в день',
+      '☕🥐 Бариста — до 3000₽ в день + чаевые',
+      '🍽️🧑‍🍳 Официант — от 2500₽ в день + хорошие чаевые',
+      '🚴📦 Курьер — до 5000₽ в день, гибкий график',
+      '💻🧠 Айтишник — доход от 5000₽, можно удалённо',
+      '☎️💬 Оператор — 2000–3500₽ в день',
+      '🧹🧼 Уборщик — до 3000₽ в день',
+      '📦🏷️ Кладовщик — от 2500₽ в день',
+      '🚗📍 Таксист — до 6000₽ в день',
+      '🏋️‍♂️📦 Грузчик — от 3000₽ в день',
+      '🛡️🚨 Охранник — примерно 2500₽ в день'
+    ];
+
+    function showRandomTips() {
+      const loader = document.getElementById('loader');
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          const tip = document.createElement('div');
+          tip.className = 'job-tip';
+          tip.innerText = jobTips[Math.floor(Math.random() * jobTips.length)];
+          tip.style.left = Math.random() * 60 + 20 + '%';
+          tip.style.top = Math.random() * 60 + 20 + '%';
+          loader.appendChild(tip);
+          setTimeout(() => tip.remove(), 1500);
+        }, i * 700);
+      }
+    }
+
+    window.addEventListener('load', () => {
+      showRandomTips();
+      setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('main-content').style.display = 'flex';
+      }, 6500);
+    });
+
+    function goToCity() {
+      const city = document.getElementById('city-select').value;
+      alert(`Переход к странице города: ${city}`);
+    }
+  </script>
+</body>
+</html>
