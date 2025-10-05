@@ -1,149 +1,157 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Работа в Башкортостане</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,viewport-fit=cover" />
+  <title>Работа в Башкортостане — BashkirOffers (demo)</title>
+  <meta name="theme-color" content="#120014">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    :root{
+      --bg1:#0b0014;
+      --bg2:#120022;
+      --neon1:#c26eff;
+      --neon2:#5ee0ff;
+      --glass: rgba(255,255,255,0.06);
+      --accent: linear-gradient(90deg,var(--neon1),var(--neon2));
     }
 
-    body {
-      background-color: #000;
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      text-align: center;
-      padding: 0 20px;
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Roboto, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background: radial-gradient(circle at 10% 10%, rgba(154,106,255,0.06), transparent 10%),
+                  radial-gradient(circle at 90% 80%, rgba(94,224,255,0.03), transparent 10%),
+                  var(--bg1);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      transition:opacity 0.8s ease;
     }
 
-    h1 {
-      font-size: 2rem;
-      line-height: 1.4;
-      color: #a077ff;
-      text-shadow: 0 0 8px #7a5cff, 0 0 20px #4ab0ff;
-      white-space: pre-line;
-      overflow: hidden;
-      border-right: 3px solid rgba(255,255,255,0.75);
-      width: 0;
-      animation: typing 4s steps(40, end) forwards, blink 0.8s step-end infinite;
+    body.loaded{opacity:1}
+
+    .wrap{position:relative; z-index:10; width:100%; max-width:920px; padding:24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center}
+
+    .hero{
+      width:100%; display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding-top:6vh; box-sizing:border-box;
+      min-height:33vh; max-height:38vh; justify-content:center;
     }
 
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+    .title{
+      font-size:clamp(26px,6.2vw,48px); line-height:1.02; font-weight:800; color:var(--neon1);
+      text-shadow: 0 0 18px rgba(194,110,255,0.18), 0 6px 30px rgba(26,0,51,0.6);
+      max-width:92%;
+      white-space:pre-line; /* важен — реальные переносы строк сохраняются */
+      border-right:3px solid rgba(194,110,255,0.95);
+      padding-right:6px;
+      display:inline-block;
+      overflow:hidden;
     }
 
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
+    .title.nocaret{border-right:0}
 
-    p {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-top: 8px;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 4s;
-    }
+    .subtitle{font-size:12px;color:#d9cfff; opacity:0.9; margin-top:6px}
 
-    .search-container {
-      margin-top: 40px;
-      opacity: 0;
-      animation: fadeInUp 1.5s ease forwards;
-      animation-delay: 4.5s;
-      width: 100%;
-      max-width: 400px;
-    }
+    .age-note{font-size:11px; opacity:0.8; margin-top:6px; color:#e6defb}
 
-    .search-container input, .search-container select {
-      width: 100%;
-      padding: 14px 18px;
-      border: none;
-      border-radius: 12px;
-      background: #111;
-      color: #fff;
-      font-size: 1rem;
-      outline: none;
-      box-shadow: 0 0 10px rgba(130, 96, 255, 0.4);
-      text-align: center;
-      appearance: none;
-    }
+    .search{margin-top:18px; width:100%; display:flex; justify-content:center}
+    .search-inner{width:100%; max-width:560px; display:flex; gap:8px; align-items:center; background:var(--glass); padding:10px 12px; border-radius:14px; box-shadow:0 6px 30px rgba(153,98,255,0.06);}
+    .search-inner .icon{font-size:20px}
+    .search-inner select, .search-inner input{flex:1; border:0; background:transparent; color:#fff; font-size:16px; outline:none}
 
-    .contact-button {
-      margin-top: 50px;
-      padding: 14px 40px;
-      border: none;
-      border-radius: 25px;
-      background: linear-gradient(90deg, #7a5cff, #4ab0ff);
-      color: #fff;
-      font-size: 1rem;
-      cursor: pointer;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 5s;
-      box-shadow: 0 0 15px rgba(100, 50, 255, 0.5);
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
+    .contacts{position:fixed; left:50%; transform:translateX(-50%); bottom:18px; z-index:20}
+    .contacts a{display:inline-block;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,var(--neon1),var(--neon2)); color:#06000b; font-weight:700; text-decoration:none; box-shadow:0 8px 30px rgba(94,224,255,0.06)}
 
-    .contact-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(100, 50, 255, 0.8);
-    }
+    .fade-in{opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease}
+    .fade-in.show{opacity:1; transform:translateY(0)}
 
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @media (max-width:420px){
+      .title{font-size:calc(18px + 4vw)}
     }
   </style>
 </head>
 <body>
-  <h1>Работа в Башкортостане.\nБыстро. Лояльно.\nДля всех</h1>
-  <p>Возраст не помеха</p>
 
-  <div class="search-container">
-    <select id="citySelect">
-      <option value="">🔍 Введите или выберите ваш город</option>
-      <option>Уфа</option>
-      <option>Чишмы</option>
-      <option>Иглино</option>
-      <option>Благовещенск</option>
-      <option>Бирск</option>
-      <option>Дюртюли</option>
-      <option>Давлеканово</option>
-      <option>Кандры</option>
-      <option>Октябрьский</option>
-      <option>Туймазы</option>
-      <option>Белебей</option>
-      <option>Толбазы</option>
-      <option>Стерлитамак</option>
-      <option>Салават</option>
-      <option>Ишимбай</option>
-    </select>
+  <div class="wrap fade-in" id="main">
+    <section class="hero">
+      <!-- ВАЖНО: используем реальные переносы строк в HTML (не \n) -->
+      <div class="title" id="title">Работа в Башкортостане.
+Быстро. Лояльно.
+Для всех</div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="subtitle">&nbsp;</div>
+      </div>
+
+      <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
+        <div class="age-note">Возраст не помеха</div>
+      </div>
+
+    </section>
+
+    <div class="search">
+      <div class="search-inner" role="search">
+        <div class="icon">🔍</div>
+        <select id="city-select">
+          <option value="" selected disabled>введите ваш город</option>
+          <option>Уфа</option>
+          <option>Чишмы</option>
+          <option>Иглино</option>
+          <option>Благовещенск</option>
+          <option>Бирск</option>
+          <option>Дюртюли</option>
+          <option>Давлеканово</option>
+          <option>Кандры</option>
+          <option>Октябрьский</option>
+          <option>Туймазы</option>
+          <option>Белебей</option>
+          <option>Толбазы</option>
+          <option>Стерлитамак</option>
+          <option>Салават</option>
+          <option>Ишимбай</option>
+        </select>
+      </div>
+    </div>
+
   </div>
 
-  <button class="contact-button" onclick="window.location.href='https://example.com'">Наши контакты</button>
+  <div class="contacts"><a href="https://example.com" target="_blank" rel="noopener">Наши контакты</a></div>
 
   <script>
-    const citySelect = document.getElementById("citySelect");
-    citySelect.addEventListener("change", () => {
-      const city = citySelect.value;
-      if (city) {
-        alert(`Переход на страницу города: ${city}`);
-        // Здесь потом будет редирект на 2-ю страницу
+    // плавное появление страницы + запуск эффекта набора
+    window.addEventListener('load', ()=>{
+      document.body.classList.add('loaded');
+      setTimeout(()=> document.getElementById('main').classList.add('show'), 120);
+      startTypewriter();
+    });
+
+    // Typewriter — учитывает реальные переносы строк (\n не используется)
+    function startTypewriter(){
+      const el = document.getElementById('title');
+      const full = el.textContent.replace(/\u00A0/g,' '); // убираем NBSP, если есть
+      el.textContent = '';
+      el.classList.remove('nocaret');
+      let i = 0;
+      const speed = 28; // ms per char — можно увеличить/уменьшить
+      function step(){
+        if(i <= full.length){
+          el.textContent = full.slice(0, i);
+          if(i < full.length) el.style.borderRight = '3px solid rgba(194,110,255,0.95)';
+          else { el.style.borderRight = '0'; el.classList.add('nocaret'); }
+          i++;
+          setTimeout(step, speed);
+        }
       }
+      step();
+    }
+
+    document.getElementById('city-select').addEventListener('change', function(){
+      const city = this.value;
+      alert('Переход к странице: ' + city + '\n(настройка редиректа позже)');
     });
   </script>
 </body>
