@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1,viewport-fit=cover" />
-  <title>Работа в Башкортостане — BashkirOffers (demo)</title>
+  <title>Работа в Башкортостане — BashkirOffers</title>
   <meta name="theme-color" content="#120014">
   <style>
 :root{
@@ -14,212 +14,104 @@
   --glass: rgba(255,255,255,0.06);
   --accent: linear-gradient(90deg,var(--neon1),var(--neon2));
 }
-
 html,body{height:100%;}
 body{
   margin:0;
-  font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Roboto, Arial, sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  font-family:-apple-system,'SF Pro Text','Helvetica Neue',Roboto,Arial,sans-serif;
   background: radial-gradient(circle at 10% 10%, rgba(154,106,255,0.06), transparent 10%),
               radial-gradient(circle at 90% 80%, rgba(94,224,255,0.03), transparent 10%),
               var(--bg1);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  transition:opacity 0.8s ease;
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity 0.8s ease;
 }
-
 body.loaded{opacity:1}
 
-/* фон */
 .bg-wrap{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
+  position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
     radial-gradient(circle at 10% 10%, rgba(154,106,255,0.08), transparent 10%),
     radial-gradient(circle at 90% 80%, rgba(94,224,255,0.06), transparent 10%),
     url('background.jpg');
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.9) contrast(1.15) saturate(1.1);
+  background-size:cover; background-position:center;
+  filter:brightness(0.9) contrast(1.1) saturate(1.05);
 }
 
 .wrap{position:relative; z-index:10; width:100%; max-width:920px; padding:24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center}
+.hero{width:100%; display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding-top:6vh; min-height:33vh; justify-content:center;}
 
-.hero{
-  width:100%; display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding-top:6vh; box-sizing:border-box;
-  min-height:33vh; max-height:38vh; justify-content:center;
-}
-
-/* усилил неон текста */
 .title{
-  font-size:clamp(26px,6.2vw,48px);
-  line-height:1.05;
-  font-weight:800;
-  color:var(--neon1);
-  text-shadow:
-    0 0 12px rgba(194,110,255,0.6),
-    0 0 24px rgba(94,224,255,0.4),
-    0 0 40px rgba(94,224,255,0.3);
-  max-width:92%;
-  white-space:pre-line;
-  border-right:3px solid rgba(194,110,255,0.95);
-  padding-right:6px;
-  display:inline-block;
-  overflow:hidden;
+  font-size:clamp(26px,6.2vw,48px); line-height:1.05; font-weight:800; color:var(--neon1);
+  text-shadow:0 0 12px rgba(194,110,255,0.6),0 0 24px rgba(94,224,255,0.4),0 0 40px rgba(94,224,255,0.3);
+  white-space:pre-line; border-right:3px solid rgba(194,110,255,0.95);
+  padding-right:6px; display:inline-block; overflow:hidden;
 }
 .title.nocaret{border-right:0}
+.subtitle{font-size:12px;color:#d9cfff;opacity:0.9;margin-top:6px}
+.age-note{font-size:11px;opacity:0.8;margin-top:6px;color:#e6defb}
 
-.subtitle{font-size:12px;color:#d9cfff; opacity:0.9; margin-top:6px}
-.age-note{font-size:11px; opacity:0.8; margin-top:6px; color:#e6defb}
+.search{margin-top:18px;width:100%;display:flex;justify-content:center}
+.search-inner{width:100%;max-width:560px;display:flex;gap:8px;align-items:center;
+  background:rgba(25,25,25,0.85);padding:10px 12px;border-radius:14px;
+  box-shadow:0 0 15px rgba(153,98,255,0.1);border:1px solid rgba(130,100,255,0.2);}
+.search-inner input{flex:1;border:0;background:transparent;color:#fff;font-size:16px;outline:none}
+.search-inner button{background:var(--accent);border:0;color:#06000b;font-weight:700;padding:8px 16px;border-radius:10px;cursor:pointer;transition:.25s}
+.search-inner button:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(94,224,255,0.4)}
 
-/* сделал строку выбора города более плотной серой */
-.search{
-  margin-top:18px;
-  width:100%;
-  display:flex;
-  justify-content:center;
-}
-.search-inner{
-  width:100%;
-  max-width:560px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  background:rgba(25,25,25,0.85); /* ← плотный серый фон */
-  padding:10px 12px;
-  border-radius:14px;
-  box-shadow:0 0 15px rgba(153,98,255,0.1);
-  border:1px solid rgba(130,100,255,0.2);
-}
-.search-inner .icon{font-size:20px;color:#b3a8ff;}
-.search-inner select, .search-inner input{
-  flex:1;
-  border:0;
-  background:transparent;
-  color:#fff;
-  font-size:16px;
-  outline:none;
-}
-
-.contacts{
-  position:fixed;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:18px;
-  z-index:20;
-}
-.contacts a{
-  display:inline-block;
-  padding:12px 18px;
-  border-radius:999px;
-  background:linear-gradient(90deg,var(--neon1),var(--neon2));
-  color:#06000b;
-  font-weight:700;
-  text-decoration:none;
-  box-shadow:0 0 20px rgba(94,224,255,0.3);
-  transition:transform .2s ease, box-shadow .3s ease;
-}
-.contacts a:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 30px rgba(94,224,255,0.5);
-}
-
-.fade-in{opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease}
-.fade-in.show{opacity:1; transform:translateY(0)}
-
-@media (max-width:420px){
-  .title{font-size:calc(18px + 4vw)}
-}
+.contacts{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:20}
+.contacts a{display:inline-block;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#06000b;font-weight:700;text-decoration:none;box-shadow:0 0 20px rgba(94,224,255,0.3)}
+.fade-in{opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.show{opacity:1;transform:translateY(0)}
   </style>
 </head>
 <body>
-
-  <!-- 🌌 Фон -->
   <div class="bg-wrap"></div>
 
   <div class="wrap fade-in" id="main">
     <section class="hero">
-      <!-- ВАЖНО: реальные переносы строк -->
       <div class="title" id="title">Работа в Башкортостане.
 Быстро. Лояльно.
-Для всех 🇷🇺 </div>
-
-      <div style="display:flex;gap:10px;align-items:center">
-        <div class="subtitle">&nbsp;</div>
-      </div>
-
-      <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
-        <div class="age-note">Возраст не помеха, начинай с 16 лет </div>
-      </div>
+Для всех 🇷🇺</div>
+      <div class="age-note">Возраст не помеха, начинай с 16 лет</div>
     </section>
 
     <div class="search">
       <div class="search-inner" role="search">
-        <div class="icon">🔍</div>
-        <select id="city-select">
-          <option value="" selected disabled>введите ваш город</option>
-          <option>Уфа</option>
-          <option>Чишмы</option>
-          <option>Иглино</option>
-          <option>Благовещенск</option>
-          <option>Бирск</option>
-          <option>Дюртюли</option>
-          <option>Давлеканово</option>
-          <option>Кандры</option>
-          <option>Октябрьский</option>
-          <option>Туймазы</option>
-          <option>Белебей</option>
-          <option>Толбазы</option>
-          <option>Стерлитамак</option>
-          <option>Салават</option>
-          <option>Ишимбай</option>
-        </select>
+        <input type="text" id="city-input" placeholder="Введите ваш город..." />
+        <button id="search-btn">Найти</button>
       </div>
     </div>
   </div>
 
-  <div class="contacts">
-    <a href="https://example.com" target="_blank" rel="noopener">Наши контакты</a>
-  </div>
+  <div class="contacts"><a href="#">Наши контакты</a></div>
 
   <script>
-    // плавное появление страницы + запуск эффекта набора
-    window.addEventListener('load', ()=>{
-      document.body.classList.add('loaded');
-      setTimeout(()=> document.getElementById('main').classList.add('show'), 120);
-      startTypewriter();
-    });
+  window.addEventListener('load',()=>{
+    document.body.classList.add('loaded');
+    setTimeout(()=> document.getElementById('main').classList.add('show'), 120);
+    startTypewriter();
+  });
 
-    // Typewriter — учитывает реальные переносы строк
-    function startTypewriter(){
-      const el = document.getElementById('title');
-      const full = el.textContent.replace(/\u00A0/g,' ');
-      el.textContent = '';
-      el.classList.remove('nocaret');
-      let i = 0;
-      const speed = 28;
-      function step(){
-        if(i <= full.length){
-          el.textContent = full.slice(0, i);
-          if(i < full.length) el.style.borderRight = '3px solid rgba(194,110,255,0.95)';
-          else { el.style.borderRight = '0'; el.classList.add('nocaret'); }
-          i++;
-          setTimeout(step, speed);
-        }
+  function startTypewriter(){
+    const el=document.getElementById('title');
+    const full=el.textContent;
+    el.textContent='';
+    let i=0;
+    const speed=28;
+    function step(){
+      if(i<=full.length){
+        el.textContent=full.slice(0,i);
+        i++;
+        setTimeout(step,speed);
       }
-      step();
     }
+    step();
+  }
 
-    document.getElementById('city-select').addEventListener('change', function(){
-      const city = this.value;
-      alert('Переход к странице: ' + city + '\n(настройка редиректа позже)');
-    });
+  document.getElementById('search-btn').addEventListener('click',()=>{
+    const city=document.getElementById('city-input').value.trim();
+    if(city) window.location.href=`jobs.html?city=${encodeURIComponent(city)}`;
+    else alert('Введите название города');
+  });
   </script>
 </body>
 </html>
