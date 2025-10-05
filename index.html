@@ -1,238 +1,355 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Работа в Башкортостане</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,viewport-fit=cover" />
+  <title>Работа в Башкортостане — BashkirOffers (demo)</title>
+  <meta name="theme-color" content="#120014">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a001a, #1a0033);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      overflow: hidden;
+    /* --- Общие настройки (iPhone-friendly) --- */
+    :root{
+      --bg1:#0b0014; /* тёмный */
+      --bg2:#120022; /* тёмно-фиолет */
+      --neon1:#c26eff; /* фиолетовый */
+      --neon2:#5ee0ff; /* голубой */
+      --glass: rgba(255,255,255,0.06);
+      --accent: linear-gradient(90deg,var(--neon1),var(--neon2));
     }
 
-    /* --- Загрузочный экран --- */
-    #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, #1a0033 20%, #0a001a 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      overflow: hidden;
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Roboto, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background: radial-gradient(circle at 10% 10%, rgba(154,106,255,0.06), transparent 10%),
+                  radial-gradient(circle at 90% 80%, rgba(94,224,255,0.03), transparent 10%),
+                  var(--bg1);
+      color:#fff;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    #loader h2 {
-      font-size: 2rem;
-      color: #d39aff;
-      margin-top: 20px;
-      text-shadow: 0 0 15px #d39aff;
-      animation: pulse 1.5s infinite;
+    /* --- Фоновая кирпичная стена с неоном и декоративной надписью --- */
+    .bg-wrap{
+      position:fixed;inset:0;z-index:0;pointer-events:none;display:block;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><rect width="100%" height="100%25" fill="%2307000a"/><g opacity="0.06"><pattern id="b" width="60" height="30" patternUnits="userSpaceOnUse"><rect width="60" height="30" fill="%23130a0f"/><rect x="0" y="0" width="60" height="15" fill="%23160c12"/></pattern><rect width="100%25" height="100%25" fill="url(%23b)"/></g></svg>');
+      background-size: cover;
+      filter: contrast(0.9) saturate(1.05);
     }
 
-    .gear {
-      font-size: 3rem;
-      animation: spin 3s linear infinite;
+    .neon-sign{
+      position: absolute; left:50%; top:55%; transform:translate(-50%,-50%);
+      font-weight:700; font-size:48px; letter-spacing:6px; opacity:0.06;
+      text-transform:uppercase; color:var(--neon1); text-align:center;
+      mix-blend-mode:screen; pointer-events:none;
+      filter: blur(0.6px) drop-shadow(0 0 18px rgba(194,110,255,0.12));
+      animation: neonPulse 6s ease-in-out infinite;
     }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes neonPulse{
+      0%{opacity:0.045; filter:blur(0.6px) drop-shadow(0 0 10px rgba(194,110,255,0.06));}
+      50%{opacity:0.11; filter:blur(0.8px) drop-shadow(0 0 28px rgba(94,224,255,0.09));}
+      100%{opacity:0.045;}
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    /* декоративные пачки денег (контурные) */
+    .money-orn{position:absolute; right:8%; bottom:12%; opacity:0.06; font-size:64px; transform:rotate(-12deg);}
+
+    /* --- Loading screen --- */
+    #loader{
+      position:fixed; inset:0; z-index:999; display:flex;align-items:center;justify-content:center;flex-direction:column;
+      background: linear-gradient(180deg, rgba(6,0,12,0.88), rgba(3,0,8,0.9));
+      backdrop-filter: blur(6px);
     }
 
-    .job-tip {
-      position: absolute;
-      opacity: 0;
-      animation: floatText 1.5s ease-in-out forwards;
-      text-shadow: 0 0 10px #b982ff;
-      color: #fff;
-      font-size: 1rem;
-      width: 90%;
-      max-width: 400px;
+    .loader-inner{display:flex;flex-direction:column;align-items:center;gap:18px}
+
+    /* круговой прогресс */
+    .progress-circle{
+      width:110px;height:110px;position:relative;display:grid;place-items:center;
+    }
+    .progress-circle svg{width:110px;height:110px;transform:rotate(-90deg)}
+    .progress-track{stroke:rgba(255,255,255,0.06);stroke-width:8;fill:none}
+    .progress-bar{stroke:url(#g);stroke-width:8;stroke-linecap:round;fill:none;filter:drop-shadow(0 0 8px rgba(194,110,255,0.18));}
+
+    .percent{position:absolute; font-size:18px; font-weight:600; letter-spacing:0.6px; color:#fff}
+    .loader-label{color:var(--neon1); font-size:15px; font-weight:600; text-shadow:0 0 10px rgba(194,110,255,0.14)}
+
+    /* полоска под кругом */
+    .progress-bar-line{width:220px;height:6px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
+    .progress-bar-line > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--neon1),var(--neon2));box-shadow:0 0 18px rgba(154,106,255,0.12);}
+
+    /* мелькающие подсказки (плывут справа-лево) */
+    .tip-container{position:absolute; inset:0;pointer-events:none}
+    .tip{position:absolute; white-space:nowrap; padding:10px 14px; border-radius:999px; background:linear-gradient(90deg, rgba(154,106,255,0.12), rgba(94,224,255,0.06)); color:#fff; font-weight:600; font-size:13px; box-shadow:0 6px 24px rgba(0,0,0,0.4); opacity:0; transform:translateX(30px)}
+
+    /* анимация движения справа-налево с плавным появлением */
+    @keyframes slideRL{ 0%{opacity:0; transform:translateX(30px)} 10%{opacity:1} 80%{opacity:1} 100%{opacity:0; transform:translateX(-40px)} }
+
+    /* --- Main content --- */
+    .wrap{position:relative; z-index:10; width:100%; max-width:920px; padding:24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center}
+
+    .hero{
+      width:100%; display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding-top:6vh; box-sizing:border-box;
+      /* верхняя треть */
+      min-height:33vh; max-height:38vh; justify-content:center;
     }
 
-    @keyframes floatText {
-      0% { opacity: 0; transform: translateY(30px); }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; transform: translateY(-30px); }
+    /* Заголовок — крупный, занимает около 1/3 экрана; многострочный */
+    .title{
+      font-size:clamp(26px,6.2vw,48px); line-height:1.02; font-weight:800; color:var(--neon1);
+      text-shadow: 0 0 18px rgba(194,110,255,0.18), 0 6px 30px rgba(26,0,51,0.6);
+      max-width:92%;
+      white-space:pre-line; overflow:hidden; border-right:3px solid rgba(194,110,255,0.9); width:fit-content;
     }
 
-    /* --- Основная страница --- */
-    #main-content {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
+    /* убрать курсор после набора */
+    .title.nocaret{border-right:0}
+
+    .subtitle{font-size:12px;color:#d9cfff; opacity:0.9; margin-top:6px}
+
+    /* маленький текст рядом под заголовком */
+    .age-note{font-size:11px; opacity:0.8; margin-top:6px; color:#e6defb}
+
+    /* Поиск — чуть выше среднего (на мобильных удобнее) */
+    .search{
+      margin-top:18px; width:100%; display:flex; justify-content:center;
+    }
+    .search-inner{width:100%; max-width:560px; display:flex; gap:8px; align-items:center; background:var(--glass); padding:10px 12px; border-radius:14px; box-shadow:0 6px 30px rgba(153,98,255,0.06);}
+    .search-inner .icon{font-size:20px}
+    .search-inner select, .search-inner input{flex:1; border:0; background:transparent; color:#fff; font-size:16px; outline:none}
+
+    /* кнопка контакты снизу */
+    .contacts{position:fixed; left:50%; transform:translateX(-50%); bottom:18px; z-index:20}
+    .contacts a{display:inline-block;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,var(--neon1),var(--neon2)); color:#06000b; font-weight:700; text-decoration:none; box-shadow:0 8px 30px rgba(94,224,255,0.06)}
+
+    /* растения в горшках */
+    .plants{position:absolute; right:6%; bottom:8%; display:flex; gap:18px; z-index:5}
+    .plant{width:56px;height:84px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;filter:drop-shadow(0 8px 22px rgba(0,0,0,0.6));}
+    .pot{width:46px;height:20px;background:linear-gradient(180deg,#2b1a2b,#1a0f1a);border-radius:6px 6px 12px 12px}
+    .leaf{width:34px;height:34px;background:radial-gradient(circle at 30% 20%, rgba(94,224,255,0.12), rgba(0,0,0,0)); border-radius:50%; margin-bottom:8px; box-shadow:0 0 10px rgba(94,224,255,0.06); transform-origin:50% 80%; animation: sway 3.6s ease-in-out infinite}
+    @keyframes sway{ 0%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} 100%{transform:rotate(-3deg)} }
+
+    /* небольшой fade-in для основной страницы */
+    .fade-in{opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease}
+    .fade-in.show{opacity:1; transform:translateY(0)}
+
+    /* адаптив */
+    @media (min-width:900px){
+      .hero{min-height:30vh}
+      .money-orn{font-size:86px; right:6%}
+      .plants{right:8%; bottom:12%}
     }
 
-    h1 {
-      font-size: 2.2rem;
-      color: #d39aff;
-      text-shadow: 0 0 15px #d39aff, 0 0 25px #9a6aff;
-      white-space: pre-line;
-      border-right: 3px solid #d39aff;
-      width: 32ch;
-      overflow: hidden;
-      animation: typing 5s steps(32), blink .75s step-end infinite alternate;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 32ch; }
-    }
-
-    @keyframes blink {
-      from, to { border-color: transparent; }
-      50% { border-color: #d39aff; }
-    }
-
-    p {
-      font-size: 1rem;
-      color: #caa8ff;
-      margin-top: 0.8rem;
-    }
-
-    .search-box {
-      margin-top: 2rem;
-      display: flex;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 0.6rem 1rem;
-      box-shadow: 0 0 10px rgba(211, 154, 255, 0.3);
-    }
-
-    .search-box select {
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    .contacts-btn {
-      position: absolute;
-      bottom: 40px;
-      background: #9a6aff;
-      color: #fff;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 25px;
-      box-shadow: 0 0 15px #9a6aff;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .contacts-btn:hover {
-      background: #b482ff;
-      box-shadow: 0 0 25px #b482ff;
-    }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 1.6rem; width: 26ch; }
+    @media (max-width:420px){
+      .plants{display:none}
+      .neon-sign{font-size:34px; left:50%; top:58%}
+      .title{font-size:calc(18px + 4vw);}
+      .progress-circle{width:86px;height:86px}
     }
   </style>
 </head>
 <body>
 
+  <div class="bg-wrap"></div>
+  <div class="neon-sign">bashkiroffers</div>
+  <div class="money-orn">💵💰</div>
+
+  <!-- Загрузочный экран -->
   <div id="loader">
-    <div class="gear">⚙️</div>
-    <h2>Загрузка...</h2>
-  </div>
+    <div class="loader-inner">
+      <div class="progress-circle" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <svg viewBox="0 0 36 36">
+          <defs>
+            <linearGradient id="g" x1="0%" x2="100%"><stop offset="0%" stop-color="#c26eff"/><stop offset="100%" stop-color="#5ee0ff"/></linearGradient>
+          </defs>
+          <path class="progress-track" d="M18 2.0845a15.9155 15.9155 0 1 1 0 31.831a15.9155 15.9155 0 1 1 0-31.831"/>
+          <path id="bar" class="progress-bar" d="M18 2.0845a15.9155 15.9155 0 1 1 0 31.831a15.9155 15.9155 0 1 1 0-31.831" stroke-dasharray="0 100"/>
+        </svg>
+        <div class="percent" id="percent">0%</div>
+      </div>
 
-  <div id="main-content">
-    <h1>Работа в Башкортостане.\nБыстро. Лояльно.\nДля всех</h1>
-    <p>Возраст не помеха</p>
-
-    <div class="search-box">
-      <span>🔍</span>
-      <select id="city-select" onchange="goToCity()">
-        <option selected disabled>введите ваш город</option>
-        <option>Уфа</option>
-        <option>Чишмы</option>
-        <option>Иглино</option>
-        <option>Благовещенск</option>
-        <option>Бирск</option>
-        <option>Дюртюли</option>
-        <option>Давлеканово</option>
-        <option>Кандры</option>
-        <option>Октябрьский</option>
-        <option>Туймазы</option>
-        <option>Белебей</option>
-        <option>Толбазы</option>
-        <option>Стерлитамак</option>
-        <option>Салават</option>
-        <option>Ишимбай</option>
-      </select>
+      <div class="loader-label">Загрузка...</div>
+      <div class="progress-bar-line"><i id="barline"></i></div>
     </div>
 
-    <button class="contacts-btn" onclick="window.location.href='https://example.com'">Наши контакты</button>
+    <!-- контейнер для подсказок -->
+    <div class="tip-container" id="tips"></div>
   </div>
 
+  <!-- Основной контент -->
+  <div class="wrap fade-in" id="main" style="display:none">
+    <section class="hero">
+      <!-- Заголовок с реальными переносами строк -->
+      <div class="title" id="title">Работа в Башкортостане.
+Быстро. Лояльно.
+Для всех</div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="subtitle">&nbsp;</div>
+      </div>
+
+      <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
+        <div class="age-note">Возраст не помеха</div>
+      </div>
+
+    </section>
+
+    <div class="search">
+      <div class="search-inner" role="search">
+        <div class="icon">🔍</div>
+        <select id="city-select">
+          <option value="" selected disabled>введите ваш город</option>
+          <option>Уфа</option>
+          <option>Чишмы</option>
+          <option>Иглино</option>
+          <option>Благовещенск</option>
+          <option>Бирск</option>
+          <option>Дюртюли</option>
+          <option>Давлеканово</option>
+          <option>Кандры</option>
+          <option>Октябрьский</option>
+          <option>Туймазы</option>
+          <option>Белебей</option>
+          <option>Толбазы</option>
+          <option>Стерлитамак</option>
+          <option>Салават</option>
+          <option>Ишимбай</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Растения -->
+  <div class="plants" aria-hidden="true">
+    <div class="plant" title="Растение 1">
+      <div class="leaf" style="background:radial-gradient(circle at 30% 20%, rgba(94,224,255,0.14), rgba(154,110,255,0.08)); width:40px;height:40px;border-radius:16px"></div>
+      <div class="pot"></div>
+    </div>
+    <div class="plant" title="Растение 2">
+      <div class="leaf" style="background:radial-gradient(circle at 30% 20%, rgba(194,110,255,0.14), rgba(94,224,255,0.06)); width:36px;height:36px;border-radius:12px; animation-duration:4.2s"></div>
+      <div class="pot"></div>
+    </div>
+  </div>
+
+  <div class="contacts"><a href="https://example.com" target="_blank" rel="noopener">Наши контакты</a></div>
+
   <script>
+    /* --- Логика загрузчика (круговой прогресс 0–100) --- */
+    const bar = document.getElementById('bar');
+    const percentEl = document.getElementById('percent');
+    const barline = document.getElementById('barline');
+    const tipsContainer = document.getElementById('tips');
+    const loader = document.getElementById('loader');
+    const main = document.getElementById('main');
+    const title = document.getElementById('title');
+
+    // job tips (короткие) — будут плыть справа налево
     const jobTips = [
-      '🛒🛍️ Продавец — заработок ~2500–4000₽ в день',
-      '☕🥐 Бариста — до 3000₽ в день + чаевые',
-      '🍽️🧑‍🍳 Официант — от 2500₽ в день + хорошие чаевые',
-      '🚴📦 Курьер — до 5000₽ в день, гибкий график',
-      '💻🧠 Айтишник — доход от 5000₽, можно удалённо',
-      '☎️💬 Оператор — 2000–3500₽ в день',
-      '🧹🧼 Уборщик — до 3000₽ в день',
-      '📦🏷️ Кладовщик — от 2500₽ в день',
-      '🚗📍 Таксист — до 6000₽ в день',
-      '🏋️‍♂️📦 Грузчик — от 3000₽ в день',
-      '🛡️🚨 Охранник — примерно 2500₽ в день'
+      '🛒 Продавец — 2500–4000₽/д',
+      '☕ Бариста — до 3000₽ + чаевые',
+      '🍽️ Официант — от 2500₽ + чаевые',
+      '🚴 Курьер — до 5000₽/д',
+      '💻 Айтишник — от 5000₽/д (удалённо)',
+      '☎️ Оператор — 2000–3500₽/д',
+      '🧹 Уборщик — до 3000₽/д',
+      '📦 Кладовщик — от 2500₽/д',
+      '🚗 Таксист — до 6000₽/д',
+      '🏋️‍♂️ Грузчик — от 3000₽/д',
+      '🛡️ Охранник — ≈2500₽/д'
     ];
 
-    function showRandomTips() {
-      const loader = document.getElementById('loader');
-      for (let i = 0; i < 8; i++) {
-        setTimeout(() => {
-          const tip = document.createElement('div');
-          tip.className = 'job-tip';
-          tip.innerText = jobTips[Math.floor(Math.random() * jobTips.length)];
-          tip.style.left = Math.random() * 60 + 20 + '%';
-          tip.style.top = Math.random() * 60 + 20 + '%';
-          loader.appendChild(tip);
-          setTimeout(() => tip.remove(), 1500);
-        }, i * 700);
+    // анимировать крутой прогресс от 0 до 100 за ~6.5s
+    let progress = 0;
+    const duration = 6500; // ms
+    const start = performance.now();
+    function animate(now){
+      const elapsed = now - start;
+      const pct = Math.min(1, elapsed / duration);
+      progress = Math.round(pct * 100);
+      percentEl.textContent = progress + '%';
+
+      // обновить stroke-dasharray (360 deg map -> 100% corresponds to 100)
+      const dash = (progress) + ' 100';
+      bar.setAttribute('stroke-dasharray', dash);
+
+      // update line
+      barline.style.width = progress + '%';
+
+      if(pct < 1){
+        requestAnimationFrame(animate);
+      } else {
+        // финал: плавный уход лоадера и появление контента
+        loader.style.transition = 'opacity 600ms ease, transform 600ms ease';
+        loader.style.opacity = 0;
+        loader.style.transform = 'scale(0.98) translateY(6px)';
+        setTimeout(()=>{ loader.style.display='none'; main.style.display='block'; setTimeout(()=>main.classList.add('show'),40); startTypewriter(); }, 700);
       }
     }
+    requestAnimationFrame(animate);
 
-    window.addEventListener('load', () => {
-      showRandomTips();
-      setTimeout(() => {
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('main-content').style.display = 'flex';
-      }, 6500);
+    /* Добавляем плавающие подсказки во время загрузки (случайные позиции и задержки) */
+    function spawnTips(){
+      const count = 8;
+      for(let i=0;i<count;i++){
+        const delay = Math.random() * duration * 0.8;
+        setTimeout(()=>{
+          const t = document.createElement('div');
+          t.className = 'tip';
+          t.textContent = jobTips[Math.floor(Math.random()*jobTips.length)];
+          // позиционируем вертикально в пределах экрана
+          const top = 8 + Math.random()*74;
+          t.style.top = top + '%';
+          t.style.right = '-6%';
+          t.style.animation = `slideRL 2600ms linear`;
+          t.style.animationDelay = '0ms';
+          t.style.opacity = 1;
+          tipsContainer.appendChild(t);
+          // удалить спустя время
+          setTimeout(()=>{ t.remove(); }, 3000);
+        }, delay);
+      }
+    }
+    spawnTips();
+
+    /* --- Текст набора (typewriter) для основного заголовка --- */
+    // Заголовок уже содержит реальные переносы строк, поэтому используем постепенное открытие символов
+    function startTypewriter(){
+      const full = title.textContent.trim();
+      title.textContent = '';
+      title.classList.remove('nocaret');
+      let i=0;
+      const total = full.length;
+      const speed = 24; // ms per char (slower on mobile is ok)
+      function step(){
+        if(i<=total){
+          // показываем часть
+          title.textContent = full.slice(0,i);
+          // держим курсор until finished
+          if(i<total) title.style.borderRight = '3px solid rgba(194,110,255,0.9)';
+          else { title.style.borderRight = '0'; title.classList.add('nocaret'); }
+          i++;
+          setTimeout(step, speed);
+        }
+      }
+      step();
+    }
+
+    /* --- Поведение выбора города --- */
+    document.getElementById('city-select').addEventListener('change', function(){
+      const city = this.value;
+      // временный редирект — пока никуда (можно заменить позже)
+      // для UX покажем небольшое уведомление
+      alert('Переход к странице: ' + city + '\n(настройка редиректа позже)');
     });
 
-    function goToCity() {
-      const city = document.getElementById('city-select').value;
-      alert(`Переход к странице города: ${city}`);
-    }
+    /* Небольшая оптимизация для iPhone: prevent overscroll bounce */
+    document.addEventListener('touchmove', function(e){ }, {passive:true});
+
   </script>
 </body>
 </html>
