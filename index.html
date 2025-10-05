@@ -6,87 +6,136 @@
   <title>Работа в Башкортостане — BashkirOffers (demo)</title>
   <meta name="theme-color" content="#120014">
   <style>
-    :root{
-      --bg1:#0b0014;
-      --bg2:#120022;
-      --neon1:#c26eff;
-      --neon2:#5ee0ff;
-      --glass: rgba(255,255,255,0.06);
-      --accent: linear-gradient(90deg,var(--neon1),var(--neon2));
-    }
+:root{
+  --bg1:#0b0014;
+  --bg2:#120022;
+  --neon1:#c26eff;
+  --neon2:#5ee0ff;
+  --glass: rgba(255,255,255,0.06);
+  --accent: linear-gradient(90deg,var(--neon1),var(--neon2));
+}
 
-    html,body{height:100%;}
-    body{
-      margin:0;
-      font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Roboto, Arial, sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      background: radial-gradient(circle at 10% 10%, rgba(154,106,255,0.06), transparent 10%),
-                  radial-gradient(circle at 90% 80%, rgba(94,224,255,0.03), transparent 10%),
-                  var(--bg1);
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      opacity:0;
-      transition:opacity 0.8s ease;
-    }
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Roboto, Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  background: radial-gradient(circle at 10% 10%, rgba(154,106,255,0.06), transparent 10%),
+              radial-gradient(circle at 90% 80%, rgba(94,224,255,0.03), transparent 10%),
+              var(--bg1);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity 0.8s ease;
+}
 
-    body.loaded{opacity:1}
+body.loaded{opacity:1}
 
-    /* 🔥 Добавлен фон с картинкой и неоновыми бликами */
-    .bg-wrap{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(154,106,255,0.08), transparent 10%),
-        radial-gradient(circle at 90% 80%, rgba(94,224,255,0.06), transparent 10%),
-        url('background.jpg'); /* ← сюда вставь своё фото */
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.9) contrast(1.1) saturate(1.05);
-    }
+/* фон */
+.bg-wrap{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(154,106,255,0.08), transparent 10%),
+    radial-gradient(circle at 90% 80%, rgba(94,224,255,0.06), transparent 10%),
+    url('background.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.9) contrast(1.15) saturate(1.1);
+}
 
-    .wrap{position:relative; z-index:10; width:100%; max-width:920px; padding:24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center}
+.wrap{position:relative; z-index:10; width:100%; max-width:920px; padding:24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center}
 
-    .hero{
-      width:100%; display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding-top:6vh; box-sizing:border-box;
-      min-height:33vh; max-height:38vh; justify-content:center;
-    }
+.hero{
+  width:100%; display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding-top:6vh; box-sizing:border-box;
+  min-height:33vh; max-height:38vh; justify-content:center;
+}
 
-    .title{
-      font-size:clamp(26px,6.2vw,48px); line-height:1.02; font-weight:800; color:var(--neon1);
-      text-shadow: 0 0 18px rgba(194,110,255,0.18), 0 6px 30px rgba(26,0,51,0.6);
-      max-width:92%;
-      white-space:pre-line; /* сохраняет реальные переносы строк */
-      border-right:3px solid rgba(194,110,255,0.95);
-      padding-right:6px;
-      display:inline-block;
-      overflow:hidden;
-    }
+/* усилил неон текста */
+.title{
+  font-size:clamp(26px,6.2vw,48px);
+  line-height:1.05;
+  font-weight:800;
+  color:var(--neon1);
+  text-shadow:
+    0 0 12px rgba(194,110,255,0.6),
+    0 0 24px rgba(94,224,255,0.4),
+    0 0 40px rgba(94,224,255,0.3);
+  max-width:92%;
+  white-space:pre-line;
+  border-right:3px solid rgba(194,110,255,0.95);
+  padding-right:6px;
+  display:inline-block;
+  overflow:hidden;
+}
+.title.nocaret{border-right:0}
 
-    .title.nocaret{border-right:0}
+.subtitle{font-size:12px;color:#d9cfff; opacity:0.9; margin-top:6px}
+.age-note{font-size:11px; opacity:0.8; margin-top:6px; color:#e6defb}
 
-    .subtitle{font-size:12px;color:#d9cfff; opacity:0.9; margin-top:6px}
+/* сделал строку выбора города более плотной серой */
+.search{
+  margin-top:18px;
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+.search-inner{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  background:rgba(25,25,25,0.85); /* ← плотный серый фон */
+  padding:10px 12px;
+  border-radius:14px;
+  box-shadow:0 0 15px rgba(153,98,255,0.1);
+  border:1px solid rgba(130,100,255,0.2);
+}
+.search-inner .icon{font-size:20px;color:#b3a8ff;}
+.search-inner select, .search-inner input{
+  flex:1;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:16px;
+  outline:none;
+}
 
-    .age-note{font-size:11px; opacity:0.8; margin-top:6px; color:#e6defb}
+.contacts{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:18px;
+  z-index:20;
+}
+.contacts a{
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  color:#06000b;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 0 20px rgba(94,224,255,0.3);
+  transition:transform .2s ease, box-shadow .3s ease;
+}
+.contacts a:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 30px rgba(94,224,255,0.5);
+}
 
-    .search{margin-top:18px; width:100%; display:flex; justify-content:center}
-    .search-inner{width:100%; max-width:560px; display:flex; gap:8px; align-items:center; background:var(--glass); padding:10px 12px; border-radius:14px; box-shadow:0 6px 30px rgba(153,98,255,0.06);}
-    .search-inner .icon{font-size:20px}
-    .search-inner select, .search-inner input{flex:1; border:0; background:transparent; color:#fff; font-size:16px; outline:none}
+.fade-in{opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease}
+.fade-in.show{opacity:1; transform:translateY(0)}
 
-    .contacts{position:fixed; left:50%; transform:translateX(-50%); bottom:18px; z-index:20}
-    .contacts a{display:inline-block;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,var(--neon1),var(--neon2)); color:#06000b; font-weight:700; text-decoration:none; box-shadow:0 8px 30px rgba(94,224,255,0.06)}
-
-    .fade-in{opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease}
-    .fade-in.show{opacity:1; transform:translateY(0)}
-
-    @media (max-width:420px){
-      .title{font-size:calc(18px + 4vw)}
-    }
+@media (max-width:420px){
+  .title{font-size:calc(18px + 4vw)}
+}
   </style>
 </head>
 <body>
