@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,viewport-fit=cover" />
+  <title>Вакансии — BashkirOffers</title>
+  <meta name="theme-color" content="#120014">
+  <style>
+:root{
+  --bg1:#0b0014;
+  --neon1:#c26eff;
+  --neon2:#5ee0ff;
+}
+body{
+  margin:0;
+  font-family:-apple-system,Roboto,Arial,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(154,106,255,0.08), transparent 10%),
+    radial-gradient(circle at 90% 80%, rgba(94,224,255,0.06), transparent 10%),
+    url('background2.jpg');
+  background-size:cover;
+  background-position:center;
+  display:flex;flex-direction:column;align-items:center;min-height:100vh;
+}
+h1{
+  margin-top:60px;
+  font-size:clamp(26px,6vw,46px);
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 20px rgba(194,110,255,0.4);
+}
+.jobs{
+  width:100%;max-width:800px;padding:20px;display:flex;flex-direction:column;gap:22px;margin-bottom:80px;
+}
+.job{
+  background:rgba(0,0,0,0.6);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 0 20px rgba(94,224,255,0.15);
+  border:1px solid rgba(194,110,255,0.2);
+}
+.job-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.job-city{opacity:0.9;margin-bottom:6px}
+.job-desc{opacity:0.85;margin-bottom:10px;font-size:15px;line-height:1.4}
+.job button{
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  color:#06000b;border:0;padding:8px 16px;border-radius:10px;font-weight:700;cursor:pointer;
+  transition:.25s;box-shadow:0 0 15px rgba(94,224,255,0.3);
+}
+.job button:hover{transform:scale(1.05);box-shadow:0 0 25px rgba(94,224,255,0.5);}
+  </style>
+</head>
+<body>
+  <h1 id="city-title"></h1>
+
+  <div class="jobs" id="jobs-container"></div>
+
+  <script>
+  const params=new URLSearchParams(window.location.search);
+  const city=params.get('city')||'Ваш город';
+  document.getElementById('city-title').textContent=`Вы выбрали город ${city}`;
+
+  const jobs=[
+    {
+      title:"🚴📦 Курьер / доставщик Yandex",
+      age:"с 16+",
+      desc:"до 5000₽ в день, гибкий график, подходит для студентов, нужен велосипед или самокат, стабильное интернет соединение и интернет",
+      link:"#"
+    },
+    {
+      title:"💨🥭 Вейп шоп VapeHub",
+      age:"с 15+",
+      desc:"Следить за порядком, распаковывать посылки, выставлять продукцию, заправлять картриджи, от 1000 до 2500₽ в день, неполный день",
+      link:"#"
+    },
+    {
+      title:"💻 PC-Клуб CyberRize",
+      age:"с 15+",
+      desc:"Помогать клиентам, выдавать напитки, простая уборка, от 2000 до 2700₽ за смену",
+      link:"#"
+    },
+    {
+      title:"☕🥐 Бариста",
+      age:"с 15+",
+      desc:"до 3000₽ в день + чаевые, обучение, уютное кафе, кофе, уборка, обслуживание клиентов",
+      link:"#"
+    }
+  ];
+
+  const container=document.getElementById('jobs-container');
+  jobs.forEach(j=>{
+    const div=document.createElement('div');
+    div.className='job';
+    div.innerHTML=`
+      <div class="job-title">${j.title}</div>
+      <div class="job-city">📍 ${city} ${j.age}</div>
+      <div class="job-desc">— ${j.desc}</div>
+      <button onclick="window.location.href='${j.link}'">Выбрать вакансию</button>
+    `;
+    container.appendChild(div);
+  });
+  </script>
+</body>
+</html>
