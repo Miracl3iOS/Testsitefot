@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,viewport-fit=cover" />
+  <title>Работа в Башкортостане — BashkirOffers</title>
+  <meta name="theme-color" content="#120014">
+  <style>
+:root{
+  --bg1:#0b0014;
+  --bg2:#120022;
+  --neon1:#c26eff;
+  --neon2:#5ee0ff;
+  --glass: rgba(255,255,255,0.06);
+  --accent: linear-gradient(90deg,var(--neon1),var(--neon2));
+}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:-apple-system,'SF Pro Text','Helvetica Neue',Roboto,Arial,sans-serif;
+  background: radial-gradient(circle at 10% 10%, rgba(154,106,255,0.06), transparent 10%),
+              radial-gradient(circle at 90% 80%, rgba(94,224,255,0.03), transparent 10%),
+              var(--bg1);
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity 0.8s ease;
+}
+body.loaded{opacity:1}
+
+.bg-wrap{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(154,106,255,0.08), transparent 10%),
+    radial-gradient(circle at 90% 80%, rgba(94,224,255,0.06), transparent 10%),
+    url('background.jpg');
+  background-size:cover; background-position:center;
+  filter:brightness(0.9) contrast(1.1) saturate(1.05);
+}
+
+.wrap{position:relative; z-index:10; width:100%; max-width:920px; padding:24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center}
+.hero{width:100%; display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding-top:6vh; min-height:33vh; justify-content:center;}
+
+.title{
+  font-size:clamp(26px,6.2vw,48px); line-height:1.05; font-weight:800; color:var(--neon1);
+  text-shadow:0 0 12px rgba(194,110,255,0.6),0 0 24px rgba(94,224,255,0.4),0 0 40px rgba(94,224,255,0.3);
+  white-space:pre-line; border-right:3px solid rgba(194,110,255,0.95);
+  padding-right:6px; display:inline-block; overflow:hidden;
+}
+.title.nocaret{border-right:0}
+.subtitle{font-size:12px;color:#d9cfff;opacity:0.9;margin-top:6px}
+.age-note{font-size:11px;opacity:0.8;margin-top:6px;color:#e6defb}
+
+.search{margin-top:18px;width:100%;display:flex;justify-content:center}
+.search-inner{width:100%;max-width:560px;display:flex;gap:8px;align-items:center;
+  background:rgba(25,25,25,0.85);padding:10px 12px;border-radius:14px;
+  box-shadow:0 0 15px rgba(153,98,255,0.1);border:1px solid rgba(130,100,255,0.2);}
+.search-inner input{flex:1;border:0;background:transparent;color:#fff;font-size:16px;outline:none}
+.search-inner button{background:var(--accent);border:0;color:#06000b;font-weight:700;padding:8px 16px;border-radius:10px;cursor:pointer;transition:.25s}
+.search-inner button:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(94,224,255,0.4)}
+
+.contacts{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:20}
+.contacts a{display:inline-block;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#06000b;font-weight:700;text-decoration:none;box-shadow:0 0 20px rgba(94,224,255,0.3)}
+.fade-in{opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.show{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+  <div class="bg-wrap"></div>
+
+  <div class="wrap fade-in" id="main">
+    <section class="hero">
+      <div class="title" id="title">Работа в Башкортостане.
+Быстро. Лояльно.
+Для всех 🇷🇺</div>
+      <div class="age-note">Возраст не помеха, начинай с 16 лет</div>
+    </section>
+
+    <div class="search">
+      <div class="search-inner" role="search">
+        <input type="text" id="city-input" placeholder="Введите ваш город..." />
+        <button id="search-btn">Найти</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="contacts"><a href="#">Наши контакты</a></div>
+
+  <script>
+  window.addEventListener('load',()=>{
+    document.body.classList.add('loaded');
+    setTimeout(()=> document.getElementById('main').classList.add('show'), 120);
+    startTypewriter();
+  });
+
+  function startTypewriter(){
+    const el=document.getElementById('title');
+    const full=el.textContent;
+    el.textContent='';
+    let i=0;
+    const speed=28;
+    function step(){
+      if(i<=full.length){
+        el.textContent=full.slice(0,i);
+        i++;
+        setTimeout(step,speed);
+      }
+    }
+    step();
+  }
+
+  document.getElementById('search-btn').addEventListener('click',()=>{
+    const city=document.getElementById('city-input').value.trim();
+    if(city) window.location.href=`jobs.html?city=${encodeURIComponent(city)}`;
+    else alert('Введите название города');
+  });
+  </script>
+</body>
+</html>
