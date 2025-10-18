@@ -184,53 +184,33 @@ body{
   <div class="container">
     <div class="card" role="main" aria-label="Карточка-визитка">
 
-      <!-- Логотип: неоновый лист каннабиса -->
+      <!-- Новый векторный неоновый лист -->
       <div class="logo-wrap" aria-hidden="false">
-        <svg class="leaf-neon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Логотип — неоновый лист каннабиса">
+        <svg class="leaf-neon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Неоновый лист">
           <defs>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
               <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-            <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#7CFF9B"/>
-              <stop offset="100%" stop-color="#18E06B"/>
+            <linearGradient id="leafGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00ff66" />
+              <stop offset="100%" stop-color="#00b34a" />
             </linearGradient>
           </defs>
-
-          <!-- контур листа -->
-          <path d="M60 12
-                   C58 28 54 42 50 50
-                   C40 44 32 36 26 26
-                   C25 36 28 46 32 56
-                   C22 58 14 60 10 68
-                   C18 68 26 70 34 74
-                   C30 82 28 90 28 100
-                   C36 94 44 88 52 84
-                   C56 100 60 108 60 108
-                   C60 108 64 100 68 84
-                   C76 88 84 94 92 100
-                   C92 90 90 82 86 74
-                   C94 70 102 68 110 68
-                   C106 60 98 58 88 56
-                   C92 46 95 36 94 26
-                   C88 36 80 44 70 50
-                   C66 42 62 28 60 12Z"
-                fill="none"
-                stroke="url(#lg)"
-                stroke-width="3.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                filter="url(#glow)" />
-
-          <!-- центральная прожилка -->
-          <path d="M60 12 L60 108"
-                stroke="rgba(255,255,255,0.15)"
-                stroke-width="1.2"
-                stroke-linecap="round" />
+          <!-- центральный сегмент -->
+          <path d="M100 15 C97 45 94 75 100 100 C106 75 103 45 100 15Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+          <!-- боковые сегменты -->
+          <path d="M100 30 C90 55 80 70 65 85 C85 78 95 68 100 45Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+          <path d="M100 30 C110 55 120 70 135 85 C115 78 105 68 100 45Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+          <!-- нижние боковые -->
+          <path d="M100 70 C75 90 55 110 45 135 C65 120 85 105 100 85Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+          <path d="M100 70 C125 90 145 110 155 135 C135 120 115 105 100 85Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+          <!-- нижние крайние -->
+          <path d="M100 90 C65 115 40 145 30 165 C55 150 80 125 100 100Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+          <path d="M100 90 C135 115 160 145 170 165 C145 150 120 125 100 100Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
         </svg>
 
         <div class="brand" aria-label="Бренд GanjaSeeds">GanjaSeeds</div>
