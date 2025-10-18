@@ -7,7 +7,6 @@
 <style>
 :root{
   --bg-color: #0b0b0b;
-  --card-bg: #0f0f10;
   --muted: #bdbdbd;
   --accent-green: #2ee06a;
   --neon-green: #24ff7b;
@@ -29,7 +28,16 @@ body{
   padding:24px;
 }
 
-/* Карточка */
+/* ===== Затемняющий фильтр поверх фона ===== */
+.page-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  z-index: 0;
+}
+
+/* ===== Центрированная карточка ===== */
 .container{
   position:relative;
   z-index:2;
@@ -40,21 +48,24 @@ body{
   align-items:center;
   justify-content:center;
 }
+
 .card {
   width:100%;
   max-width:720px;
-  border-radius:20px;
-  padding:28px;
-  background: rgba(255,255,255,0.02);
+  border-radius:24px;
+  padding:32px;
+  background: rgba(255,255,255,0.04);
   box-shadow:
-    12px 12px 30px rgba(0,0,0,0.65),
-    -8px -8px 24px rgba(255,255,255,0.02);
+    10px 10px 28px rgba(0,0,0,0.7),
+    -6px -6px 18px rgba(255,255,255,0.05);
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:18px;
   position:relative;
-  min-height:460px;
+  min-height:480px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 /* ===== Росточек ===== */
@@ -94,7 +105,7 @@ body{
   50% { opacity:0.9; }
 }
 
-/* ===== Подзаголовок (набор текста) ===== */
+/* ===== Подзаголовок (печать) ===== */
 .subtitle {
   font-size:18px;
   color:var(--muted);
@@ -115,9 +126,9 @@ body{
 
 /* ===== Кнопки ===== */
 .actions {
-  margin-top:14px;
+  margin-top:20px;
   display:flex;
-  gap:12px;
+  gap:14px;
   flex-wrap:wrap;
   justify-content:center;
 }
@@ -135,6 +146,7 @@ body{
   min-width:220px;
   transition: transform .15s ease, box-shadow .15s ease;
   box-shadow:inset 0 0 10px rgba(255,255,255,0.02), 4px 4px 20px rgba(0,0,0,0.6);
+  border:1px solid rgba(255,255,255,0.05);
 }
 .btn:hover{transform:translateY(-3px)}
 .btn .accent {
@@ -151,6 +163,7 @@ body{
   bottom:14px;
   right:14px;
   opacity:0.6;
+  z-index:3;
 }
 .watermark img{width:68px;}
 
@@ -158,12 +171,16 @@ body{
 @media (max-width:768px){
   .brand{font-size:40px}
   .subtitle{font-size:16px}
+  .card{padding:22px;min-height:420px}
 }
 </style>
 </head>
 <body>
+  <div class="page-overlay"></div>
+
   <div class="container">
     <div class="card">
+
       <!-- 🌱 Росточек -->
       <svg class="sprout" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -180,7 +197,7 @@ body{
       <!-- Заголовок -->
       <div class="brand">GanjaSeeds</div>
 
-      <!-- Подзаголовок (набирается) -->
+      <!-- Подзаголовок -->
       <div class="subtitle" id="typed-text"></div>
 
       <!-- Кнопки -->
