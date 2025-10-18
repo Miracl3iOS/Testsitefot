@@ -49,8 +49,8 @@ body{
   color:var(--muted);
 }
 
-/* Лист (нейтральный) */
-.leaf-neon{
+/* Лист каннабиса */
+.cannabis-leaf{
   width:120px;
   height:120px;
   margin:0 auto 10px;
@@ -160,24 +160,31 @@ body{
 <div class="overlay"></div>
 
 <div class="card">
-  <!-- Абстрактный лист -->
-  <svg class="leaf-neon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Лист каннабиса -->
+  <svg class="cannabis-leaf" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="lg" x1="0" x2="1">
+      <linearGradient id="leafGradient" x1="0" x2="1">
         <stop offset="0" stop-color="#7CFF9B"/>
         <stop offset="1" stop-color="#18E06B"/>
       </linearGradient>
     </defs>
-    <path d="M60 14
-             c10 4 30 20 34 36
-             4 16 -8 30 -24 36
-             -16-6 -28-18 -32-32
-             -4-14 6-34 26-46z"
-          fill="none"
-          stroke="url(#lg)"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
+    <!-- Стилизованный лист каннабиса -->
+    <path d="M60 20
+             C45 25, 30 40, 35 60
+             C40 80, 55 85, 60 100
+             C65 85, 80 80, 85 60
+             C90 40, 75 25, 60 20Z"
+          fill="url(#leafGradient)"
+          stroke="#24ff7b"
+          stroke-width="2"/>
+    <!-- Детали листа -->
+    <path d="M60 35 L55 50 M60 35 L65 50
+             M60 45 L50 65 M60 45 L70 65
+             M60 55 L48 75 M60 55 L72 75
+             M60 65 L52 85 M60 65 L68 85"
+          stroke="#0b0b0b"
+          stroke-width="1.5"
+          stroke-linecap="round"/>
   </svg>
 
   <!-- SVG логотип GanjaSeeds -->
