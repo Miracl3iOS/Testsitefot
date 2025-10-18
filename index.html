@@ -111,31 +111,35 @@ body{
   100%{ opacity:1; }
 }
 
-/* ===== Исправленный текст набора ===== */
+/* ===== Исправленный текст набора с переносом строк ===== */
 .subtitle {
   margin-top:4px;
   font-size:18px;
   color:var(--muted);
   overflow:hidden;
-  white-space:nowrap;
-  border-right: 2px solid rgba(180,255,160,0.9);
+  display:inline-block;
+  border-right:2px solid rgba(180,255,160,0.9);
   width:0;
-  animation: typing 3.6s steps(60,end) 1s forwards, caret 0.8s steps(1,end) infinite;
-  max-width:80%;
+  animation: typing 4s steps(60,end) 1s forwards, caret 0.8s steps(1,end) infinite;
+  max-width:100%;
+  word-wrap: break-word; 
+  white-space: normal; 
+  text-align:center;
 }
+
 @keyframes typing {
   from { width:0; }
   to   { width:100%; }
 }
+
 @keyframes caret {
   50% { border-color: transparent; }
   100%{ border-color: rgba(180,255,160,0.9); }
 }
 
-/* После окончания набора текста фиксируем ширину, текст не исчезает */
 .subtitle.finished {
-  border-right:none;
   width:100%;
+  border-right:none;
 }
 
 /* Кнопки */
@@ -187,6 +191,22 @@ body{
 }
 .watermark img{ width:68px; height:auto; display:block; }
 
+@media(max-width:768px){
+  .card{ padding:20px; min-height:380px }
+  .leaf-neon{ width:96px;height:96px }
+  .brand{ font-size:40px }
+  .subtitle{ font-size:16px }
+  .btn{ padding:10px 12px }
+  .watermark img{ width:56px }
+}
+@media(max-width:420px){
+  .card{ padding:16px; min-height:360px }
+  .leaf-neon{ width:84px;height:84px }
+  .brand{ font-size:28px }
+  .subtitle{ font-size:15px; border-right:1.6px solid rgba(180,255,160,0.9) }
+  .actions{ gap:8px }
+  .watermark img{ width:48px }
+}
 </style>
 </head>
 <body>
@@ -196,7 +216,6 @@ body{
   <div class="card" role="main" aria-label="Карточка-визитка">
 
     <div class="logo-wrap">
-      <!-- Мультяшный лист -->
       <svg class="leaf-neon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -224,24 +243,18 @@ body{
               filter="url(#glow)" />
       </svg>
 
-      <!-- Название -->
       <div class="brand">GanjaSeeds</div>
-
-      <!-- Подзаголовок -->
       <div class="subtitle">Семена, которым доверяют «гроверы по всему миру»</div>
     </div>
 
-    <!-- Кнопки -->
     <div class="actions">
-      <a class="btn" href="https://example.ru" target="_blank" title="Интернет-магазин РФ">
+      <a class="btn" href="https://example.ru" target="_blank">
         <span>🇷🇺 Интернет магазин в РФ</span><span class="accent">Вход</span>
       </a>
-
-      <a class="btn" href="https://example.ua" target="_blank" title="Інтернет магазин в Україні">
+      <a class="btn" href="https://example.ua" target="_blank">
         <span>🇺🇦 Інтернет магазин в Україні</span><span class="accent">Вхід</span>
       </a>
-
-      <a class="btn" href="https://t.me/yourbot" target="_blank" title="Telegram бот">
+      <a class="btn" href="https://t.me/yourbot" target="_blank">
         <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
           <path d="M120 0c66.274 0 120 53.726 120 120S186.274 240 120 240 0 186.274 0 120 53.726 0 120 0z" fill="#0b1220"/>
           <path d="M49 123l145-60c6-2 11 4 7 9l-61 74c-3 4-9 5-13 2l-34-26-16 16c-5 5-13 2-15-5L49 123z" fill="#a7ffbf"/>
@@ -253,19 +266,17 @@ body{
   </div>
 </div>
 
-<!-- Водяной знак -->
 <div class="watermark">
   <img src="watermark.png" alt="Водяной знак" />
 </div>
 
 <script>
-  // После окончания анимации набора текста, фиксируем ширину
-  document.addEventListener("DOMContentLoaded", () => {
-    const subtitle = document.querySelector(".subtitle");
-    subtitle.addEventListener("animationend", () => {
-      subtitle.classList.add("finished");
-    });
+document.addEventListener("DOMContentLoaded", () => {
+  const subtitle = document.querySelector(".subtitle");
+  subtitle.addEventListener("animationend", () => {
+    subtitle.classList.add("finished");
   });
+});
 </script>
 </body>
 </html>
