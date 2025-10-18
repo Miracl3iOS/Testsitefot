@@ -20,7 +20,9 @@ body{
   font-family: "Bauhaus 93", "Gill Sans", "Futura", "Segoe UI", Arial, sans-serif;
   background: var(--bg-color) url("background.jpg") center/cover no-repeat;
   color: var(--muted);
-  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow:hidden; /* без прокрутки */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -28,16 +30,16 @@ body{
   padding:24px;
 }
 
-/* ===== Затемняющий фильтр поверх фона ===== */
-.page-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(6px);
-  z-index: 0;
+/* Мягкий затемняющий оверлей (как было ранее) */
+.page-overlay{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,0.45);
+  z-index:0;
+  backdrop-filter: blur(4px);
 }
 
-/* ===== Центрированная карточка ===== */
+/* Центрированная область */
 .container{
   position:relative;
   z-index:2;
@@ -49,140 +51,157 @@ body{
   justify-content:center;
 }
 
+/* Неоморфная карточка — восстановленная (как до сильного размытия) */
 .card {
   width:100%;
   max-width:720px;
-  border-radius:24px;
-  padding:32px;
-  background: rgba(255,255,255,0.04);
+  border-radius:30px;
+  padding:2rem 3rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   box-shadow:
-    10px 10px 28px rgba(0,0,0,0.7),
-    -6px -6px 18px rgba(255,255,255,0.05);
+    12px 12px 30px rgba(0,0,0,0.65),
+    -8px -8px 24px rgba(255,255,255,0.02);
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:18px;
   position:relative;
-  min-height:480px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.06);
+  min-height:420px;
 }
 
-/* ===== Росточек ===== */
+/* ========= Новый неоновый росточек (вместо листа) ========= */
 .sprout {
-  width: 120px;
-  height: 120px;
-  display: block;
+  width:120px;
+  height:120px;
+  display:block;
   filter: drop-shadow(0 0 10px rgba(36,255,123,0.5))
-          drop-shadow(0 0 20px rgba(36,255,123,0.3));
+          drop-shadow(0 0 20px rgba(36,255,123,0.25));
+  margin-bottom:2px;
 }
 .sprout path {
   stroke: url(#grad);
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-  filter: drop-shadow(0 0 8px rgba(36,255,123,0.6))
-          drop-shadow(0 0 16px rgba(36,255,123,0.3));
-  animation: neonPulse 3s infinite ease-in-out;
+  stroke-width:3.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  fill:none;
+  filter: drop-shadow(0 0 8px rgba(36,255,123,0.55))
+          drop-shadow(0 0 14px rgba(36,255,123,0.22));
+  animation: neonPulse 3.2s infinite ease-in-out;
 }
 @keyframes neonPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.9; }
+  0%,100%{ opacity:1; }
+  50%{ opacity:0.95; }
 }
 
-/* ===== Заголовок ===== */
+/* ========= Заголовок ========= */
 .brand {
   font-size:48px;
+  line-height:1;
+  letter-spacing:1px;
   color:var(--neon-green);
   text-shadow: var(--neon-text-glow);
   font-weight:700;
   margin-top:-6px;
-  animation: neonText 3s infinite ease-in-out;
-}
-@keyframes neonText {
-  0%,100% { opacity:1; text-shadow:var(--neon-text-glow); }
-  50% { opacity:0.9; }
+  font-family: "Bauhaus 93", "Gill Sans", "Futura", Arial, sans-serif;
+  animation: neon-text-flicker 3.6s linear infinite;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* ===== Подзаголовок (печать) ===== */
+/* ========= Подзаголовок — печатается, остаётся ========= */
 .subtitle {
+  margin-top:6px;
   font-size:18px;
   color:var(--muted);
   text-align:center;
   max-width:80%;
-  min-height:48px;
-  white-space:pre-wrap;
+  min-height:48px; /* чтобы место зарезервировать */
+  white-space:pre-wrap; /* перенос строк */
   overflow-wrap:break-word;
   line-height:1.4;
   border-right:2px solid var(--neon-green);
-  padding-right:4px;
+  padding-right:6px;
   animation: blinkCursor 0.9s infinite;
 }
-@keyframes blinkCursor {
-  0%,100%{border-color:transparent}
-  50%{border-color:var(--neon-green)}
+@keyframes blinkCursor{
+  0%,100%{ border-color: transparent }
+  50%{ border-color: var(--neon-green) }
 }
 
-/* ===== Кнопки ===== */
-.actions {
-  margin-top:20px;
+/* ========= Кнопки ========= */
+.actions{
+  margin-top:18px;
   display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-.btn {
-  display:flex;
+  gap:12px;
   align-items:center;
-  justify-content:space-between;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.btn{
+  display:inline-flex;
   gap:10px;
+  align-items:center;
   padding:10px 16px;
   border-radius:12px;
-  background: rgba(255,255,255,0.05);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
   color:var(--muted);
-  text-decoration:none;
   font-weight:600;
-  min-width:220px;
-  transition: transform .15s ease, box-shadow .15s ease;
-  box-shadow:inset 0 0 10px rgba(255,255,255,0.02), 4px 4px 20px rgba(0,0,0,0.6);
-  border:1px solid rgba(255,255,255,0.05);
+  text-decoration:none;
+  box-shadow:
+    6px 6px 16px rgba(0,0,0,0.6),
+    -4px -4px 10px rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.03);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  min-height:44px;
 }
-.btn:hover{transform:translateY(-3px)}
-.btn .accent {
-  background: rgba(36,255,123,0.1);
+.btn .accent{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   padding:6px 10px;
   border-radius:8px;
+  background: linear-gradient(180deg, rgba(36,255,123,0.12), rgba(36,255,123,0.06));
   color:var(--accent-green);
   font-weight:700;
+  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5);
 }
+.btn:hover{ transform: translateY(-4px); }
 
-/* ===== Водяной знак ===== */
-.watermark {
+/* ========= Водяной знак ========= */
+.watermark{
   position:absolute;
   bottom:14px;
   right:14px;
-  opacity:0.6;
   z-index:3;
+  opacity:0.6;
 }
-.watermark img{width:68px;}
+.watermark img{ width:68px; height:auto; display:block; }
 
 /* Адаптив */
 @media (max-width:768px){
-  .brand{font-size:40px}
-  .subtitle{font-size:16px}
-  .card{padding:22px;min-height:420px}
+  .card{ padding:20px; min-height:380px }
+  .sprout{ width:96px; height:96px }
+  .brand{ font-size:40px }
+  .subtitle{ font-size:16px }
+  .watermark img{ width:56px }
+}
+@media (max-width:420px){
+  .card{ padding:16px; min-height:360px }
+  .sprout{ width:84px; height:84px }
+  .brand{ font-size:28px }
+  .subtitle{ font-size:15px; border-right:1.6px solid var(--neon-green) }
+  .actions{ gap:8px }
+  .watermark img{ width:48px }
 }
 </style>
 </head>
 <body>
-  <div class="page-overlay"></div>
+  <div class="page-overlay" aria-hidden="true"></div>
 
   <div class="container">
-    <div class="card">
+    <div class="card" role="main" aria-label="Карточка-визитка">
 
-      <!-- 🌱 Росточек -->
-      <svg class="sprout" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Неоновый росточек (вместо старого листа) -->
+      <svg class="sprout" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#7CFF9B"/>
@@ -194,37 +213,41 @@ body{
         <path d="M50 55 C60 50 70 40 65 35 C60 30 50 40 50 40" />
       </svg>
 
-      <!-- Заголовок -->
+      <!-- Название -->
       <div class="brand">GanjaSeeds</div>
 
-      <!-- Подзаголовок -->
-      <div class="subtitle" id="typed-text"></div>
+      <!-- Подзаголовок (набивается JS) -->
+      <div class="subtitle" id="typed-text" aria-live="polite"></div>
 
       <!-- Кнопки -->
-      <div class="actions">
-        <a class="btn" href="#">
-          🇷🇺 Интернет магазин в РФ
+      <div class="actions" role="navigation" aria-label="Ссылки">
+        <a class="btn" href="https://example.ru" target="_blank" rel="noopener">
+          <span>🇷🇺 Интернет магазин в РФ</span>
           <span class="accent">Вход</span>
         </a>
-        <a class="btn" href="#">
-          🇺🇦 Інтернет магазин в Україні
+
+        <a class="btn" href="https://example.ua" target="_blank" rel="noopener">
+          <span>🇺🇦 Інтернет магазин в Україні</span>
           <span class="accent">Вхід</span>
         </a>
-        <a class="btn" href="#">
-          🤖 Бот в Telegram
+
+        <a class="btn" href="https://t.me/yourbot" target="_blank" rel="noopener">
+          <span>🤖 Бот в Telegram</span>
           <span class="accent">Открыть</span>
         </a>
       </div>
+
     </div>
   </div>
 
   <!-- Водяной знак -->
-  <div class="watermark">
-    <img src="watermark.png" alt="Водяной знак">
+  <div class="watermark" aria-hidden="true">
+    <img src="watermark.png" alt="Водяной знак" />
   </div>
 
 <script>
-const text = "Семена каннабиса, которым доверяют гроверы по всему миру";
+/* JS-эффект печати (многострочный, остаётся на месте) */
+const text = "Семена, которым доверяют «гроверы по всему миру»";
 const el = document.getElementById("typed-text");
 let i = 0;
 function type(){
@@ -232,9 +255,12 @@ function type(){
     el.textContent += text[i];
     i++;
     setTimeout(type, 60);
+  } else {
+    // после печати убираем мерцающий курсор (границу)
+    el.style.borderRight = "none";
   }
 }
-type();
+document.addEventListener("DOMContentLoaded", type);
 </script>
 </body>
 </html>
