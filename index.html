@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Визитка — Neon Minimal</title>
+<title>GanjaSeeds — Neon Minimal</title>
 <style>
 :root{
   --bg-color: #0b0b0b;
@@ -15,6 +15,7 @@
   --neon-text-glow: 0 0 6px rgba(36,255,123,0.35), 0 0 20px rgba(36,255,123,0.25);
 }
 
+/* Сброс */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
@@ -22,7 +23,6 @@ body{
   background: var(--bg-color) url("background.jpg") center/cover no-repeat;
   color: var(--muted);
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
   overflow:hidden;
   display:flex;
   align-items:center;
@@ -31,6 +31,7 @@ body{
   padding:24px;
 }
 
+/* Полупрозрачная накладка */
 .page-overlay{
   position:absolute;
   inset:0;
@@ -39,6 +40,7 @@ body{
   backdrop-filter: blur(4px);
 }
 
+/* Карточка */
 .container{
   position:relative;
   z-index:2;
@@ -64,64 +66,61 @@ body{
   align-items:center;
   gap:18px;
   position:relative;
-  min-height:420px;
+  min-height:460px;
 }
 
-.logo-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  margin-top:-8px;
+/* ========= Новый росточек ========= */
+.sprout {
+  width: 120px;
+  height: 120px;
+  display: block;
+  filter: drop-shadow(0 0 10px rgba(36,255,123,0.5))
+          drop-shadow(0 0 20px rgba(36,255,123,0.3));
 }
 
-.leaf-neon{
-  width:120px;
-  height:120px;
-  display:block;
-  filter: drop-shadow(0 0 10px rgba(36,255,123,0.45));
-  margin-bottom:2px;
+.sprout path {
+  stroke: url(#grad);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  filter: drop-shadow(0 0 8px rgba(36,255,123,0.6))
+          drop-shadow(0 0 16px rgba(36,255,123,0.3));
+  animation: neonPulse 3s infinite ease-in-out;
 }
-@keyframes neon-flicker {
-  0%   { opacity:1; filter: drop-shadow(0 0 12px rgba(36,255,123,0.6)); transform: translateY(0) scale(1); }
-  6%   { opacity:0.85; filter: drop-shadow(0 0 8px rgba(36,255,123,0.45)); transform: translateY(-1px) scale(0.995); }
-  12%  { opacity:1; filter: drop-shadow(0 0 14px rgba(36,255,123,0.75)); transform: translateY(0) scale(1); }
-  20%  { opacity:0.9; filter: drop-shadow(0 0 6px rgba(36,255,123,0.35)); transform: translateY(-0.5px) scale(0.998); }
-  100% { opacity:1; filter: drop-shadow(0 0 12px rgba(36,255,123,0.6)); transform: translateY(0) scale(1); }
-}
-.leaf-neon { animation: neon-flicker 3.2s linear infinite; }
 
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px rgba(36,255,123,0.5)); }
+  50% { opacity: 0.9; filter: drop-shadow(0 0 14px rgba(36,255,123,0.8)); }
+}
+
+/* ========= Название ========= */
 .brand {
   font-size:48px;
-  line-height:1;
-  letter-spacing:1px;
   color:var(--neon-green);
   text-shadow: var(--neon-text-glow);
   font-weight:700;
   margin-top:-6px;
-  font-family: "Bauhaus 93", "Gill Sans", "Futura", Arial, sans-serif;
   animation: neon-text-flicker 3.6s linear infinite;
-  -webkit-font-smoothing:antialiased;
-  text-align:center;
-}
-@keyframes neon-text-flicker {
-  0%  { opacity:1; text-shadow: var(--neon-text-glow); transform: translateY(0); }
-  5%  { opacity:0.8; text-shadow: 0 0 4px rgba(36,255,123,0.15); transform: translateY(-1px); }
-  12% { opacity:1; text-shadow: var(--neon-text-glow); }
-  30% { opacity:0.9; text-shadow: 0 0 6px rgba(36,255,123,0.22); }
-  100%{ opacity:1; }
 }
 
-/* ===== Многострочный текст набора (JS) ===== */
+@keyframes neon-text-flicker {
+  0%,100% { opacity:1; }
+  5%,95% { opacity:0.9; text-shadow: 0 0 6px rgba(36,255,123,0.25); }
+  50% { opacity:1; text-shadow: var(--neon-text-glow); }
+}
+
+/* ========= Подзаголовок ========= */
 .subtitle {
   margin-top:4px;
   font-size:18px;
   color:var(--muted);
-  white-space: pre-wrap; /* поддержка переносов и многострочности */
+  max-width:80%;
   text-align:center;
+  line-height:1.4;
 }
 
-/* Кнопки */
+/* ========= Кнопки ========= */
 .actions {
   margin-top:14px;
   display:flex;
@@ -130,6 +129,7 @@ body{
   justify-content:center;
   flex-wrap:wrap;
 }
+
 .btn {
   display:inline-flex;
   gap:10px;
@@ -140,11 +140,22 @@ body{
   color:var(--muted);
   font-weight:600;
   text-decoration:none;
-  box-shadow:6px 6px 16px rgba(0,0,0,0.6), -4px -4px 10px rgba(255,255,255,0.02);
+  box-shadow:
+    6px 6px 16px rgba(0,0,0,0.6),
+    -4px -4px 10px rgba(255,255,255,0.02);
   border:1px solid rgba(255,255,255,0.03);
   transition: transform 160ms ease, box-shadow 160ms ease;
   min-height:44px;
 }
+
+.btn:hover{
+  transform: translateY(-4px);
+  box-shadow:
+    10px 10px 30px rgba(0,0,0,0.7),
+    -6px -6px 18px rgba(255,255,255,0.01);
+}
+
+.btn svg{ width:20px; height:20px; display:block; }
 .btn .accent {
   display:inline-flex;
   align-items:center;
@@ -156,10 +167,8 @@ body{
   font-weight:700;
   box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5);
 }
-.btn:hover{ transform: translateY(-4px); }
-.btn svg{ width:20px; height:20px; }
 
-/* Водяной знак */
+/* ========= Водяной знак ========= */
 .watermark {
   position:absolute;
   bottom:14px;
@@ -170,100 +179,71 @@ body{
 }
 .watermark img{ width:68px; height:auto; display:block; }
 
-@media(max-width:768px){
-  .card{ padding:20px; min-height:380px }
-  .leaf-neon{ width:96px;height:96px }
+/* ========= Адаптив ========= */
+@media (max-width:768px){
   .brand{ font-size:40px }
   .subtitle{ font-size:16px }
-  .btn{ padding:10px 12px }
+  .leaf-neon{ width:96px;height:96px }
   .watermark img{ width:56px }
 }
-@media(max-width:420px){
-  .card{ padding:16px; min-height:360px }
-  .leaf-neon{ width:84px;height:84px }
+
+@media (max-width:420px){
   .brand{ font-size:28px }
   .subtitle{ font-size:15px }
-  .actions{ gap:8px }
   .watermark img{ width:48px }
 }
 </style>
 </head>
 <body>
-<div class="page-overlay" aria-hidden="true"></div>
+  <div class="page-overlay" aria-hidden="true"></div>
 
-<div class="container">
-  <div class="card" role="main" aria-label="Карточка-визитка">
+  <div class="container">
+    <div class="card" role="main">
 
-    <div class="logo-wrap">
-      <svg class="leaf-neon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- Неоновый росточек -->
+      <svg class="sprout" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-          <linearGradient id="lg" x1="0" x2="1">
-            <stop offset="0" stop-color="#7CFF9B"/>
-            <stop offset="1" stop-color="#18E06B"/>
+          <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#7CFF9B"/>
+            <stop offset="100%" stop-color="#24FF7B"/>
           </linearGradient>
         </defs>
-        <path d="M60 14
-                 c10 4 30 20 34 36
-                 4 16 -8 30 -24 36
-                 -16-6 -28-18 -32-32
-                 -4-14 6-34 26-46z"
-              fill="none"
-              stroke="url(#lg)"
-              stroke-width="3.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              filter="url(#glow)" />
+        <path d="M50 90 C50 70 48 50 50 30" />
+        <path d="M50 60 C40 55 30 45 35 40 C40 35 50 45 50 45" />
+        <path d="M50 55 C60 50 70 40 65 35 C60 30 50 40 50 40" />
       </svg>
 
+      <!-- Название -->
       <div class="brand">GanjaSeeds</div>
-      <div class="subtitle" id="subtitle"></div>
-    </div>
 
-    <div class="actions">
-      <a class="btn" href="https://example.ru" target="_blank">
-        <span>🇷🇺 Интернет магазин в РФ</span><span class="accent">Вход</span>
-      </a>
-      <a class="btn" href="https://example.ua" target="_blank">
-        <span>🇺🇦 Інтернет магазин в Україні</span><span class="accent">Вхід</span>
-      </a>
-      <a class="btn" href="https://t.me/yourbot" target="_blank">
-        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-          <path d="M120 0c66.274 0 120 53.726 120 120S186.274 240 120 240 0 186.274 0 120 53.726 0 120 0z" fill="#0b1220"/>
-          <path d="M49 123l145-60c6-2 11 4 7 9l-61 74c-3 4-9 5-13 2l-34-26-16 16c-5 5-13 2-15-5L49 123z" fill="#a7ffbf"/>
-        </svg>
-        <span>Бот в Telegram</span><span class="accent">Открыть</span>
-      </a>
-    </div>
+      <!-- Подзаголовок -->
+      <div class="subtitle">Семена, которым доверяют «гроверы по всему миру»</div>
 
+      <!-- Кнопки -->
+      <div class="actions">
+        <a class="btn" href="https://example.ru">
+          <span>🇷🇺 Интернет магазин в РФ</span>
+          <span class="accent">Вход</span>
+        </a>
+        <a class="btn" href="https://example.ua">
+          <span>🇺🇦 Інтернет магазин в Україні</span>
+          <span class="accent">Вхід</span>
+        </a>
+        <a class="btn" href="https://t.me/yourbot">
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+            <path d="M120 0c66.274 0 120 53.726 120 120S186.274 240 120 240 0 186.274 0 120 53.726 0 120 0z" fill="#0b1220"/>
+            <path d="M49 123l145-60c6-2 11 4 7 9l-61 74c-3 4-9 5-13 2l-34-26-16 16c-5 5-13 2-15-5L49 123z" fill="#a7ffbf"/>
+          </svg>
+          <span>Бот в Telegram</span>
+          <span class="accent">Открыть</span>
+        </a>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<div class="watermark">
-  <img src="watermark.png" alt="Водяной знак" />
-</div>
-
-<script>
-// JS-эффект печати для многострочного текста
-const text = "Семена, которым доверяют «гроверы по всему миру»";
-const subtitle = document.getElementById("subtitle");
-let index = 0;
-
-function typeChar() {
-  if (index < text.length) {
-    subtitle.innerHTML += text[index] === "\n" ? "<br>" : text[index];
-    index++;
-    setTimeout(typeChar, 50); // скорость набора
-  }
-}
-document.addEventListener("DOMContentLoaded", typeChar);
-</script>
-
+  <div class="watermark">
+    <img src="watermark.png" alt="Водяной знак" />
+  </div>
 </body>
 </html>
