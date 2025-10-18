@@ -68,18 +68,19 @@ body{
   margin-top:-8px;
 }
 .leaf-neon{
-  width:120px;
-  height:120px;
+  width:130px;
+  height:130px;
   display:block;
-  filter:drop-shadow(0 0 10px rgba(36,255,123,0.45));
   margin-bottom:2px;
+  /* наружная тень для общего свечения */
+  filter:drop-shadow(0 0 12px rgba(0,255,120,0.35));
 }
 @keyframes neon-flicker{
-  0%{opacity:1;filter:drop-shadow(0 0 12px rgba(36,255,123,0.6));transform:translateY(0) scale(1);}
-  6%{opacity:0.85;filter:drop-shadow(0 0 8px rgba(36,255,123,0.45));transform:translateY(-1px) scale(0.995);}
-  12%{opacity:1;filter:drop-shadow(0 0 14px rgba(36,255,123,0.75));transform:translateY(0) scale(1);}
-  20%{opacity:0.9;filter:drop-shadow(0 0 6px rgba(36,255,123,0.35));transform:translateY(-0.5px) scale(0.998);}
-  100%{opacity:1;filter:drop-shadow(0 0 12px rgba(36,255,123,0.6));transform:translateY(0) scale(1);}
+  0%{opacity:1;filter:drop-shadow(0 0 18px rgba(36,255,123,0.7));transform:translateY(0) scale(1);}
+  6%{opacity:0.78;filter:drop-shadow(0 0 8px rgba(36,255,123,0.45));transform:translateY(-1px) scale(0.995);}
+  12%{opacity:1;filter:drop-shadow(0 0 22px rgba(36,255,123,0.85));transform:translateY(0) scale(1);}
+  20%{opacity:0.9;filter:drop-shadow(0 0 10px rgba(36,255,123,0.35));transform:translateY(-0.5px) scale(0.998);}
+  100%{opacity:1;filter:drop-shadow(0 0 18px rgba(36,255,123,0.7));transform:translateY(0) scale(1);}
 }
 .leaf-neon{animation:neon-flicker 3.2s linear infinite;}
 .brand{
@@ -184,33 +185,170 @@ body{
   <div class="container">
     <div class="card" role="main" aria-label="Карточка-визитка">
 
-      <!-- Новый векторный неоновый лист -->
+      <!-- Новый реалистичный векторный неоновый лист (7 сегментов, "зубчатая" кромка + многослойное свечение) -->
       <div class="logo-wrap" aria-hidden="false">
-        <svg class="leaf-neon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Неоновый лист">
+        <svg class="leaf-neon" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Неоновый лист">
           <defs>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3.5" result="blur" />
+            <!-- основной градиент -->
+            <linearGradient id="gNeon" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7CFF9B"/>
+              <stop offset="60%" stop-color="#24FF7B"/>
+              <stop offset="100%" stop-color="#00D05A"/>
+            </linearGradient>
+
+            <!-- сильное размытие внешнего свечения -->
+            <filter id="outerGlow" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="10" result="g1"/>
+              <feColorMatrix type="matrix" values="
+                  0 0 0 0 0
+                  0 1 0 0 0
+                  0 0 0.35 0 0
+                  0 0 0 0.8 0" in="g1" result="c1"/>
               <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
+                <feMergeNode in="c1"/>
+                <feMergeNode in="SourceGraphic"/>
               </feMerge>
             </filter>
-            <linearGradient id="leafGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#00ff66" />
-              <stop offset="100%" stop-color="#00b34a" />
-            </linearGradient>
+
+            <!-- мягкое внутреннее свечение (тонь ближе к контуру) -->
+            <filter id="innerGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="4" result="g2"/>
+              <feBlend in="SourceGraphic" in2="g2" mode="screen"/>
+            </filter>
+
+            <!-- тонкое острое свечение для "зубчиков" -->
+            <filter id="sharpGlow" x="-40%" y="-40%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.2" result="g3"/>
+              <feColorMatrix type="matrix" values="
+                0 0 0 0 0
+                0 1 0 0 0
+                0 0 0.2 0 0
+                0 0 0 0.9 0" in="g3" result="c3"/>
+              <feMerge>
+                <feMergeNode in="c3"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <!-- текстурный шум для легкой неровности свечения -->
+            <filter id="grain" x="0" y="0" width="100%" height="100%">
+              <feTurbulence baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" result="turb"/>
+              <feColorMatrix type="saturate" values="0" in="turb" result="turbBW"/>
+              <feBlend in="SourceGraphic" in2="turbBW" mode="overlay"/>
+            </filter>
           </defs>
-          <!-- центральный сегмент -->
-          <path d="M100 15 C97 45 94 75 100 100 C106 75 103 45 100 15Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-          <!-- боковые сегменты -->
-          <path d="M100 30 C90 55 80 70 65 85 C85 78 95 68 100 45Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-          <path d="M100 30 C110 55 120 70 135 85 C115 78 105 68 100 45Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-          <!-- нижние боковые -->
-          <path d="M100 70 C75 90 55 110 45 135 C65 120 85 105 100 85Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-          <path d="M100 70 C125 90 145 110 155 135 C135 120 115 105 100 85Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-          <!-- нижние крайние -->
-          <path d="M100 90 C65 115 40 145 30 165 C55 150 80 125 100 100Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-          <path d="M100 90 C135 115 160 145 170 165 C145 150 120 125 100 100Z" fill="none" stroke="url(#leafGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+
+          <!-- Внешний размытой контур (имитирует неоновую трубку, толстый мягкий свет) -->
+          <g filter="url(#outerGlow)" opacity="0.9">
+            <!-- мы повторяем контур с большой шириной, чтобы создать мягкое свечение -->
+            <path d="M120 24
+                     C118 40 114 64 120 86
+                     C126 64 122 40 120 24Z
+                     M120 42
+                     C104 64 88 84 66 96
+                     C86 92 98 82 120 64Z
+                     M120 42
+                     C136 64 152 84 174 96
+                     C154 92 142 82 120 64Z
+                     M120 90
+                     C92 112 70 134 56 162
+                     C78 150 98 130 120 106Z
+                     M120 90
+                     C148 112 170 134 184 162
+                     C162 150 142 130 120 106Z
+                     M120 110
+                     C80 132 50 164 36 188
+                     C64 172 94 142 120 120Z
+                     M120 110
+                     C160 132 190 164 204 188
+                     C176 172 146 142 120 120Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+
+          <!-- основной "трубчатый" контур: гладкий -->
+          <g filter="url(#innerGlow)">
+            <path d="M120 26
+                     C118 46 114 66 120 86
+                     C126 66 122 46 120 26Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M120 42
+                     C106 64 92 80 72 92
+                     C88 88 98 80 120 64Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M120 42
+                     C134 64 148 80 168 92
+                     C152 88 142 80 120 64Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M120 78
+                     C96 96 76 116 62 142
+                     C82 128 100 112 120 96Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M120 78
+                     C144 96 164 116 178 142
+                     C158 128 140 112 120 96Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M120 96
+                     C84 118 56 150 44 176
+                     C68 162 96 138 120 116Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M120 96
+                     C156 118 184 150 196 176
+                     C172 162 144 138 120 116Z"
+                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+
+          <!-- Зубчатая (неровная) линия поверх гладкого контура для имитации электрического "зигзага" -->
+          <g filter="url(#sharpGlow)">
+            <!-- центральный "зубчатый" -->
+            <path d="M120 26
+                     L118 32 L121 38 L119 44 L121 50 L118 56 L121 62 L119 68 L121 74 L119 80 L120 86"
+                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- левый верхний зубчатый -->
+            <path d="M120 44
+                     L112 56 L118 62 L110 70 L116 76 L108 84"
+                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- правый верхний зубчатый -->
+            <path d="M120 44
+                     L128 56 L122 62 L130 70 L124 76 L132 84"
+                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- левый средний зубчатый -->
+            <path d="M120 86
+                     L104 96 L110 104 L100 112 L108 120"
+                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- правый средний зубчатый -->
+            <path d="M120 86
+                     L136 96 L130 104 L140 112 L132 120"
+                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- нижние зубчатые -->
+            <path d="M120 112
+                     L98 130 L86 146 L74 162"
+                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M120 112
+                     L142 130 L154 146 L166 162"
+                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+
+          <!-- тонкий яркий контур (как край трубки) -->
+          <g>
+            <path d="M120 26
+                     C118 46 114 66 120 86"
+                  fill="none" stroke="#eafff0" stroke-opacity="0.12" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M120 26
+                     C126 46 122 66 120 86"
+                  fill="none" stroke="#eafff0" stroke-opacity="0.12" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M120 42 C106 64 92 80 72 92" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
+            <path d="M120 42 C134 64 148 80 168 92" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
+            <path d="M120 78 C96 96 76 116 62 142" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
+            <path d="M120 78 C144 96 164 116 178 142" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
+            <path d="M120 96 C84 118 56 150 44 176" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
+            <path d="M120 96 C156 118 184 150 196 176" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
+          </g>
+
+          <!-- тонкая центральная прожилка стебель -->
+          <path d="M120 86 L120 118"
+                stroke="rgba(255,255,255,0.12)"
+                stroke-width="1.2"
+                stroke-linecap="round" />
         </svg>
 
         <div class="brand" aria-label="Бренд GanjaSeeds">GanjaSeeds</div>
