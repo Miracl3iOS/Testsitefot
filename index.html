@@ -21,8 +21,7 @@ body{
   background: var(--bg-color) url("background.jpg") center/cover no-repeat;
   color: var(--muted);
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow:hidden; /* без прокрутки */
+  overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -30,13 +29,13 @@ body{
   padding:24px;
 }
 
-/* Мягкий затемняющий оверлей (как было ранее) */
+/* 🌫 Мягкий оверлей — стал прозрачнее и с меньшим блюром */
 .page-overlay{
   position:absolute;
   inset:0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.35); /* было 0.45 */
   z-index:0;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px); /* было 4px */
 }
 
 /* Центрированная область */
@@ -51,7 +50,7 @@ body{
   justify-content:center;
 }
 
-/* Неоморфная карточка — восстановленная (как до сильного размытия) */
+/* Неоморфная карточка */
 .card {
   width:100%;
   max-width:720px;
@@ -69,13 +68,13 @@ body{
   min-height:420px;
 }
 
-/* ========= Новый неоновый росточек (вместо листа) ========= */
+/* 🌱 Неоновый росточек */
 .sprout {
   width:120px;
   height:120px;
   display:block;
-  filter: drop-shadow(0 0 10px rgba(36,255,123,0.5))
-          drop-shadow(0 0 20px rgba(36,255,123,0.25));
+  filter: drop-shadow(0 0 8px rgba(36,255,123,0.5))
+          drop-shadow(0 0 14px rgba(36,255,123,0.25));
   margin-bottom:2px;
 }
 .sprout path {
@@ -93,7 +92,7 @@ body{
   50%{ opacity:0.95; }
 }
 
-/* ========= Заголовок ========= */
+/* Заголовок */
 .brand {
   font-size:48px;
   line-height:1;
@@ -102,20 +101,18 @@ body{
   text-shadow: var(--neon-text-glow);
   font-weight:700;
   margin-top:-6px;
-  font-family: "Bauhaus 93", "Gill Sans", "Futura", Arial, sans-serif;
   animation: neon-text-flicker 3.6s linear infinite;
-  -webkit-font-smoothing:antialiased;
 }
 
-/* ========= Подзаголовок — печатается, остаётся ========= */
+/* Подзаголовок */
 .subtitle {
   margin-top:6px;
   font-size:18px;
   color:var(--muted);
   text-align:center;
   max-width:80%;
-  min-height:48px; /* чтобы место зарезервировать */
-  white-space:pre-wrap; /* перенос строк */
+  min-height:48px;
+  white-space:pre-wrap;
   overflow-wrap:break-word;
   line-height:1.4;
   border-right:2px solid var(--neon-green);
@@ -127,7 +124,7 @@ body{
   50%{ border-color: var(--neon-green) }
 }
 
-/* ========= Кнопки ========= */
+/* Кнопки */
 .actions{
   margin-top:18px;
   display:flex;
@@ -166,7 +163,7 @@ body{
 }
 .btn:hover{ transform: translateY(-4px); }
 
-/* ========= Водяной знак ========= */
+/* Водяной знак */
 .watermark{
   position:absolute;
   bottom:14px;
@@ -195,13 +192,13 @@ body{
 </style>
 </head>
 <body>
-  <div class="page-overlay" aria-hidden="true"></div>
+  <div class="page-overlay"></div>
 
   <div class="container">
-    <div class="card" role="main" aria-label="Карточка-визитка">
+    <div class="card">
 
-      <!-- Неоновый росточек (вместо старого листа) -->
-      <svg class="sprout" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- 🌱 Росточек -->
+      <svg class="sprout" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#7CFF9B"/>
@@ -213,40 +210,23 @@ body{
         <path d="M50 55 C60 50 70 40 65 35 C60 30 50 40 50 40" />
       </svg>
 
-      <!-- Название -->
       <div class="brand">GanjaSeeds</div>
+      <div class="subtitle" id="typed-text"></div>
 
-      <!-- Подзаголовок (набивается JS) -->
-      <div class="subtitle" id="typed-text" aria-live="polite"></div>
-
-      <!-- Кнопки -->
-      <div class="actions" role="navigation" aria-label="Ссылки">
-        <a class="btn" href="https://example.ru" target="_blank" rel="noopener">
-          <span>🇷🇺 Интернет магазин в РФ</span>
-          <span class="accent">Вход</span>
-        </a>
-
-        <a class="btn" href="https://example.ua" target="_blank" rel="noopener">
-          <span>🇺🇦 Інтернет магазин в Україні</span>
-          <span class="accent">Вхід</span>
-        </a>
-
-        <a class="btn" href="https://t.me/yourbot" target="_blank" rel="noopener">
-          <span>🤖 Бот в Telegram</span>
-          <span class="accent">Открыть</span>
-        </a>
+      <div class="actions">
+        <a class="btn" href="#"><span>🇷🇺 Интернет магазин в РФ</span><span class="accent">Вход</span></a>
+        <a class="btn" href="#"><span>🇺🇦 Інтернет магазин в Україні</span><span class="accent">Вхід</span></a>
+        <a class="btn" href="#"><span>🤖 Бот в Telegram</span><span class="accent">Открыть</span></a>
       </div>
 
     </div>
   </div>
 
-  <!-- Водяной знак -->
-  <div class="watermark" aria-hidden="true">
+  <div class="watermark">
     <img src="watermark.png" alt="Водяной знак" />
   </div>
 
 <script>
-/* JS-эффект печати (многострочный, остаётся на месте) */
 const text = "Семена, которым доверяют «гроверы по всему миру»";
 const el = document.getElementById("typed-text");
 let i = 0;
@@ -256,7 +236,6 @@ function type(){
     i++;
     setTimeout(type, 60);
   } else {
-    // после печати убираем мерцающий курсор (границу)
     el.style.borderRight = "none";
   }
 }
