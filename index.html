@@ -3,336 +3,223 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Визитка — Neon Minimal</title>
+<title>GanjaSeeds — Визитка</title>
 <style>
-/* ========= Общие настройки ========= */
 :root{
-  --bg-color: #0b0b0b; /* основной фон (тёмный) */
-  --card-bg: #0f0f10;  /* фон карточки (неоморф) */
-  --muted: #bdbdbd;
-  --accent-green: #2ee06a;
-  --neon-green: #24ff7b;
-  --neon-glow: 0 0 12px rgba(36,255,123,0.15), 0 0 32px rgba(36,255,123,0.08);
-  --neon-text-glow: 0 0 6px rgba(36,255,123,0.35), 0 0 20px rgba(36,255,123,0.25);
+  --bg-color:#0b0b0b;
+  --card-bg:#0f0f10;
+  --muted:#bdbdbd;
+  --accent-green:#2ee06a;
+  --neon-green:#24ff7b;
 }
 
-/* Сброс */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
 body{
-  font-family: "Bauhaus 93", "Gill Sans", "Futura", "Segoe UI", Arial, sans-serif;
-  background: var(--bg-color) url("background.jpg") center/cover no-repeat;
-  color: var(--muted);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow:hidden; /* без прокрутки */
+  height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  position:relative;
-  padding:24px;
+  flex-direction:column;
+  background:var(--bg-color) url("background.jpg") center/cover no-repeat;
+  overflow:hidden;
+  font-family:"Bauhaus 93","Futura","Poppins",sans-serif;
 }
 
-/* Полупрозрачная затемняющая накладка для читаемости (опционально) */
-.page-overlay{
+/* Полупрозрачная наложка */
+.overlay{
   position:absolute;
   inset:0;
-  background: rgba(0,0,0,0.45);
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(4px);
   z-index:0;
-  backdrop-filter: blur(4px);
 }
 
-/* ========= Центрированная карточка (неоморф) ========= */
-.container{
+/* Карточка */
+.card{
   position:relative;
-  z-index:2;
-  width:100%;
-  max-width:880px;
-  height:calc(100vh - 48px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  z-index:1;
+  background:rgba(255,255,255,0.02);
+  border-radius:30px;
+  padding:2rem 3rem;
+  max-width:700px;
+  width:90%;
+  box-shadow:10px 10px 25px rgba(0,0,0,0.6),
+             -10px -10px 25px rgba(255,255,255,0.05);
+  text-align:center;
+  color:var(--muted);
 }
 
-/* Самая центральная карточка — визуально лёгкая неоморфная панель */
-.card {
-  width:100%;
-  max-width:720px;
-  border-radius:20px;
-  padding:28px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  box-shadow:
-    12px 12px 30px rgba(0,0,0,0.65),
-    -8px -8px 24px rgba(255,255,255,0.02);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:18px;
-  position:relative;
-  min-height:420px;
-}
-
-/* ========= НЕОНОВЫЙ ЛОГОТИП — лист (SVG inline) ========= */
-.logo-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  margin-top:-8px;
-}
-
-/* SVG контейнер: центрируем и задаём размеры */
+/* Лист (нейтральный) */
 .leaf-neon{
   width:120px;
   height:120px;
+  margin:0 auto 10px;
   display:block;
-  filter: drop-shadow(0 0 10px rgba(36,255,123,0.45));
-  /* легкий псевдо-неоморф: тонкая светящаяся рамка */
-  margin-bottom:2px;
+  filter:drop-shadow(0 0 8px rgba(36,255,123,0.5));
+  animation:flicker 3s linear infinite;
+}
+@keyframes flicker{
+  0%,100%{opacity:1;}
+  40%{opacity:0.85;}
+  50%{opacity:0.6;}
+  60%{opacity:1;}
 }
 
-/* Мерцание/мигание для лампы (leaf) */
-@keyframes neon-flicker {
-  0%   { opacity:1; filter: drop-shadow(0 0 12px rgba(36,255,123,0.6)); transform: translateY(0) scale(1); }
-  6%   { opacity:0.85; filter: drop-shadow(0 0 8px rgba(36,255,123,0.45)); transform: translateY(-1px) scale(0.995); }
-  12%  { opacity:1; filter: drop-shadow(0 0 14px rgba(36,255,123,0.75)); transform: translateY(0) scale(1); }
-  20%  { opacity:0.9; filter: drop-shadow(0 0 6px rgba(36,255,123,0.35)); transform: translateY(-0.5px) scale(0.998); }
-  100% { opacity:1; filter: drop-shadow(0 0 12px rgba(36,255,123,0.6)); transform: translateY(0) scale(1); }
-}
-.leaf-neon { animation: neon-flicker 3.2s linear infinite; }
-
-/* ========= НАЗВАНИЕ (неоновый текст) ========= */
-.brand {
-  font-size:48px;
-  line-height:1;
-  letter-spacing:1px;
-  color:var(--neon-green);
-  text-shadow: var(--neon-text-glow);
-  font-weight:700;
-  margin-top:-6px;
-  font-family: "Bauhaus 93", "Gill Sans", "Futura", Arial, sans-serif;
-  /* "мигание" надписи */
-  animation: neon-text-flicker 3.6s linear infinite;
-  -webkit-font-smoothing:antialiased;
+/* SVG логотип */
+.brand-svg{
+  width:100%;
+  max-width:480px;
+  height:auto;
+  display:block;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 0 40px rgba(0,0,0,0.08);
+  margin:10px auto;
 }
 
-/* если у пользователя нет Bauhaus — можно уменьшить размер на мобильных */
-@media (max-width:420px){
-  .brand{ font-size:32px; }
-}
-
-/* текст "мигает" — реалистичное мерцание */
-@keyframes neon-text-flicker {
-  0%  { opacity:1; text-shadow: var(--neon-text-glow); transform: translateY(0); }
-  5%  { opacity:0.8; text-shadow: 0 0 4px rgba(36,255,123,0.15); transform: translateY(-1px); }
-  12% { opacity:1; text-shadow: var(--neon-text-glow); }
-  30% { opacity:0.9; text-shadow: 0 0 6px rgba(36,255,123,0.22); }
-  100%{ opacity:1; }
-}
-
-/* ========= ТЕКСТ НАБИРАЮЩИЙСЯ (CSS-only эффект) ========= */
-.subtitle {
-  margin-top:4px;
+/* Текст с эффектом набора */
+.subtitle{
+  margin-top:16px;
   font-size:18px;
   color:var(--muted);
-  overflow:hidden;
   white-space:nowrap;
-  border-right: 2px solid rgba(180,255,160,0.9); /* caret */
-  width:0; /* будем анимировать ширину */
+  overflow:hidden;
+  border-right:2px solid rgba(180,255,160,0.9);
+  width:0;
   animation:
-    typing 3.6s steps(40,end) 1s forwards,
+    typing 3.5s steps(40,end) 1s forwards,
     caret 0.8s steps(1,end) infinite;
-  max-width:80%;
+  margin-left:auto;
+  margin-right:auto;
+  max-width:95%;
 }
 
-/* Анимация набора — увеличиваем ширину блока */
-@keyframes typing {
-  from { width:0 }
-  to   { width: 100% }
+@keyframes typing{
+  from{width:0}
+  to{width:100%}
 }
-/* мерцающий курсор */
-@keyframes caret {
-  50% { border-color: rgba(180,255,160,0.3); }
-  100%{ border-color: rgba(180,255,160,0.9); }
+@keyframes caret{
+  50%{border-color:transparent}
+  100%{border-color:rgba(180,255,160,0.9)}
 }
 
-/* ========= Секции / Кнопки ========= */
-.actions {
-  margin-top:14px;
+/* После печати текст остаётся видимым */
+.subtitle.finished{
+  width:100%;
+  border-right:none;
+}
+
+/* Кнопки */
+.actions{
+  margin-top:30px;
   display:flex;
   gap:12px;
-  align-items:center;
   justify-content:center;
   flex-wrap:wrap;
 }
-
-/* кнопки — темный фон, зеленые акценты, неоморфный вид */
-.btn {
-  display:inline-flex;
-  gap:10px;
-  align-items:center;
-  padding:10px 16px;
-  border-radius:12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
-  color:var(--muted);
-  font-weight:600;
-  text-decoration:none;
-  box-shadow:
-    6px 6px 16px rgba(0,0,0,0.6),
-    -4px -4px 10px rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.03);
-  transition: transform 160ms ease, box-shadow 160ms ease;
-  min-height:44px;
-}
-
-/* зелёный акцент справа */
-.btn .accent {
+.btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  gap:10px;
+  padding:10px 18px;
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.25));
+  color:var(--muted);
+  text-decoration:none;
+  box-shadow:6px 6px 16px rgba(0,0,0,0.6),-4px -4px 10px rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.05);
+  transition:transform 0.2s;
+}
+.btn:hover{transform:translateY(-3px);color:#fff}
+.btn .accent{
+  background:rgba(36,255,123,0.1);
+  color:var(--accent-green);
   padding:6px 10px;
   border-radius:8px;
-  background: linear-gradient(180deg, rgba(36,255,123,0.12), rgba(36,255,123,0.06));
-  color:var(--accent-green);
   font-weight:700;
-  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5);
 }
 
-/* hover */
-.btn:hover{
-  transform: translateY(-4px);
-  box-shadow:
-    10px 10px 30px rgba(0,0,0,0.7),
-    -6px -6px 18px rgba(255,255,255,0.01);
-}
-
-/* специальные стили для Telegram и адаптив */
-.btn svg{ width:20px; height:20px; display:block; }
-.actions { width:100%; justify-content:center; padding-top:6px }
-
-/* ========= НИЗ: место для ВОДЯНОГО ЗНАКА ========= */
-.watermark {
+/* Водяной знак */
+.watermark{
   position:absolute;
-  bottom:14px;
-  right:14px;
-  z-index:5;
+  bottom:12px;
+  right:12px;
   opacity:0.6;
-  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
 }
-.watermark img{ width:68px; height:auto; display:block; }
+.watermark img{width:60px;height:auto;}
 
-/* ========= Адаптив ========= */
-@media (max-width:768px){
-  .card{ padding:20px; min-height:380px }
-  .leaf-neon{ width:96px;height:96px }
-  .brand{ font-size:40px }
-  .subtitle{ font-size:16px }
-  .btn{ padding:10px 12px }
-  .watermark img{ width:56px }
+/* Адаптивность */
+@media(max-width:480px){
+  .card{padding:1.5rem;}
+  .subtitle{font-size:16px;}
 }
-
-@media (max-width:420px){
-  .card{ padding:16px; min-height:360px }
-  .leaf-neon{ width:84px;height:84px }
-  .brand{ font-size:28px }
-  .subtitle{ font-size:15px; border-right:1.6px solid rgba(180,255,160,0.9) }
-  .actions{ gap:8px }
-  .watermark img{ width:48px }
-}
-
-/* Маленькая подсказка: если хочешь Bauhaus 93, подключи шрифт локально или через @font-face */
 </style>
 </head>
 <body>
-  <div class="page-overlay" aria-hidden="true"></div>
+<div class="overlay"></div>
 
-  <div class="container">
-    <div class="card" role="main" aria-label="Карточка-визитка">
+<div class="card">
+  <!-- Абстрактный лист -->
+  <svg class="leaf-neon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="lg" x1="0" x2="1">
+        <stop offset="0" stop-color="#7CFF9B"/>
+        <stop offset="1" stop-color="#18E06B"/>
+      </linearGradient>
+    </defs>
+    <path d="M60 14
+             c10 4 30 20 34 36
+             4 16 -8 30 -24 36
+             -16-6 -28-18 -32-32
+             -4-14 6-34 26-46z"
+          fill="none"
+          stroke="url(#lg)"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
 
-      <!-- Логотип: стилизованный мультяшный лист (нейтральный) -->
-      <div class="logo-wrap" aria-hidden="false">
-        <!-- SVG — абстрактный мультяшный лист, стилизован как неоновая лампа -->
-        <svg class="leaf-neon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Логотип — листок">
-          <!-- мягкий контур для лампы -->
-          <defs>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            <linearGradient id="lg" x1="0" x2="1">
-              <stop offset="0" stop-color="#7CFF9B"/>
-              <stop offset="1" stop-color="#18E06B"/>
-            </linearGradient>
-          </defs>
+  <!-- SVG логотип GanjaSeeds -->
+  <svg class="brand-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 180" aria-label="GanjaSeeds">
+    <rect width="100%" height="100%" fill="#ffffff"/>
+    <text x="50%" y="55%" text-anchor="middle"
+          font-family="'Bauhaus 93','Futura','Poppins',sans-serif"
+          font-weight="900" font-size="110" fill="#000" dominant-baseline="middle">
+      GanjaSeeds
+    </text>
+  </svg>
 
-          <!-- фон/слабый силуэт (для глубины) -->
-          <path d="M60 12c12 6 34 28 36 48 2 20 -12 34 -30 40 -18-6 -32-20 -36-36 -4-16 4-38 30-52z"
-                fill="rgba(36,255,123,0.045)"/>
-          <!-- основной 'ламповый' контур -->
-          <path d="M60 14
-                   c10 4 30 20 34 36
-                   4 16 -8 30 -24 36
-                   -16-6 -28-18 -32-32
-                   -4-14 6-34 26-46z"
-                fill="none"
-                stroke="url(#lg)"
-                stroke-width="3.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                filter="url(#glow)" />
-          <!-- внутренние жилки (тонкие линии) -->
-          <path d="M60 18
-                   c4 6 12 14 14 24
-                   M60 18
-                   c-4 8 -10 16 -14 24"
-                fill="none"
-                stroke="rgba(255,255,255,0.08)"
-                stroke-width="1.2"
-                stroke-linecap="round" />
-        </svg>
+  <!-- Текст с эффектом печати -->
+  <div class="subtitle">Семена, которым доверяют «гроверы по всему миру»</div>
 
-        <!-- Название — НЕОНОВАЯ Лампа -->
-        <div class="brand" aria-label="Бренд GanjaSeeds">GanjaSeeds</div>
-
-        <!-- Подзаголовок — эффект набора -->
-        <div class="subtitle" aria-live="polite">
-          Семена, которым доверяют «гроверы по всему миру»
-        </div>
-      </div>
-
-      <!-- Нижние кнопки/блоки -->
-      <div class="actions" role="navigation" aria-label="Ссылки">
-        <a class="btn" href="#" title="Интернет-магазин РФ">
-          <span>🇷🇺 Интернет магазин в РФ</span>
-          <span class="accent">Вход</span>
-        </a>
-
-        <a class="btn" href="#" title="Інтернет магазин в Україні">
-          <span>🇺🇦 Інтернет магазин в Україні</span>
-          <span class="accent">Вхід</span>
-        </a>
-
-        <a class="btn" href="#" title="Telegram бот / Контакты">
-          <!-- Telegram icon (svg) -->
-          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M120 0c66.274 0 120 53.726 120 120S186.274 240 120 240 0 186.274 0 120 53.726 0 120 0z" fill="#0b1220"/>
-            <path d="M49 123l145-60c6-2 11 4 7 9l-61 74c-3 4-9 5-13 2l-34-26-16 16c-5 5-13 2-15-5L49 123z" fill="#a7ffbf"/>
-          </svg>
-          <span>Бот в Telegram</span>
-          <span class="accent">Открыть</span>
-        </a>
-      </div>
-
-    </div>
+  <!-- Кнопки -->
+  <div class="actions">
+    <a class="btn" href="#"><span>🇷🇺 Интернет магазин в РФ</span><span class="accent">Вход</span></a>
+    <a class="btn" href="#"><span>🇺🇦 Інтернет магазин в Україні</span><span class="accent">Вхід</span></a>
+    <a class="btn" href="#">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+        <path d="M120 0c66.3 0 120 53.7 120 120S186.3 240 120 240 0 186.3 0 120 53.7 0 120 0z" fill="#0b1220"/>
+        <path d="M49 123l145-60c6-2 11 4 7 9l-61 74c-3 4-9 5-13 2l-34-26-16 16c-5 5-13 2-15-5L49 123z" fill="#a7ffbf"/>
+      </svg>
+      <span>Бот в Telegram</span><span class="accent">Открыть</span>
+    </a>
   </div>
+</div>
 
-  <!-- Водяной знак -->
-  <div class="watermark" aria-hidden="true">
-    <img src="watermark.png" alt="Водяной знак" />
-  </div>
+<!-- Водяной знак -->
+<div class="watermark">
+  <img src="watermark.png" alt="Водяной знак">
+</div>
 
+<script>
+/* После окончания анимации наборного текста фиксируем ширину,
+   чтобы текст оставался на экране и не исчезал */
+document.addEventListener("animationend", e => {
+  if(e.target.classList.contains("subtitle")){
+    e.target.classList.add("finished");
+  }
+});
+</script>
 </body>
 </html>
