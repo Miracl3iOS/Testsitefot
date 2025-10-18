@@ -102,6 +102,7 @@ body{
   font-family: "Bauhaus 93", "Gill Sans", "Futura", Arial, sans-serif;
   animation: neon-text-flicker 3.6s linear infinite;
   -webkit-font-smoothing:antialiased;
+  text-align:center;
 }
 @keyframes neon-text-flicker {
   0%  { opacity:1; text-shadow: var(--neon-text-glow); transform: translateY(0); }
@@ -111,35 +112,13 @@ body{
   100%{ opacity:1; }
 }
 
-/* ===== Исправленный текст набора с переносом строк ===== */
+/* ===== Многострочный текст набора (JS) ===== */
 .subtitle {
   margin-top:4px;
   font-size:18px;
   color:var(--muted);
-  overflow:hidden;
-  display:inline-block;
-  border-right:2px solid rgba(180,255,160,0.9);
-  width:0;
-  animation: typing 4s steps(60,end) 1s forwards, caret 0.8s steps(1,end) infinite;
-  max-width:100%;
-  word-wrap: break-word; 
-  white-space: normal; 
+  white-space: pre-wrap; /* поддержка переносов и многострочности */
   text-align:center;
-}
-
-@keyframes typing {
-  from { width:0; }
-  to   { width:100%; }
-}
-
-@keyframes caret {
-  50% { border-color: transparent; }
-  100%{ border-color: rgba(180,255,160,0.9); }
-}
-
-.subtitle.finished {
-  width:100%;
-  border-right:none;
 }
 
 /* Кнопки */
@@ -203,7 +182,7 @@ body{
   .card{ padding:16px; min-height:360px }
   .leaf-neon{ width:84px;height:84px }
   .brand{ font-size:28px }
-  .subtitle{ font-size:15px; border-right:1.6px solid rgba(180,255,160,0.9) }
+  .subtitle{ font-size:15px }
   .actions{ gap:8px }
   .watermark img{ width:48px }
 }
@@ -244,7 +223,7 @@ body{
       </svg>
 
       <div class="brand">GanjaSeeds</div>
-      <div class="subtitle">Семена, которым доверяют «гроверы по всему миру»</div>
+      <div class="subtitle" id="subtitle"></div>
     </div>
 
     <div class="actions">
@@ -271,12 +250,20 @@ body{
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const subtitle = document.querySelector(".subtitle");
-  subtitle.addEventListener("animationend", () => {
-    subtitle.classList.add("finished");
-  });
-});
+// JS-эффект печати для многострочного текста
+const text = "Семена, которым доверяют «гроверы по всему миру»";
+const subtitle = document.getElementById("subtitle");
+let index = 0;
+
+function typeChar() {
+  if (index < text.length) {
+    subtitle.innerHTML += text[index] === "\n" ? "<br>" : text[index];
+    index++;
+    setTimeout(typeChar, 50); // скорость набора
+  }
+}
+document.addEventListener("DOMContentLoaded", typeChar);
 </script>
+
 </body>
 </html>
