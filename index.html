@@ -14,12 +14,13 @@
   --neon-glow: 0 0 12px rgba(36,255,123,0.15), 0 0 32px rgba(36,255,123,0.08);
   --neon-text-glow: 0 0 6px rgba(36,255,123,0.35), 0 0 20px rgba(36,255,123,0.25);
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family:"Bauhaus 93","Gill Sans","Futura","Segoe UI",Arial,sans-serif;
-  background:var(--bg-color) url("background.jpg") center/cover no-repeat;
-  color:var(--muted);
+  font-family: "Bauhaus 93", "Gill Sans", "Futura", "Segoe UI", Arial, sans-serif;
+  background: var(--bg-color) url("background.jpg") center/cover no-repeat;
+  color: var(--muted);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   overflow:hidden;
@@ -29,13 +30,15 @@ body{
   position:relative;
   padding:24px;
 }
+
 .page-overlay{
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.45);
   z-index:0;
-  backdrop-filter:blur(4px);
+  backdrop-filter: blur(4px);
 }
+
 .container{
   position:relative;
   z-index:2;
@@ -46,13 +49,16 @@ body{
   align-items:center;
   justify-content:center;
 }
-.card{
+
+.card {
   width:100%;
   max-width:720px;
   border-radius:20px;
   padding:28px;
-  background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
-  box-shadow:12px 12px 30px rgba(0,0,0,0.65),-8px -8px 24px rgba(255,255,255,0.02);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow:
+    12px 12px 30px rgba(0,0,0,0.65),
+    -8px -8px 24px rgba(255,255,255,0.02);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -60,6 +66,7 @@ body{
   position:relative;
   min-height:420px;
 }
+
 .logo-wrap{
   display:flex;
   flex-direction:column;
@@ -67,53 +74,72 @@ body{
   gap:10px;
   margin-top:-8px;
 }
+
 .leaf-neon{
-  width:130px;
-  height:130px;
+  width:120px;
+  height:120px;
   display:block;
+  filter: drop-shadow(0 0 10px rgba(36,255,123,0.45));
   margin-bottom:2px;
-  /* наружная тень для общего свечения */
-  filter:drop-shadow(0 0 12px rgba(0,255,120,0.35));
 }
-@keyframes neon-flicker{
-  0%{opacity:1;filter:drop-shadow(0 0 18px rgba(36,255,123,0.7));transform:translateY(0) scale(1);}
-  6%{opacity:0.78;filter:drop-shadow(0 0 8px rgba(36,255,123,0.45));transform:translateY(-1px) scale(0.995);}
-  12%{opacity:1;filter:drop-shadow(0 0 22px rgba(36,255,123,0.85));transform:translateY(0) scale(1);}
-  20%{opacity:0.9;filter:drop-shadow(0 0 10px rgba(36,255,123,0.35));transform:translateY(-0.5px) scale(0.998);}
-  100%{opacity:1;filter:drop-shadow(0 0 18px rgba(36,255,123,0.7));transform:translateY(0) scale(1);}
+@keyframes neon-flicker {
+  0%   { opacity:1; filter: drop-shadow(0 0 12px rgba(36,255,123,0.6)); transform: translateY(0) scale(1); }
+  6%   { opacity:0.85; filter: drop-shadow(0 0 8px rgba(36,255,123,0.45)); transform: translateY(-1px) scale(0.995); }
+  12%  { opacity:1; filter: drop-shadow(0 0 14px rgba(36,255,123,0.75)); transform: translateY(0) scale(1); }
+  20%  { opacity:0.9; filter: drop-shadow(0 0 6px rgba(36,255,123,0.35)); transform: translateY(-0.5px) scale(0.998); }
+  100% { opacity:1; filter: drop-shadow(0 0 12px rgba(36,255,123,0.6)); transform: translateY(0) scale(1); }
 }
-.leaf-neon{animation:neon-flicker 3.2s linear infinite;}
-.brand{
+.leaf-neon { animation: neon-flicker 3.2s linear infinite; }
+
+.brand {
   font-size:48px;
   line-height:1;
   letter-spacing:1px;
   color:var(--neon-green);
-  text-shadow:var(--neon-text-glow);
+  text-shadow: var(--neon-text-glow);
   font-weight:700;
   margin-top:-6px;
-  animation:neon-text-flicker 3.6s linear infinite;
+  font-family: "Bauhaus 93", "Gill Sans", "Futura", Arial, sans-serif;
+  animation: neon-text-flicker 3.6s linear infinite;
+  -webkit-font-smoothing:antialiased;
 }
-@keyframes neon-text-flicker{
-  0%{opacity:1;text-shadow:var(--neon-text-glow);}
-  5%{opacity:0.8;text-shadow:0 0 4px rgba(36,255,123,0.15);}
-  12%{opacity:1;text-shadow:var(--neon-text-glow);}
-  30%{opacity:0.9;text-shadow:0 0 6px rgba(36,255,123,0.22);}
-  100%{opacity:1;}
+@keyframes neon-text-flicker {
+  0%  { opacity:1; text-shadow: var(--neon-text-glow); transform: translateY(0); }
+  5%  { opacity:0.8; text-shadow: 0 0 4px rgba(36,255,123,0.15); transform: translateY(-1px); }
+  12% { opacity:1; text-shadow: var(--neon-text-glow); }
+  30% { opacity:0.9; text-shadow: 0 0 6px rgba(36,255,123,0.22); }
+  100%{ opacity:1; }
 }
-.subtitle{
+
+/* ===== Исправленный текст набора ===== */
+.subtitle {
   margin-top:4px;
   font-size:18px;
   color:var(--muted);
   overflow:hidden;
   white-space:nowrap;
-  border-right:2px solid rgba(180,255,160,0.9);
+  border-right: 2px solid rgba(180,255,160,0.9);
   width:0;
-  animation:typing 3.6s steps(40,end) 1s forwards,caret 0.8s steps(1,end) infinite;
+  animation: typing 3.6s steps(60,end) 1s forwards, caret 0.8s steps(1,end) infinite;
   max-width:80%;
 }
-@keyframes typing{from{width:0}to{width:100%}}
-@keyframes caret{50%{border-color:rgba(180,255,160,0.3)}100%{border-color:rgba(180,255,160,0.9)}}
-.actions{
+@keyframes typing {
+  from { width:0; }
+  to   { width:100%; }
+}
+@keyframes caret {
+  50% { border-color: transparent; }
+  100%{ border-color: rgba(180,255,160,0.9); }
+}
+
+/* После окончания набора текста фиксируем ширину, текст не исчезает */
+.subtitle.finished {
+  border-right:none;
+  width:100%;
+}
+
+/* Кнопки */
+.actions {
   margin-top:14px;
   display:flex;
   gap:12px;
@@ -121,268 +147,125 @@ body{
   justify-content:center;
   flex-wrap:wrap;
 }
-.btn{
+.btn {
   display:inline-flex;
   gap:10px;
   align-items:center;
   padding:10px 16px;
   border-radius:12px;
-  background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.25));
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
   color:var(--muted);
   font-weight:600;
   text-decoration:none;
-  box-shadow:6px 6px 16px rgba(0,0,0,0.6),-4px -4px 10px rgba(255,255,255,0.02);
+  box-shadow:6px 6px 16px rgba(0,0,0,0.6), -4px -4px 10px rgba(255,255,255,0.02);
   border:1px solid rgba(255,255,255,0.03);
-  transition:transform 160ms ease,box-shadow 160ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease;
   min-height:44px;
 }
-.btn .accent{
+.btn .accent {
   display:inline-flex;
   align-items:center;
   justify-content:center;
   padding:6px 10px;
   border-radius:8px;
-  background:linear-gradient(180deg,rgba(36,255,123,0.12),rgba(36,255,123,0.06));
+  background: linear-gradient(180deg, rgba(36,255,123,0.12), rgba(36,255,123,0.06));
   color:var(--accent-green);
   font-weight:700;
-  box-shadow:inset 0 -3px 8px rgba(0,0,0,0.5);
+  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5);
 }
-.btn:hover{
-  transform:translateY(-4px);
-  box-shadow:10px 10px 30px rgba(0,0,0,0.7),-6px -6px 18px rgba(255,255,255,0.01);
-}
-.btn svg{width:20px;height:20px;display:block;}
-.watermark{
+.btn:hover{ transform: translateY(-4px); }
+.btn svg{ width:20px; height:20px; }
+
+/* Водяной знак */
+.watermark {
   position:absolute;
   bottom:14px;
   right:14px;
   z-index:5;
   opacity:0.6;
-  filter:drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
 }
-.watermark img{width:68px;height:auto;display:block;}
-@media (max-width:768px){
-  .card{padding:20px;min-height:380px}
-  .leaf-neon{width:96px;height:96px}
-  .brand{font-size:40px}
-  .subtitle{font-size:16px}
-  .btn{padding:10px 12px}
-  .watermark img{width:56px}
-}
-@media (max-width:420px){
-  .card{padding:16px;min-height:360px}
-  .leaf-neon{width:84px;height:84px}
-  .brand{font-size:28px}
-  .subtitle{font-size:15px;border-right:1.6px solid rgba(180,255,160,0.9)}
-  .actions{gap:8px}
-  .watermark img{width:48px}
-}
+.watermark img{ width:68px; height:auto; display:block; }
+
 </style>
 </head>
 <body>
-  <div class="page-overlay" aria-hidden="true"></div>
+<div class="page-overlay" aria-hidden="true"></div>
 
-  <div class="container">
-    <div class="card" role="main" aria-label="Карточка-визитка">
+<div class="container">
+  <div class="card" role="main" aria-label="Карточка-визитка">
 
-      <!-- Новый реалистичный векторный неоновый лист (7 сегментов, "зубчатая" кромка + многослойное свечение) -->
-      <div class="logo-wrap" aria-hidden="false">
-        <svg class="leaf-neon" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Неоновый лист">
-          <defs>
-            <!-- основной градиент -->
-            <linearGradient id="gNeon" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#7CFF9B"/>
-              <stop offset="60%" stop-color="#24FF7B"/>
-              <stop offset="100%" stop-color="#00D05A"/>
-            </linearGradient>
+    <div class="logo-wrap">
+      <!-- Мультяшный лист -->
+      <svg class="leaf-neon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <linearGradient id="lg" x1="0" x2="1">
+            <stop offset="0" stop-color="#7CFF9B"/>
+            <stop offset="1" stop-color="#18E06B"/>
+          </linearGradient>
+        </defs>
+        <path d="M60 14
+                 c10 4 30 20 34 36
+                 4 16 -8 30 -24 36
+                 -16-6 -28-18 -32-32
+                 -4-14 6-34 26-46z"
+              fill="none"
+              stroke="url(#lg)"
+              stroke-width="3.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              filter="url(#glow)" />
+      </svg>
 
-            <!-- сильное размытие внешнего свечения -->
-            <filter id="outerGlow" x="-80%" y="-80%" width="260%" height="260%">
-              <feGaussianBlur stdDeviation="10" result="g1"/>
-              <feColorMatrix type="matrix" values="
-                  0 0 0 0 0
-                  0 1 0 0 0
-                  0 0 0.35 0 0
-                  0 0 0 0.8 0" in="g1" result="c1"/>
-              <feMerge>
-                <feMergeNode in="c1"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
+      <!-- Название -->
+      <div class="brand">GanjaSeeds</div>
 
-            <!-- мягкое внутреннее свечение (тонь ближе к контуру) -->
-            <filter id="innerGlow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="4" result="g2"/>
-              <feBlend in="SourceGraphic" in2="g2" mode="screen"/>
-            </filter>
-
-            <!-- тонкое острое свечение для "зубчиков" -->
-            <filter id="sharpGlow" x="-40%" y="-40%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.2" result="g3"/>
-              <feColorMatrix type="matrix" values="
-                0 0 0 0 0
-                0 1 0 0 0
-                0 0 0.2 0 0
-                0 0 0 0.9 0" in="g3" result="c3"/>
-              <feMerge>
-                <feMergeNode in="c3"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-
-            <!-- текстурный шум для легкой неровности свечения -->
-            <filter id="grain" x="0" y="0" width="100%" height="100%">
-              <feTurbulence baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" result="turb"/>
-              <feColorMatrix type="saturate" values="0" in="turb" result="turbBW"/>
-              <feBlend in="SourceGraphic" in2="turbBW" mode="overlay"/>
-            </filter>
-          </defs>
-
-          <!-- Внешний размытой контур (имитирует неоновую трубку, толстый мягкий свет) -->
-          <g filter="url(#outerGlow)" opacity="0.9">
-            <!-- мы повторяем контур с большой шириной, чтобы создать мягкое свечение -->
-            <path d="M120 24
-                     C118 40 114 64 120 86
-                     C126 64 122 40 120 24Z
-                     M120 42
-                     C104 64 88 84 66 96
-                     C86 92 98 82 120 64Z
-                     M120 42
-                     C136 64 152 84 174 96
-                     C154 92 142 82 120 64Z
-                     M120 90
-                     C92 112 70 134 56 162
-                     C78 150 98 130 120 106Z
-                     M120 90
-                     C148 112 170 134 184 162
-                     C162 150 142 130 120 106Z
-                     M120 110
-                     C80 132 50 164 36 188
-                     C64 172 94 142 120 120Z
-                     M120 110
-                     C160 132 190 164 204 188
-                     C176 172 146 142 120 120Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
-          </g>
-
-          <!-- основной "трубчатый" контур: гладкий -->
-          <g filter="url(#innerGlow)">
-            <path d="M120 26
-                     C118 46 114 66 120 86
-                     C126 66 122 46 120 26Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M120 42
-                     C106 64 92 80 72 92
-                     C88 88 98 80 120 64Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M120 42
-                     C134 64 148 80 168 92
-                     C152 88 142 80 120 64Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M120 78
-                     C96 96 76 116 62 142
-                     C82 128 100 112 120 96Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M120 78
-                     C144 96 164 116 178 142
-                     C158 128 140 112 120 96Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M120 96
-                     C84 118 56 150 44 176
-                     C68 162 96 138 120 116Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M120 96
-                     C156 118 184 150 196 176
-                     C172 162 144 138 120 116Z"
-                  fill="none" stroke="url(#gNeon)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
-          </g>
-
-          <!-- Зубчатая (неровная) линия поверх гладкого контура для имитации электрического "зигзага" -->
-          <g filter="url(#sharpGlow)">
-            <!-- центральный "зубчатый" -->
-            <path d="M120 26
-                     L118 32 L121 38 L119 44 L121 50 L118 56 L121 62 L119 68 L121 74 L119 80 L120 86"
-                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <!-- левый верхний зубчатый -->
-            <path d="M120 44
-                     L112 56 L118 62 L110 70 L116 76 L108 84"
-                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <!-- правый верхний зубчатый -->
-            <path d="M120 44
-                     L128 56 L122 62 L130 70 L124 76 L132 84"
-                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <!-- левый средний зубчатый -->
-            <path d="M120 86
-                     L104 96 L110 104 L100 112 L108 120"
-                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <!-- правый средний зубчатый -->
-            <path d="M120 86
-                     L136 96 L130 104 L140 112 L132 120"
-                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <!-- нижние зубчатые -->
-            <path d="M120 112
-                     L98 130 L86 146 L74 162"
-                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M120 112
-                     L142 130 L154 146 L166 162"
-                  fill="none" stroke="#8cff9f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-          </g>
-
-          <!-- тонкий яркий контур (как край трубки) -->
-          <g>
-            <path d="M120 26
-                     C118 46 114 66 120 86"
-                  fill="none" stroke="#eafff0" stroke-opacity="0.12" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M120 26
-                     C126 46 122 66 120 86"
-                  fill="none" stroke="#eafff0" stroke-opacity="0.12" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M120 42 C106 64 92 80 72 92" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
-            <path d="M120 42 C134 64 148 80 168 92" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
-            <path d="M120 78 C96 96 76 116 62 142" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
-            <path d="M120 78 C144 96 164 116 178 142" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
-            <path d="M120 96 C84 118 56 150 44 176" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
-            <path d="M120 96 C156 118 184 150 196 176" fill="none" stroke="#eafff0" stroke-opacity="0.10" stroke-width="1.0" stroke-linecap="round"/>
-          </g>
-
-          <!-- тонкая центральная прожилка стебель -->
-          <path d="M120 86 L120 118"
-                stroke="rgba(255,255,255,0.12)"
-                stroke-width="1.2"
-                stroke-linecap="round" />
-        </svg>
-
-        <div class="brand" aria-label="Бренд GanjaSeeds">GanjaSeeds</div>
-        <div class="subtitle" aria-live="polite">
-          Семена, которым доверяют «гроверы по всему миру»
-        </div>
-      </div>
-
-      <div class="actions" role="navigation" aria-label="Ссылки">
-        <a class="btn" href="#">
-          <span>🇷🇺 Интернет магазин в РФ</span>
-          <span class="accent">Вход</span>
-        </a>
-
-        <a class="btn" href="#">
-          <span>🇺🇦 Інтернет магазин в Україні</span>
-          <span class="accent">Вхід</span>
-        </a>
-
-        <a class="btn" href="#">
-          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M120 0c66.274 0 120 53.726 120 120S186.274 240 120 240 0 186.274 0 120 53.726 0 120 0z" fill="#0b1220"/>
-            <path d="M49 123l145-60c6-2 11 4 7 9l-61 74c-3 4-9 5-13 2l-34-26-16 16c-5 5-13 2-15-5L49 123z" fill="#a7ffbf"/>
-          </svg>
-          <span>Бот в Telegram</span>
-          <span class="accent">Открыть</span>
-        </a>
-      </div>
+      <!-- Подзаголовок -->
+      <div class="subtitle">Семена, которым доверяют «гроверы по всему миру»</div>
     </div>
-  </div>
 
-  <div class="watermark" aria-hidden="true">
-    <img src="watermark.png" alt="Водяной знак" />
-  </div>
+    <!-- Кнопки -->
+    <div class="actions">
+      <a class="btn" href="https://example.ru" target="_blank" title="Интернет-магазин РФ">
+        <span>🇷🇺 Интернет магазин в РФ</span><span class="accent">Вход</span>
+      </a>
 
+      <a class="btn" href="https://example.ua" target="_blank" title="Інтернет магазин в Україні">
+        <span>🇺🇦 Інтернет магазин в Україні</span><span class="accent">Вхід</span>
+      </a>
+
+      <a class="btn" href="https://t.me/yourbot" target="_blank" title="Telegram бот">
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+          <path d="M120 0c66.274 0 120 53.726 120 120S186.274 240 120 240 0 186.274 0 120 53.726 0 120 0z" fill="#0b1220"/>
+          <path d="M49 123l145-60c6-2 11 4 7 9l-61 74c-3 4-9 5-13 2l-34-26-16 16c-5 5-13 2-15-5L49 123z" fill="#a7ffbf"/>
+        </svg>
+        <span>Бот в Telegram</span><span class="accent">Открыть</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Водяной знак -->
+<div class="watermark">
+  <img src="watermark.png" alt="Водяной знак" />
+</div>
+
+<script>
+  // После окончания анимации набора текста, фиксируем ширину
+  document.addEventListener("DOMContentLoaded", () => {
+    const subtitle = document.querySelector(".subtitle");
+    subtitle.addEventListener("animationend", () => {
+      subtitle.classList.add("finished");
+    });
+  });
+</script>
 </body>
 </html>
