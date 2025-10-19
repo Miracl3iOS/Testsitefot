@@ -3,23 +3,21 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GanjaSeeds — Neon Minimal (текст + лист)</title>
-
-<!-- Похожие на оригинал шрифты -->
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
-
+<title>GanjaSeeds — Neon Minimal (логотип PNG без круга)</title>
 <style>
 :root{
   --bg-color: #0b0b0b;
   --muted: #bdbdbd;
-  --neon-text-glow: 0 0 6px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.55);
+  --accent-green: #2ee06a;
+  --neon-green: #24ff7b;
+  --neon-text-glow: 0 0 6px rgba(36,255,123,0.35), 0 0 20px rgba(36,255,123,0.25);
 }
 
 /* Сброс */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family: "Bebas Neue","Antonio","Segoe UI",Arial,sans-serif;
+  font-family: "Bauhaus 93", "Gill Sans", "Futura", "Segoe UI", Arial, sans-serif;
   background: var(--bg-color) url("background.jpg") center/cover no-repeat;
   color: var(--muted);
   -webkit-font-smoothing:antialiased;
@@ -40,7 +38,7 @@ body{
   backdrop-filter: blur(2px);
 }
 
-/* Центрирование */
+/* Центровка */
 .container{
   position:relative;
   z-index:2;
@@ -66,7 +64,7 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:14px;
+  gap:18px;
   position:relative;
   min-height:420px;
   transition: box-shadow 0.5s ease;
@@ -78,45 +76,50 @@ body{
     0 0 12px rgba(180,180,180,0.15);
 }
 
-/* ====== SVG-лист с неоном ====== */
-.leaf-svg{
-  width:140px;   /* базовый размер листа */
+/* Логотип PNG */
+.logo-svg {
+  width:240px;
   height:auto;
   display:block;
-  margin-bottom:4px;
+  margin-bottom:12px;
   transform-origin:center;
-  animation: leafPulse 3s ease-in-out infinite;
+  transition: transform 220ms ease;
 }
-@keyframes leafPulse{
-  0%   { transform: scale(1);    filter: drop-shadow(0 0 8px rgba(255,255,255,0.9)) drop-shadow(0 0 18px rgba(255,255,255,0.55)) drop-shadow(0 0 34px rgba(255,255,255,0.28)); }
-  50%  { transform: scale(1.03); filter: drop-shadow(0 0 12px rgba(255,255,255,1))  drop-shadow(0 0 26px rgba(255,255,255,0.7))  drop-shadow(0 0 48px rgba(255,255,255,0.35)); }
-  100% { transform: scale(1);    filter: drop-shadow(0 0 8px rgba(255,255,255,0.9)) drop-shadow(0 0 18px rgba(255,255,255,0.55)) drop-shadow(0 0 34px rgba(255,255,255,0.28)); }
+.card:hover .logo-svg { transform: scale(1.03); }
+
+/* Glow */
+.logo-core {
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.9))
+          drop-shadow(0 0 16px rgba(255,255,255,0.6))
+          drop-shadow(0 0 28px rgba(255,255,255,0.4));
+  animation: logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%   { opacity:0.9; transform: scale(1); }
+  50%  { opacity:1;   transform: scale(1.03); }
+  100% { opacity:0.9; transform: scale(1); }
 }
 
-/* Текстовый логотип */
-.brand{
-  font-weight:700;
-  font-size:72px;
-  line-height:1;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  color:#fff;
-  text-shadow:
-    0 0 6px rgba(255,255,255,0.9),
-    0 0 14px rgba(255,255,255,0.6),
-    0 0 26px rgba(255,255,255,0.4),
-    0 0 40px rgba(255,255,255,0.25);
-  animation: logoPulse 3s ease-in-out infinite;
-  text-align:center;
+/* PNG чёткость */
+.logo-svg image{
+  image-rendering: auto;
+  shape-rendering: geometricPrecision;
 }
-@keyframes logoPulse{
-  0%,100%{ text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 14px rgba(255,255,255,0.6), 0 0 26px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.25); }
-  50%    { text-shadow: 0 0 10px rgba(255,255,255,1),  0 0 24px rgba(255,255,255,0.7),  0 0 40px rgba(255,255,255,0.55), 0 0 60px rgba(255,255,255,0.35); }
+
+/* Заголовок */
+.brand {
+  font-size:48px;
+  line-height:1;
+  letter-spacing:1px;
+  color:var(--neon-green);
+  text-shadow: var(--neon-text-glow);
+  font-weight:700;
+  margin-top:-6px;
 }
 
 /* Подзаголовок */
-.subtitle{
-  margin-top:8px;
+.subtitle {
+  margin-top:6px;
   font-size:18px;
   color:var(--muted);
   text-align:center;
@@ -125,49 +128,78 @@ body{
   white-space:pre-wrap;
   overflow-wrap:break-word;
   line-height:1.4;
-  border-right:2px solid rgba(36,255,123,0.8);
+  border-right:2px solid var(--neon-green);
   padding-right:6px;
   animation: blinkCursor 0.9s infinite;
 }
+.subtitle span.red{
+  color:#ff4040;
+  font-weight:600;
+}
 @keyframes blinkCursor{
   0%,100%{ border-color: transparent }
-  50%    { border-color: rgba(36,255,123,0.8) }
+  50%{ border-color: var(--neon-green) }
 }
 
 /* Кнопки */
-.actions{ margin-top:12px; display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; }
+.actions{
+  margin-top:18px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+}
 .btn{
-  display:inline-flex; gap:10px; align-items:center;
-  padding:10px 16px; border-radius:12px;
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  padding:10px 16px;
+  border-radius:12px;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
-  color:var(--muted); font-weight:600; text-decoration:none;
-  box-shadow: 6px 6px 16px rgba(0,0,0,0.6), -4px -4px 10px rgba(255,255,255,0.02);
+  color:var(--muted);
+  font-weight:600;
+  text-decoration:none;
+  box-shadow:
+    6px 6px 16px rgba(0,0,0,0.6),
+    -4px -4px 10px rgba(255,255,255,0.02);
   border:1px solid rgba(255,255,255,0.03);
   transition: transform 160ms ease, box-shadow 160ms ease;
   min-height:44px;
 }
 .btn .accent{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:6px 10px; border-radius:8px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
-  color:#fff; font-weight:700; box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 10px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(36,255,123,0.12), rgba(36,255,123,0.06));
+  color:var(--accent-green);
+  font-weight:700;
+  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5);
 }
 .btn:hover{ transform: translateY(-4px); }
 
 /* Водяной знак */
-.watermark{ position:absolute; bottom:14px; right:14px; z-index:3; opacity:0.6; }
+.watermark{
+  position:absolute;
+  bottom:14px;
+  right:14px;
+  z-index:3;
+  opacity:0.6;
+}
 .watermark img{ width:68px; height:auto; display:block; }
 
 /* Адаптив */
 @media (max-width:768px){
-  .leaf-svg{ width:110px }
-  .brand{ font-size:54px }
-  .subtitle{ font-size:16px }
+  .logo-svg{ width:180px }
+  .brand{font-size:40px}
+  .subtitle{font-size:16px}
 }
 @media (max-width:420px){
-  .leaf-svg{ width:90px }
-  .brand{ font-size:36px }
-  .subtitle{ font-size:15px }
+  .logo-svg{ width:140px }
+  .brand{ font-size:28px}
+  .subtitle{font-size:15px}
 }
 </style>
 </head>
@@ -177,30 +209,16 @@ body{
   <div class="container">
     <div class="card">
 
-      <!-- ====== SVG-лист со свечением (вектор, без картинок) ====== -->
-      <svg class="leaf-svg" viewBox="0 0 256 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Стилизованный лист из 7 лепестков -->
-        <g fill="#ffffff">
-          <!-- центральный -->
-          <path d="M128 18c-6 28-8 52 0 86 8-34 6-58 0-86z"/>
-          <!-- лево-центр -->
-          <path d="M108 28c-18 18-30 35-36 62 22-20 33-37 36-62z"/>
-          <!-- право-центр -->
-          <path d="M148 28c18 18 30 35 36 62-22-20-33-37-36-62z"/>
-          <!-- левый большой -->
-          <path d="M86 42c-23 10-43 24-58 47 26-9 44-22 58-47z"/>
-          <!-- правый большой -->
-          <path d="M170 42c23 10 43 24 58 47-26-9-44-22-58-47z"/>
-          <!-- крайний левый -->
-          <path d="M72 64c-22 4-41 12-60 28 23-3 41-10 60-28z"/>
-          <!-- крайний правый -->
-          <path d="M184 64c22 4 41 12 60 28-23-3-41-10-60-28z"/>
-          <!-- стебель -->
-          <path d="M120 108c-12 14-26 24-44 28 20 2 36-3 52-16 16 13 32 18 52 16-18-4-32-14-44-28-2-2-4-2-6 0z"/>
+      <!-- Логотип -->
+      <svg class="logo-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="logo-core">
+          <image x="0" y="0" width="500" height="500"
+                 href="gands.png"
+                 preserveAspectRatio="xMidYMid meet" />
         </g>
       </svg>
 
-      <!-- Текстовый неоновый логотип -->
+      <!-- Название -->
       <div class="brand">GanjaSeeds</div>
 
       <!-- Подзаголовок -->
@@ -221,20 +239,39 @@ body{
   </div>
 
 <script>
-/* Эффект печати */
-const text = "Семена, которым доверяют «гроверы по всему миру»";
+/* Эффект печати с красной частью */
 const el = document.getElementById("typed-text");
+const textMain = "Семена, которым доверяют гроверы по всему миру — ";
+const textRed = "работаем с 2008 года";
 let i = 0;
-function type(){
-  if(i < text.length){
-    el.textContent += text[i];
+
+function typeText() {
+  if (i < textMain.length) {
+    el.textContent += textMain[i];
     i++;
-    setTimeout(type, 60);
+    setTimeout(typeText, 60);
+  } else {
+    // после основной строки — добавляем красную часть посимвольно
+    typeRed(0);
+  }
+}
+
+function typeRed(j) {
+  if (j === 0) {
+    const span = document.createElement("span");
+    span.classList.add("red");
+    el.appendChild(span);
+  }
+  const span = el.querySelector("span.red");
+  if (j < textRed.length) {
+    span.textContent += textRed[j];
+    setTimeout(() => typeRed(j + 1), 70);
   } else {
     el.style.borderRight = "none";
   }
 }
-document.addEventListener("DOMContentLoaded", type);
+
+document.addEventListener("DOMContentLoaded", typeText);
 </script>
 </body>
 </html>
