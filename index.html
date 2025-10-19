@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GanjaSeeds — Neon Minimal (с логотипом)</title>
+<title>GanjaSeeds — Neon Minimal (с логотипом PNG)</title>
 <style>
 :root{
   --bg-color: #0b0b0b;
@@ -50,7 +50,7 @@ body{
   justify-content:center;
 }
 
-/* Карточка с неоморфным фоном + серая рамка */
+/* Карточка */
 .card {
   width:100%;
   max-width:720px;
@@ -60,7 +60,7 @@ body{
   box-shadow:
     12px 12px 30px rgba(0,0,0,0.65),
     -8px -8px 24px rgba(255,255,255,0.02);
-  border: 1px solid rgba(180,180,180,0.25); /* лёгкая серая рамка */
+  border: 1px solid rgba(180,180,180,0.25);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -76,40 +76,38 @@ body{
     0 0 12px rgba(180,180,180,0.15);
 }
 
-/* ========== ВЕКТОРНЫЙ ЛОГОТИП (G & S в круге) ========== */
-/* контейнер размера как был у росточка */
+/* Логотип */
 .logo-svg {
   width:120px;
   height:auto;
   display:block;
   margin-bottom:2px;
   transform-origin:center;
-  /* лёгкое масштабирование при hover карточки */
   transition: transform 220ms ease;
 }
+.card:hover .logo-svg { transform: scale(1.03); }
 
-/* glow pulse: меняем opacity/blur для "орбиты" свечения */
+/* Glow pulse */
 .logo-glow {
-  filter: blur(6px);
-  opacity:0.85;
+  filter: blur(4px);
+  opacity:0.9;
   transform-origin:center;
   animation: logoPulse 3s ease-in-out infinite;
 }
-
-/* основной текст (чёткий) */
 .logo-core {
-  filter: drop-shadow(0 0 3px rgba(36,255,123,0.25));
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
 }
-
-/* анимация пульса свечения */
 @keyframes logoPulse {
   0%   { opacity:0.9; transform: scale(1); }
   50%  { opacity:1;   transform: scale(1.03); }
   100% { opacity:0.9; transform: scale(1); }
 }
 
-/* если карточка hover — слегка увеличим логотип */
-.card:hover .logo-svg { transform: scale(1.03); }
+/* PNG качество */
+.logo-svg image{
+  image-rendering: auto;
+  shape-rendering: geometricPrecision;
+}
 
 /* Заголовок */
 .brand {
@@ -210,41 +208,45 @@ body{
   <div class="container">
     <div class="card">
 
-      <!-- ========== Вставлен векторный логотип (круг + G & S) ========== -->
-      <!-- - логотип состоит из двух слоёв:
-           1) glow (размытый, полупрозрачный) - класс logo-glow
-           2) core (чёткий, основной) - класс logo-core
-           Это даёт реалистичное неоновое свечение и пульс -->
+      <!-- ========== PNG логотип с белым неоновым свечением ========== -->
       <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- GRADIENT для букв и контура -->
         <defs>
-          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#7CFF9B"/>
-            <stop offset="100%" stop-color="#24FF7B"/>
-          </linearGradient>
+          <!-- Клип для круга -->
+          <clipPath id="clip-circle">
+            <circle cx="100" cy="100" r="46"/>
+          </clipPath>
+
+          <!-- Белое свечение -->
+          <filter id="whiteGlow" x="-60%" y="-60%" width="220%" height="220%">
+            <feDropShadow dx="0" dy="0" stdDeviation="4"  flood-color="white" flood-opacity="0.85"/>
+            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="white" flood-opacity="0.45"/>
+            <feDropShadow dx="0" dy="0" stdDeviation="18" flood-color="white" flood-opacity="0.25"/>
+          </filter>
         </defs>
 
-        <!-- Glow layer: размытую часть (дублируем круг и буквы, но более толсто/полупрозрачно) -->
-        <g class="logo-glow" fill="none" stroke="url(#lg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" opacity="0.85">
-          <!-- круг -->
-          <circle cx="100" cy="100" r="58"/>
-          <!-- буквы: используя text (вектор) — выглядит аккуратно; если нужен точный контур, можно заменить path -->
-          <text x="100" y="110" text-anchor="middle" font-family="'Bauhaus 93', 'Futura', 'Gill Sans', sans-serif"
-                font-weight="700" font-size="62" fill="none" stroke="url(#lg)" stroke-width="6" dominant-baseline="middle">G &amp; S</text>
+        <!-- Glow слой -->
+        <g class="logo-glow" filter="url(#whiteGlow)">
+          <circle cx="100" cy="100" r="58" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
+          <image x="54" y="54" width="92" height="92"
+                 href="gands.png" <!-- ← сюда поставь путь к твоему файлу -->
+                 clip-path="url(#clip-circle)"
+                 preserveAspectRatio="xMidYMid slice" opacity="1"/>
         </g>
 
-        <!-- Core layer: чёткий контур (основная видимая часть) -->
-        <g class="logo-core" fill="url(#lg)" stroke="none">
-          <circle cx="100" cy="100" r="46" fill="rgba(0,0,0,0.0)"/> <!-- пустой центр — мы хотим только буквы, круг можно оставить прозрачным -->
-          <text x="100" y="108" text-anchor="middle" font-family="'Bauhaus 93', 'Futura', 'Gill Sans', sans-serif"
-                font-weight="800" font-size="56" fill="url(#lg)" dominant-baseline="middle">G &amp; S</text>
+        <!-- Основной слой -->
+        <g class="logo-core">
+          <circle cx="100" cy="100" r="46" fill="transparent" stroke="white" stroke-width="2" />
+          <image x="54" y="54" width="92" height="92"
+                 href="gands.png"
+                 clip-path="url(#clip-circle)"
+                 preserveAspectRatio="xMidYMid slice"/>
         </g>
       </svg>
 
       <!-- Название -->
       <div class="brand">GanjaSeeds</div>
 
-      <!-- Подзаголовок (набивается JS) -->
+      <!-- Подзаголовок -->
       <div class="subtitle" id="typed-text" aria-live="polite"></div>
 
       <!-- Кнопки -->
@@ -262,7 +264,7 @@ body{
   </div>
 
 <script>
-/* JS-эффект печати (многострочный, остаётся на месте) */
+/* JS эффект печати */
 const text = "Семена, которым доверяют «гроверы по всему миру»";
 const el = document.getElementById("typed-text");
 let i = 0;
