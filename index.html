@@ -3,21 +3,25 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GanjaSeeds — Neon Minimal (логотип PNG без круга)</title>
+<title>GanjaSeeds — Neon Minimal (текстовый логотип)</title>
+
+<!-- Подключаем похожие шрифты -->
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --bg-color: #0b0b0b;
   --muted: #bdbdbd;
   --accent-green: #2ee06a;
   --neon-green: #24ff7b;
-  --neon-text-glow: 0 0 6px rgba(36,255,123,0.35), 0 0 20px rgba(36,255,123,0.25);
+  --neon-text-glow: 0 0 6px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.55);
 }
 
 /* Сброс */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family: "Bauhaus 93", "Gill Sans", "Futura", "Segoe UI", Arial, sans-serif;
+  font-family: "Bebas Neue", "Antonio", "Segoe UI", Arial, sans-serif;
   background: var(--bg-color) url("background.jpg") center/cover no-repeat;
   color: var(--muted);
   -webkit-font-smoothing:antialiased;
@@ -29,7 +33,7 @@ body{
   padding:24px;
 }
 
-/* Оверлей */
+/* Мягкий оверлей */
 .page-overlay{
   position:absolute;
   inset:0;
@@ -76,50 +80,32 @@ body{
     0 0 12px rgba(180,180,180,0.15);
 }
 
-/* Логотип PNG */
-.logo-svg {
-  width:240px; /* уменьшено в 2 раза относительно предыдущего варианта */
-  height:auto;
-  display:block;
-  margin-bottom:12px;
-  transform-origin:center;
-  transition: transform 220ms ease;
-}
-.card:hover .logo-svg { transform: scale(1.03); }
-
-/* Glow */
-.logo-core {
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.9))
-          drop-shadow(0 0 16px rgba(255,255,255,0.6))
-          drop-shadow(0 0 28px rgba(255,255,255,0.4));
+/* ====== ТЕКСТОВЫЙ ЛОГОТИП ====== */
+.brand {
+  font-family: "Bebas Neue", "Antonio", sans-serif;
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow:
+    0 0 6px rgba(255,255,255,0.9),
+    0 0 14px rgba(255,255,255,0.6),
+    0 0 26px rgba(255,255,255,0.4),
+    0 0 40px rgba(255,255,255,0.25);
   animation: logoPulse 3s ease-in-out infinite;
+  text-align:center;
 }
 @keyframes logoPulse {
-  0%   { opacity:0.9; transform: scale(1); }
-  50%  { opacity:1;   transform: scale(1.03); }
-  100% { opacity:0.9; transform: scale(1); }
-}
-
-/* PNG чёткость */
-.logo-svg image{
-  image-rendering: auto;
-  shape-rendering: geometricPrecision;
-}
-
-/* Заголовок */
-.brand {
-  font-size:48px;
-  line-height:1;
-  letter-spacing:1px;
-  color:var(--neon-green);
-  text-shadow: var(--neon-text-glow);
-  font-weight:700;
-  margin-top:-6px;
+  0%   { text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 14px rgba(255,255,255,0.6), 0 0 26px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.25);}
+  50%  { text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 24px rgba(255,255,255,0.7), 0 0 40px rgba(255,255,255,0.55), 0 0 60px rgba(255,255,255,0.35);}
+  100% { text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 14px rgba(255,255,255,0.6), 0 0 26px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.25);}
 }
 
 /* Подзаголовок */
 .subtitle {
-  margin-top:6px;
+  margin-top:8px;
   font-size:18px;
   color:var(--muted);
   text-align:center;
@@ -188,13 +174,11 @@ body{
 
 /* Адаптив */
 @media (max-width:768px){
-  .logo-svg{ width:180px }
-  .brand{font-size:40px}
+  .brand{font-size:54px}
   .subtitle{font-size:16px}
 }
 @media (max-width:420px){
-  .logo-svg{ width:140px }
-  .brand{ font-size:28px}
+  .brand{font-size:36px}
   .subtitle{font-size:15px}
 }
 </style>
@@ -205,16 +189,7 @@ body{
   <div class="container">
     <div class="card">
 
-      <!-- ========== PNG-логотип без круга, белое свечение ========== -->
-      <svg class="logo-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <g class="logo-core">
-          <image x="0" y="0" width="500" height="500"
-                 href="gands.png" <!-- ← укажи путь к своему файлу -->
-                 preserveAspectRatio="xMidYMid meet" />
-        </g>
-      </svg>
-
-      <!-- Название -->
+      <!-- ========== ТЕКСТОВЫЙ НЕОНОВЫЙ ЛОГОТИП ========== -->
       <div class="brand">GanjaSeeds</div>
 
       <!-- Подзаголовок -->
