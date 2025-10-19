@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GanjaSeeds — Neon Minimal (с PNG-логотипом без круга)</title>
+<title>GanjaSeeds — Neon Minimal (логотип PNG без круга)</title>
 <style>
 :root{
   --bg-color: #0b0b0b;
@@ -78,7 +78,7 @@ body{
 
 /* Логотип PNG */
 .logo-svg {
-  width:480px; /* было 120px → в 4 раза больше */
+  width:240px; /* уменьшено в 2 раза относительно предыдущего варианта */
   height:auto;
   display:block;
   margin-bottom:12px;
@@ -88,16 +88,11 @@ body{
 .card:hover .logo-svg { transform: scale(1.03); }
 
 /* Glow */
-.logo-glow {
-  filter: blur(4px);
-  opacity:0.9;
-  transform-origin:center;
-  animation: logoPulse 3s ease-in-out infinite;
-}
 .logo-core {
-  filter: drop-shadow(0 0 12px rgba(255,255,255,0.9))
-          drop-shadow(0 0 24px rgba(255,255,255,0.6))
-          drop-shadow(0 0 36px rgba(255,255,255,0.4));
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.9))
+          drop-shadow(0 0 16px rgba(255,255,255,0.6))
+          drop-shadow(0 0 28px rgba(255,255,255,0.4));
+  animation: logoPulse 3s ease-in-out infinite;
 }
 @keyframes logoPulse {
   0%   { opacity:0.9; transform: scale(1); }
@@ -193,12 +188,12 @@ body{
 
 /* Адаптив */
 @media (max-width:768px){
-  .logo-svg{ width:300px }
+  .logo-svg{ width:180px }
   .brand{font-size:40px}
   .subtitle{font-size:16px}
 }
 @media (max-width:420px){
-  .logo-svg{ width:220px }
+  .logo-svg{ width:140px }
   .brand{ font-size:28px}
   .subtitle{font-size:15px}
 }
@@ -210,20 +205,11 @@ body{
   <div class="container">
     <div class="card">
 
-      <!-- ========== PNG-логотип (без круга, с белым свечением) ========== -->
+      <!-- ========== PNG-логотип без круга, белое свечение ========== -->
       <svg class="logo-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <!-- Белое свечение -->
-          <filter id="whiteGlow" x="-60%" y="-60%" width="220%" height="220%">
-            <feDropShadow dx="0" dy="0" stdDeviation="6"  flood-color="white" flood-opacity="0.85"/>
-            <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="white" flood-opacity="0.45"/>
-            <feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="white" flood-opacity="0.25"/>
-          </filter>
-        </defs>
-
-        <g class="logo-core" filter="url(#whiteGlow)">
+        <g class="logo-core">
           <image x="0" y="0" width="500" height="500"
-                 href="gands.png" <!-- ← укажи свой файл -->
+                 href="gands.png" <!-- ← укажи путь к своему файлу -->
                  preserveAspectRatio="xMidYMid meet" />
         </g>
       </svg>
