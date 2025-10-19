@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GanjaSeeds — Neon Minimal (с логотипом PNG)</title>
+<title>GanjaSeeds — Neon Minimal (с PNG-логотипом без круга)</title>
 <style>
 :root{
   --bg-color: #0b0b0b;
@@ -29,7 +29,7 @@ body{
   padding:24px;
 }
 
-/* Мягкий оверлей */
+/* Оверлей */
 .page-overlay{
   position:absolute;
   inset:0;
@@ -76,18 +76,18 @@ body{
     0 0 12px rgba(180,180,180,0.15);
 }
 
-/* Логотип */
+/* Логотип PNG */
 .logo-svg {
-  width:120px;
+  width:480px; /* было 120px → в 4 раза больше */
   height:auto;
   display:block;
-  margin-bottom:2px;
+  margin-bottom:12px;
   transform-origin:center;
   transition: transform 220ms ease;
 }
 .card:hover .logo-svg { transform: scale(1.03); }
 
-/* Glow pulse */
+/* Glow */
 .logo-glow {
   filter: blur(4px);
   opacity:0.9;
@@ -95,7 +95,9 @@ body{
   animation: logoPulse 3s ease-in-out infinite;
 }
 .logo-core {
-  filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.9))
+          drop-shadow(0 0 24px rgba(255,255,255,0.6))
+          drop-shadow(0 0 36px rgba(255,255,255,0.4));
 }
 @keyframes logoPulse {
   0%   { opacity:0.9; transform: scale(1); }
@@ -103,7 +105,7 @@ body{
   100% { opacity:0.9; transform: scale(1); }
 }
 
-/* PNG качество */
+/* PNG чёткость */
 .logo-svg image{
   image-rendering: auto;
   shape-rendering: geometricPrecision;
@@ -191,12 +193,12 @@ body{
 
 /* Адаптив */
 @media (max-width:768px){
-  .logo-svg{ width:96px }
+  .logo-svg{ width:300px }
   .brand{font-size:40px}
   .subtitle{font-size:16px}
 }
 @media (max-width:420px){
-  .logo-svg{ width:82px }
+  .logo-svg{ width:220px }
   .brand{ font-size:28px}
   .subtitle{font-size:15px}
 }
@@ -208,38 +210,21 @@ body{
   <div class="container">
     <div class="card">
 
-      <!-- ========== PNG логотип с белым неоновым свечением ========== -->
-      <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- ========== PNG-логотип (без круга, с белым свечением) ========== -->
+      <svg class="logo-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <!-- Клип для круга -->
-          <clipPath id="clip-circle">
-            <circle cx="100" cy="100" r="46"/>
-          </clipPath>
-
           <!-- Белое свечение -->
           <filter id="whiteGlow" x="-60%" y="-60%" width="220%" height="220%">
-            <feDropShadow dx="0" dy="0" stdDeviation="4"  flood-color="white" flood-opacity="0.85"/>
-            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="white" flood-opacity="0.45"/>
-            <feDropShadow dx="0" dy="0" stdDeviation="18" flood-color="white" flood-opacity="0.25"/>
+            <feDropShadow dx="0" dy="0" stdDeviation="6"  flood-color="white" flood-opacity="0.85"/>
+            <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="white" flood-opacity="0.45"/>
+            <feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="white" flood-opacity="0.25"/>
           </filter>
         </defs>
 
-        <!-- Glow слой -->
-        <g class="logo-glow" filter="url(#whiteGlow)">
-          <circle cx="100" cy="100" r="58" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
-          <image x="54" y="54" width="92" height="92"
-                 href="gands.png" <!-- ← сюда поставь путь к твоему файлу -->
-                 clip-path="url(#clip-circle)"
-                 preserveAspectRatio="xMidYMid slice" opacity="1"/>
-        </g>
-
-        <!-- Основной слой -->
-        <g class="logo-core">
-          <circle cx="100" cy="100" r="46" fill="transparent" stroke="white" stroke-width="2" />
-          <image x="54" y="54" width="92" height="92"
-                 href="gands.png"
-                 clip-path="url(#clip-circle)"
-                 preserveAspectRatio="xMidYMid slice"/>
+        <g class="logo-core" filter="url(#whiteGlow)">
+          <image x="0" y="0" width="500" height="500"
+                 href="gands.png" <!-- ← укажи свой файл -->
+                 preserveAspectRatio="xMidYMid meet" />
         </g>
       </svg>
 
