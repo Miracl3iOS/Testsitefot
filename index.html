@@ -1,256 +1,350 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Визитка — светлый неоморфизм</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Легендарный магазин — неоморфизм</title>
+<style>
+  :root{
+    --bg:#f0f0f3;
+    --bg-2:#e9e9ee;
+    --ink:#333;
+    --neon:#0073e6;
+    --muted:#5d5d65;
+    --card-s: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+    --card-s-inset: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+    --phone-w: 414px; /* iPhone-like reference width for proportions */
+    --gutter: 18px;
+  }
 
-  <!-- Шрифты: похожий вайб, но не идентично оригиналу -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Lora:wght@700&display=swap" rel="stylesheet">
+  /* Page */
+  html,body{height:100%}
+  body{
+    margin:0;
+    background: radial-gradient(1400px 900px at 85% 10%, #ffffff 0%, var(--bg) 60%) fixed;
+    font: 16px/1.35 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
 
-  <style>
-    :root{
-      /* палитра */
-      --bg:#f3f4f7;
-      --surface:#ffffff;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --accent:#c9a227; /* золото */
-      --accent-soft:#e8dbac;
+  /* A centered “phone frame” to lock proportions like the screenshot */
+  .phone{
+    width:min(100vw, var(--phone-w));
+    margin:0 auto;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    background:var(--bg);
+    box-shadow: var(--card-s);
+    border-radius:20px;
+    position:relative;
+    padding-bottom:32px;
+  }
 
-      /* неоморфные тени */
-      --out: 18px 18px 40px #d1d5db, -18px -18px 40px #ffffff;
-      --in: inset 10px 10px 20px rgba(0,0,0,.06), inset -10px -10px 20px rgba(255,255,255,.85);
+  /* Faux status/navbar row to match top spacing in the reference */
+  .status{
+    height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 calc(var(--gutter) - 4px);
+    color:#707078;
+  }
+  .status .pill{
+    box-shadow:var(--card-s);
+    background:var(--bg);
+    border-radius:18px;
+    padding:6px 12px;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:.2px;
+  }
 
-      --r-xl:28px;
-      --r-lg:20px;
-      --r-pill:999px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;background:var(--bg);color:var(--text);
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      line-height:1.6;
-    }
-    a{color:inherit;text-decoration:none}
+  /* Hero area mirrors the left logo + right artwork composition */
+  .hero{
+    position:relative;
+    padding:0 var(--gutter);
+    margin-top:4px;
+    min-height:260px; /* controls the composition height like the screenshot */
+    display:grid;
+    grid-template-columns: 1fr 44%; /* text area / artwork */
+    gap:10px;
+    align-items:end;
+  }
 
-    .wrap{max-width:1120px;margin:0 auto;padding:18px 16px 64px}
+  /* Logo block (top-left, compact) */
+  .logo{
+    position:absolute;
+    left:var(--gutter);
+    top:64px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo .mark{
+    width:32px;height:32px;border-radius:10px;background:var(--bg);
+    box-shadow:var(--card-s);
+    position:relative;
+  }
+  .logo .mark:before{
+    content:"";
+    position:absolute;inset:7px 9px 7px 9px;border-radius:6px;
+    box-shadow:var(--card-s-inset);
+  }
+  .logo .name{
+    font-weight:800; letter-spacing:.6px; color:#2f2f36;
+    text-shadow:0 0 2px #fff, 0 0 4px #cfd8ff;
+    line-height:1.05;
+  }
 
-    /* Верхний блок как на референсе: фон-картинка + крупный заголовок + описание */
-    .hero{
-      position:relative;
-      background:var(--surface);
-      border-radius:var(--r-xl);
-      overflow:hidden;
-      box-shadow:var(--out);
-    }
-    /* правая картинка */
-    .hero__media{
-      position:absolute; inset:0 0 0 0;
-      background:linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.86) 42%, rgba(255,255,255,.0) 62%),
-                  url('hero.jpg') right center/cover no-repeat;
-      /* замените hero.jpg на своё фото (портрет/иллюстрация) */
-    }
-    .hero__content{
-      position:relative; z-index:1;
-      padding:52px 28px 28px;
-      max-width:760px;
-    }
+  /* Right artwork placeholder (neumorphic masked card) */
+  .art{
+    justify-self:end;
+    width:100%; aspect-ratio: 3/4.2;
+    border-radius:24px;
+    background:linear-gradient(160deg,#ffffff 0%, #ececf2 26%, #e6e6ee 100%);
+    box-shadow: var(--card-s);
+    position:relative;
+    overflow:hidden;
+  }
+  /* stylized “mask” silhouette */
+  .art:before, .art:after{
+    content:"";
+    position:absolute; inset:auto;
+    filter:blur(8px);
+  }
+  .art:before{
+    width:160%; height:160%; left:-30%; top:-10%;
+    background:radial-gradient(60% 60% at 60% 30%, rgba(0,115,230,.18), rgba(0,115,230,0) 60%);
+  }
+  .art:after{
+    width:72%; height:72%; right:-8%; bottom:-6%;
+    background:radial-gradient(50% 50% at 30% 30%, rgba(0, 0, 0, .07), transparent 70%);
+  }
 
-    .eyebrow{font-weight:700;letter-spacing:.08em;font-size:13px;color:var(--muted);text-transform:uppercase}
-    .title{
-      font-family:Lora, serif;
-      font-weight:700;
-      font-size:clamp(28px,5.2vw,56px);
-      line-height:1.1;
-      margin:.35rem 0 .25rem;
-      text-wrap:balance;
-    }
-    .title .accent{color:var(--accent)}
-    .subtitle{
-      color:var(--muted);
-      font-size:clamp(14px,1.8vw,18px);
-      max-width:56ch;
-    }
+  /* Headline + description block (left column) */
+  .copy{
+    padding-bottom:18px;
+  }
 
-    /* сетка «кнопок» как в примере */
-    .links{
-      margin:26px 0 6px;
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-    }
-    @media (max-width: 760px){
-      .links{grid-template-columns:1fr}
-      .hero__content{padding:40px 16px 18px}
-    }
+  /* Neon headline with typewriter */
+  .headline{
+    font-weight:900;
+    line-height:1.04;
+    letter-spacing:.2px;
+    color:#ccf2ff; /* light-cyan text */
+    text-shadow:0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--neon), 0 0 20px var(--neon);
+    font-size: clamp(28px, 7vw, 40px); /* scale but keep proportion */
+    margin:0 0 10px 0;
+  }
+  .headline .row{
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    border-right:2px solid rgba(0,115,230,.65);
+    /* width is animated with steps(n) to simulate typing */
+  }
+  .headline .row[data-n]{width:0}
+  .headline .row.typer{
+    animation: type var(--dur,2s) steps(var(--n)) forwards;
+  }
+  @keyframes type{ to{ width: calc(var(--n) * 1ch);} }
 
-    /* неоморфная округлённая «плитка-кнопка» */
-    .pill{
-      position:relative;
-      background:var(--surface);
-      border-radius:24px;
-      padding:16px 18px;
-      box-shadow:var(--out);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      transition:transform .15s ease, box-shadow .2s ease;
-      cursor:pointer;
-    }
-    .pill::before{
-      content:"";
-      position:absolute; inset:2px;
-      border-radius:22px;
-      border:2px solid var(--accent);
-      opacity:.9;
-    }
-    .pill:hover{transform:translateY(-2px)}
-    .pill:active{box-shadow:var(--in); transform:translateY(0)}
-    .pill__label{
-      display:flex; flex-direction:column;
-    }
-    .pill__title{font-weight:700}
-    .pill__sub{color:var(--muted);font-size:14px;line-height:1.3}
+  /* Accent word (“МАГАЗИН”) in cyan like the reference second line emphasis */
+  .accent{
+    color:#eaffff;
+    text-shadow:0 0 6px #fff, 0 0 10px var(--neon), 0 0 22px var(--neon);
+  }
 
-    /* круглая стрелка справа */
-    .chev{
-      flex:0 0 auto;
-      width:44px;height:44px;border-radius:50%;
-      background:var(--surface);
-      box-shadow:var(--out);
-      display:grid;place-items:center;
-    }
-    .chev svg{width:22px;height:22px}
+  /* Description with typewriter that starts after headline finishes */
+  .desc{
+    color:var(--ink);
+    text-shadow:0 0 2px #fff, 0 0 4px var(--neon, #66a6ff);
+    font-size:14px;
+    max-width:95%;
+    margin-top:6px;
+    line-height:1.4;
+    white-space:nowrap;
+    overflow:hidden;
+    border-right:2px solid rgba(0,115,230,.45);
+  }
+  .desc[data-n]{width:0}
+  .desc.typer{ animation: type var(--dur,3.6s) steps(var(--n)) forwards; }
 
-    /* низ страницы — дополнительный блок для будущего меню/страниц */
-    .below{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:16px;
-    }
-    @media (max-width: 900px){ .below{grid-template-columns:1fr} }
+  /* Button grid mirrors the two-column stack from the screenshot */
+  .links{
+    margin-top:18px;
+    padding:0 var(--gutter);
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+  }
+  .linkcard{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 18px;
+    border-radius:18px;
+    background:var(--bg);
+    box-shadow: var(--card-s);
+    text-decoration:none;
+    color:var(--ink);
+    position:relative;
+    overflow:hidden;
+    opacity:0; transform: translateY(6px);
+    animation: fadeUp .6s ease forwards;
+  }
+  .linkcard:active{ box-shadow: var(--card-s-inset); }
+  .linkcard .ttl{font-weight:800; font-size:16px; letter-spacing:.2px;}
+  .linkcard .url{ color:#6b6b76; font-size:12px; margin-top:2px;}
+  .linkcard .arrow{
+    width:36px; height:36px; border-radius:50%;
+    display:grid; place-items:center;
+    box-shadow: var(--card-s);
+    font-weight:900;
+  }
+  @keyframes fadeUp{
+    to{opacity:1; transform:none;}
+  }
 
-    .card{
-      background:var(--surface);
-      border-radius:var(--r-lg);
-      padding:22px;
-      box-shadow:var(--out);
-    }
-    .card h3{margin:0 0 6px}
-    .muted{color:var(--muted)}
-    footer{margin-top:26px;color:var(--muted);font-size:14px;text-align:center}
-  </style>
+  /* Single final row aligned left like “Вакансии” in the screenshot */
+  .links .span2{ grid-column: 1 / 2; }
+  .links .rightcol{ grid-column: 2 / 3;}
+  .links .full{ grid-column: 1 / -1;} /* safety for smaller screens */
+
+  /* Small screen handling while preserving ratios */
+  @media (max-width:420px){
+    .hero{ grid-template-columns: 1fr 46%; }
+  }
+  @media (max-width:360px){
+    .hero{ grid-template-columns: 1fr; }
+    .art{ order:-1; width:70%; justify-self:end; margin-top:8px;}
+    .logo{ top:58px;}
+  }
+</style>
 </head>
 <body>
-  <main class="wrap">
-    <!-- HERO как на примере -->
+  <main class="phone" id="app">
+    <!-- faux status/toolbar for top spacing like the screenshot -->
+    <div class="status">
+      <span class="pill">Готово</span>
+      <span class="pill">TELEGRAM</span>
+      <span class="pill">LTE • 100%</span>
+    </div>
+
     <section class="hero">
-      <div class="hero__media"></div>
-
-      <div class="hero__content">
-        <div class="eyebrow">Нейтральный проект</div>
-        <h1 class="title">Современный <span class="accent">сайт-визитка</span> в светлом неоморфизме</h1>
-        <p class="subtitle">
-          Лёгкая стартовая страница с мягкими тенями, округлёнными элементами и чистой типографикой. Тексты и ссылки — заглушки, замените на свои.
-        </p>
-
-        <!-- Сетка «кнопок» 2×N как в референсе -->
-        <div class="links">
-          <a class="pill" href="#">
-            <div class="pill__label">
-              <span class="pill__title">Обо мне</span>
-              <span class="pill__sub">краткая информация</span>
-            </div>
-            <div class="chev" aria-hidden="true">
-              <!-- стрелка -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </div>
-          </a>
-
-          <a class="pill" href="#">
-            <div class="pill__label">
-              <span class="pill__title">Портфолио</span>
-              <span class="pill__sub">примеры работ</span>
-            </div>
-            <div class="chev" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </div>
-          </a>
-
-          <a class="pill" href="#">
-            <div class="pill__label">
-              <span class="pill__title">Услуги</span>
-              <span class="pill__sub">что предлагаю</span>
-            </div>
-            <div class="chev" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </div>
-          </a>
-
-          <a class="pill" href="#">
-            <div class="pill__label">
-              <span class="pill__title">Контакты</span>
-              <span class="pill__sub">связаться со мной</span>
-            </div>
-            <div class="chev" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </div>
-          </a>
-
-          <a class="pill" href="#">
-            <div class="pill__label">
-              <span class="pill__title">Отзывы</span>
-              <span class="pill__sub">мнения клиентов</span>
-            </div>
-            <div class="chev" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </div>
-          </a>
-
-          <a class="pill" href="#">
-            <div class="pill__label">
-              <span class="pill__title">Блог</span>
-              <span class="pill__sub">заметки и статьи</span>
-            </div>
-            <div class="chev" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </div>
-          </a>
+      <div class="logo">
+        <div class="mark" aria-hidden="true"></div>
+        <div class="name">
+          <div>BEZ</div>
+          <div>KIDALOVA</div>
         </div>
       </div>
+
+      <div class="copy">
+        <!-- 3 headline rows to match the stacked title in the screenshot -->
+        <h1 class="headline">
+          <span class="row" style="--n:19; --dur:1.2s">ЛЕГЕНДАРНЫЙ</span>
+          <span class="row" style="--n:9;  --dur:0.9s"><span class="accent">МАГАЗИН</span></span>
+          <span class="row" style="--n:19; --dur:1.2s">ПРИВЕТСТВУЕТ ТЕБЯ!</span>
+        </h1>
+
+        <!-- description line (single paragraph like the reference) -->
+        <p class="desc" style="--n:120; --dur:3.8s">
+          Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надежным
+          и качественным по всей России
+        </p>
+      </div>
+
+      <!-- right artwork card -->
+      <div class="art" aria-hidden="true"></div>
     </section>
 
-    <!-- Место под следующие страницы/секции (добавим позже) -->
-    <section class="below">
-      <article class="card">
-        <h3>О проекте</h3>
-        <p class="muted">Этот блок — заглушка под будущие страницы. Попросишь — разобьём на отдельные страницы/якоря и подключим меню.</p>
-      </article>
-      <article class="card">
-        <h3>Как заменить фото</h3>
-        <p class="muted">Положи своё изображение рядом с этим HTML и назови файл <strong>hero.jpg</strong>. Комбинацию градиента и фото можно менять в CSS (класс <code>.hero__media</code>).</p>
-      </article>
-    </section>
+    <!-- Two-column link grid (exact structure & order) -->
+    <nav class="links" aria-label="Ссылки">
+      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
+        <div>
+          <div class="ttl">Оператор</div>
+          <div class="url">t.me/</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
 
-    <footer>© 2025. Нейтральная визитка.</footer>
+      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
+        <div>
+          <div class="ttl">Чаты</div>
+          <div class="url">t.me/</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
+        <div>
+          <div class="ttl">Отзывы</div>
+          <div class="url">t.me/</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
+        <div>
+          <div class="ttl">Бот автопродаж</div>
+          <div class="url">t.me/</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
+        <div>
+          <div class="ttl">Канал</div>
+          <div class="url">t.me/</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
+        <div>
+          <div class="ttl">Обменник</div>
+          <div class="url">t.me/</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
+
+      <!-- last single card aligned left like the screenshot -->
+      <a class="linkcard span2" href="https://t.me/" target="_blank" rel="noopener">
+        <div>
+          <div class="ttl">Вакансии</div>
+          <div class="url">t.me/</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
+    </nav>
   </main>
+
+<script>
+  // --- Typewriter timing: headline first, then description, then stagger links
+  function enableTypewriter(){
+    // activate headline rows sequentially
+    const rows = document.querySelectorAll('.headline .row');
+    let t = 0;
+    rows.forEach((row, i) => {
+      const dur = parseFloat(getComputedStyle(row).getPropertyValue('--dur')) || 1;
+      setTimeout(()=> row.classList.add('typer'), t*1000);
+      t += dur + 0.05; // slight gap between lines
+    });
+
+    // description anim starts after headline completes
+    const desc = document.querySelector('.desc');
+    const descDur = parseFloat(getComputedStyle(desc).getPropertyValue('--dur')) || 3;
+    setTimeout(()=> desc.classList.add('typer'), t*1000);
+
+    // reveal buttons after description completes, with cascading delay
+    const links = [...document.querySelectorAll('.linkcard')];
+    const startLinksAt = t + descDur + 0.2;
+    links.forEach((el, i)=>{
+      el.style.animationDelay = (startLinksAt + i*0.08) + 's';
+    });
+  }
+  window.addEventListener('load', enableTypewriter);
+</script>
 </body>
 </html>
