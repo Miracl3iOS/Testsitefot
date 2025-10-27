@@ -3,348 +3,265 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Легендарный магазин — неоморфизм</title>
+<title>Легендарный магазин — нео + золотой неон</title>
 <style>
   :root{
     --bg:#f0f0f3;
-    --bg-2:#e9e9ee;
-    --ink:#333;
-    --neon:#0073e6;
-    --muted:#5d5d65;
-    --card-s: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
-    --card-s-inset: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
-    --phone-w: 414px; /* iPhone-like reference width for proportions */
-    --gutter: 18px;
+    --ink:#30313a;
+    --muted:#6a6b75;
+    --gold:#d4af37;           /* Золотой неон */
+    --gold2:#ffe08a;
+    --shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+    --inset: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+
+    /* айфоны: ширина под 390–428px, без горизонтального скролла */
+    --phone-min:320px;
+    --phone-max:428px;
+    --g:18px;                 /* базовый отступ */
   }
 
-  /* Page */
+  /* База */
   html,body{height:100%}
   body{
     margin:0;
-    background: radial-gradient(1400px 900px at 85% 10%, #ffffff 0%, var(--bg) 60%) fixed;
-    font: 16px/1.35 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    background:var(--bg);
     color:var(--ink);
+    font: 15px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Arial, "Noto Sans";
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
+    overflow-x:hidden;          /* чтобы ничего не «плыло» вбок */
   }
 
-  /* A centered “phone frame” to lock proportions like the screenshot */
+  /* «Экран айфона»: строго по мобильным пропорциям */
   .phone{
-    width:min(100vw, var(--phone-w));
+    width:clamp(var(--phone-min), 100vw, var(--phone-max));
     margin:0 auto;
     min-height:100dvh;
     display:flex;
     flex-direction:column;
     background:var(--bg);
-    box-shadow: var(--card-s);
-    border-radius:20px;
-    position:relative;
-    padding-bottom:32px;
+    box-shadow:var(--shadow);
+    border-radius:24px;
+    padding-bottom:max(16px, env(safe-area-inset-bottom));
+    overflow:hidden;            /* режем любые вылазки, второй страницы не будет */
   }
 
-  /* Faux status/navbar row to match top spacing in the reference */
+  /* Верх: только TELEGRAM по центру */
   .status{
-    height:54px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 calc(var(--gutter) - 4px);
-    color:#707078;
+    height:56px;
+    display:flex;align-items:center;justify-content:center;
+    padding:0 max(10px, env(safe-area-inset-left));
   }
-  .status .pill{
-    box-shadow:var(--card-s);
+  .pill{
     background:var(--bg);
-    border-radius:18px;
-    padding:6px 12px;
-    font-weight:600;
+    box-shadow:var(--shadow);
+    border-radius:20px;
+    padding:8px 14px;
+    font-weight:700;
     font-size:12px;
-    letter-spacing:.2px;
+    letter-spacing:.25px;
+    color:#595a63;
   }
 
-  /* Hero area mirrors the left logo + right artwork composition */
+  /* Hero: больше пространства под фото/арт */
   .hero{
     position:relative;
-    padding:0 var(--gutter);
-    margin-top:4px;
-    min-height:260px; /* controls the composition height like the screenshot */
+    padding:0 var(--g);
     display:grid;
-    grid-template-columns: 1fr 44%; /* text area / artwork */
-    gap:10px;
-    align-items:end;
+    grid-template-columns: 1fr 44%;
+    gap:12px;
+    min-height:360px;         /* ↑ больше высоты под изображение */
   }
 
-  /* Logo block (top-left, compact) */
+  /* Лого слева вверху */
   .logo{
-    position:absolute;
-    left:var(--gutter);
-    top:64px;
-    display:flex;
-    align-items:center;
-    gap:10px;
+    position:absolute; left:var(--g); top:64px;
+    display:flex; align-items:center; gap:10px;
   }
   .logo .mark{
-    width:32px;height:32px;border-radius:10px;background:var(--bg);
-    box-shadow:var(--card-s);
+    width:32px;height:32px;border-radius:10px;background:var(--bg);box-shadow:var(--shadow);
     position:relative;
   }
-  .logo .mark:before{
-    content:"";
-    position:absolute;inset:7px 9px 7px 9px;border-radius:6px;
-    box-shadow:var(--card-s-inset);
-  }
-  .logo .name{
-    font-weight:800; letter-spacing:.6px; color:#2f2f36;
-    text-shadow:0 0 2px #fff, 0 0 4px #cfd8ff;
-    line-height:1.05;
-  }
+  .logo .mark:before{content:""; position:absolute; inset:7px 9px; border-radius:6px; box-shadow:var(--inset);}
+  .logo .name{ font-weight:900; line-height:1.05; letter-spacing:.6px;}
 
-  /* Right artwork placeholder (neumorphic masked card) */
+  /* Правый большой «фото»-блок */
   .art{
-    justify-self:end;
-    width:100%; aspect-ratio: 3/4.2;
-    border-radius:24px;
-    background:linear-gradient(160deg,#ffffff 0%, #ececf2 26%, #e6e6ee 100%);
-    box-shadow: var(--card-s);
-    position:relative;
-    overflow:hidden;
+    justify-self:end; align-self:end;
+    width:100%; aspect-ratio: 3/4.1;
+    border-radius:26px; background:linear-gradient(160deg,#fff,#ececf2 26%,#e6e6ee);
+    box-shadow:var(--shadow);
+    overflow:hidden; position:relative;
   }
-  /* stylized “mask” silhouette */
-  .art:before, .art:after{
-    content:"";
-    position:absolute; inset:auto;
-    filter:blur(8px);
-  }
-  .art:before{
-    width:160%; height:160%; left:-30%; top:-10%;
-    background:radial-gradient(60% 60% at 60% 30%, rgba(0,115,230,.18), rgba(0,115,230,0) 60%);
-  }
-  .art:after{
-    width:72%; height:72%; right:-8%; bottom:-6%;
-    background:radial-gradient(50% 50% at 30% 30%, rgba(0, 0, 0, .07), transparent 70%);
+  /* легкая художественная подсветка */
+  .art:before{content:""; position:absolute; inset:-20% -10% auto -10%;
+    height:70%; background:radial-gradient(60% 60% at 55% 40%, rgba(212,175,55,.25), transparent 65%);
+    filter:blur(10px);
   }
 
-  /* Headline + description block (left column) */
-  .copy{
-    padding-bottom:18px;
+  /* Текстовый блок слева */
+  .copy{ align-self:end; padding-bottom:10px; }
+
+  /* Золотой неон — красиво и мягко */
+  .neon-gold{
+    color:#fffdf5;
+    text-shadow:
+      0 0 3px #fff7d6,
+      0 0 8px var(--gold2),
+      0 0 14px var(--gold),
+      0 0 26px var(--gold);
   }
 
-  /* Neon headline with typewriter */
+  /* Заголовок: три строки, typewriter только CSS */
   .headline{
+    margin:0 0 12px 0;
     font-weight:900;
     line-height:1.04;
-    letter-spacing:.2px;
-    color:#ccf2ff; /* light-cyan text */
-    text-shadow:0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--neon), 0 0 20px var(--neon);
-    font-size: clamp(28px, 7vw, 40px); /* scale but keep proportion */
-    margin:0 0 10px 0;
+    font-size:clamp(28px, 7.2vw, 40px);
   }
   .headline .row{
     display:block;
     white-space:nowrap;
-    overflow:hidden;
-    border-right:2px solid rgba(0,115,230,.65);
-    /* width is animated with steps(n) to simulate typing */
+    overflow:hidden;           /* важное: не выходит за блок */
+    border-right:2px solid rgba(212,175,55,.55);
+    will-change: width;
+    width:0ch;
+    animation: type steps(var(--n)) var(--dur) forwards;
   }
-  .headline .row[data-n]{width:0}
-  .headline .row.typer{
-    animation: type var(--dur,2s) steps(var(--n)) forwards;
-  }
-  @keyframes type{ to{ width: calc(var(--n) * 1ch);} }
+  @keyframes type { to { width: var(--w, 0ch);} }
 
-  /* Accent word (“МАГАЗИН”) in cyan like the reference second line emphasis */
-  .accent{
-    color:#eaffff;
-    text-shadow:0 0 6px #fff, 0 0 10px var(--neon), 0 0 22px var(--neon);
-  }
-
-  /* Description with typewriter that starts after headline finishes */
+  /* Описание: также typewriter, начинается после заголовка */
   .desc{
-    color:var(--ink);
-    text-shadow:0 0 2px #fff, 0 0 4px var(--neon, #66a6ff);
-    font-size:14px;
-    max-width:95%;
-    margin-top:6px;
-    line-height:1.4;
-    white-space:nowrap;
-    overflow:hidden;
-    border-right:2px solid rgba(0,115,230,.45);
+    white-space:nowrap; overflow:hidden; border-right:2px solid rgba(212,175,55,.45);
+    color:#3a3b44; text-shadow:0 0 2px #fff6d6, 0 0 6px rgba(212,175,55,.55);
+    font-size:14px; line-height:1.4; max-width:100%;
+    width:0ch; will-change: width;
+    animation: type steps(var(--n)) var(--dur) forwards;
   }
-  .desc[data-n]{width:0}
-  .desc.typer{ animation: type var(--dur,3.6s) steps(var(--n)) forwards; }
 
-  /* Button grid mirrors the two-column stack from the screenshot */
+  /* Сетка кнопок — ниже, просторнее */
   .links{
-    margin-top:18px;
-    padding:0 var(--gutter);
+    margin-top:30px;           /* ↓ опущены ниже */
+    padding:0 var(--g) 10px;
     display:grid;
     grid-template-columns: 1fr 1fr;
     gap:14px;
   }
-  .linkcard{
+  /* Новая кнопка: нео-капсула с золотым акцентом */
+  .btn{
     display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
     padding:16px 18px;
-    border-radius:18px;
-    background:var(--bg);
-    box-shadow: var(--card-s);
+    border-radius:20px;
     text-decoration:none;
+    background:var(--bg);
+    box-shadow:var(--shadow);
     color:var(--ink);
-    position:relative;
-    overflow:hidden;
-    opacity:0; transform: translateY(6px);
-    animation: fadeUp .6s ease forwards;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    opacity:0; transform: translateY(10px);
+    animation: fadeUp .55s ease forwards;
   }
-  .linkcard:active{ box-shadow: var(--card-s-inset); }
-  .linkcard .ttl{font-weight:800; font-size:16px; letter-spacing:.2px;}
-  .linkcard .url{ color:#6b6b76; font-size:12px; margin-top:2px;}
-  .linkcard .arrow{
-    width:36px; height:36px; border-radius:50%;
-    display:grid; place-items:center;
-    box-shadow: var(--card-s);
-    font-weight:900;
+  .btn:active{ box-shadow:var(--inset); transform:scale(.98); }
+  .btn:focus-visible{ outline:2px solid rgba(212,175,55,.7); outline-offset:2px; border-radius:22px; }
+  .btn .text{display:flex;flex-direction:column;}
+  .btn .ttl{font-weight:800; font-size:16px; letter-spacing:.25px;}
+  .btn .url{font-size:12px; color:var(--muted); margin-top:2px;}
+  .btn .chev{
+    width:36px;height:36px;border-radius:50%;
+    display:grid;place-items:center;
+    box-shadow:var(--shadow);
+    background: radial-gradient(120% 120% at 30% 30%, #fff8e6, #f3f0e6);
   }
-  @keyframes fadeUp{
-    to{opacity:1; transform:none;}
+  .btn .chev span{
+    font-weight:900; transform:translateY(-1px);
+    color:#9b7a18;
+    text-shadow:0 0 6px #ffeaa1, 0 0 14px rgba(212,175,55,.6);
   }
+  .btn:hover{ background:#f7f7fa; }
 
-  /* Single final row aligned left like “Вакансии” in the screenshot */
-  .links .span2{ grid-column: 1 / 2; }
-  .links .rightcol{ grid-column: 2 / 3;}
-  .links .full{ grid-column: 1 / -1;} /* safety for smaller screens */
+  @keyframes fadeUp{ to{opacity:1; transform:none;} }
 
-  /* Small screen handling while preserving ratios */
-  @media (max-width:420px){
-    .hero{ grid-template-columns: 1fr 46%; }
-  }
-  @media (max-width:360px){
-    .hero{ grid-template-columns: 1fr; }
-    .art{ order:-1; width:70%; justify-self:end; margin-top:8px;}
-    .logo{ top:58px;}
+  /* Последняя «Вакансии» занимает одну колонку слева как на скрине */
+  .left-only{ grid-column: 1 / 2; }
+
+  /* На очень узких экранах переносим арт наверх, остаёмся мобильными */
+  @media (max-width:370px){
+    .hero{ grid-template-columns: 1fr; min-height:420px; }
+    .art{ order:-1; justify-self:end; width:74%; margin-top:4px; }
   }
 </style>
 </head>
 <body>
-  <main class="phone" id="app">
-    <!-- faux status/toolbar for top spacing like the screenshot -->
-    <div class="status">
-      <span class="pill">Готово</span>
-      <span class="pill">TELEGRAM</span>
-      <span class="pill">LTE • 100%</span>
+<main class="phone">
+
+  <!-- Верхняя строка: только TELEGRAM -->
+  <div class="status">
+    <span class="pill">TELEGRAM</span>
+  </div>
+
+  <!-- Hero: лого + заголовок/описание слева, большое место под фото справа -->
+  <section class="hero">
+    <div class="logo">
+      <div class="mark" aria-hidden="true"></div>
+      <div class="name">
+        <div>BEZ</div>
+        <div>KIDALOVA</div>
+      </div>
     </div>
 
-    <section class="hero">
-      <div class="logo">
-        <div class="mark" aria-hidden="true"></div>
-        <div class="name">
-          <div>BEZ</div>
-          <div>KIDALOVA</div>
-        </div>
-      </div>
+    <div class="copy">
+      <h1 class="headline neon-gold">
+        <!-- Подсчёт символов и задержки — только CSS -->
+        <span class="row" style="--n:19; --w:19ch; --dur:1.05s; animation-delay:.1s">ЛЕГЕНДАРНЫЙ</span>
+        <span class="row" style="--n:8;  --w:8ch;  --dur:.75s;  animation-delay:1.25s">МАГАЗИН</span>
+        <span class="row" style="--n:17; --w:17ch; --dur:1.0s;  animation-delay:2.05s">ПРИВЕТСТВУЕТ ТЕБЯ!</span>
+      </h1>
 
-      <div class="copy">
-        <!-- 3 headline rows to match the stacked title in the screenshot -->
-        <h1 class="headline">
-          <span class="row" style="--n:19; --dur:1.2s">ЛЕГЕНДАРНЫЙ</span>
-          <span class="row" style="--n:9;  --dur:0.9s"><span class="accent">МАГАЗИН</span></span>
-          <span class="row" style="--n:19; --dur:1.2s">ПРИВЕТСТВУЕТ ТЕБЯ!</span>
-        </h1>
+      <p class="desc" style="--n:112; --w:112ch; --dur:3.6s; animation-delay:3.2s">
+        Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надежным
+        и качественным по всей России
+      </p>
+    </div>
 
-        <!-- description line (single paragraph like the reference) -->
-        <p class="desc" style="--n:120; --dur:3.8s">
-          Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надежным
-          и качественным по всей России
-        </p>
-      </div>
+    <div class="art" aria-label="Место под фото/обложку"></div>
+  </section>
 
-      <!-- right artwork card -->
-      <div class="art" aria-hidden="true"></div>
-    </section>
+  <!-- Кнопки опущены ниже, с каскадным появлением -->
+  <nav class="links" aria-label="Ссылки">
+    <a class="btn" style="animation-delay:7.0s" href="https://t.me/" target="_blank" rel="noopener">
+      <div class="text"><span class="ttl">Оператор</span><span class="url">t.me/</span></div>
+      <div class="chev"><span>›</span></div>
+    </a>
 
-    <!-- Two-column link grid (exact structure & order) -->
-    <nav class="links" aria-label="Ссылки">
-      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
-        <div>
-          <div class="ttl">Оператор</div>
-          <div class="url">t.me/</div>
-        </div>
-        <div class="arrow">›</div>
-      </a>
+    <a class="btn" style="animation-delay:7.08s" href="https://t.me/" target="_blank" rel="noopener">
+      <div class="text"><span class="ttl">Чаты</span><span class="url">t.me/</span></div>
+      <div class="chev"><span>›</span></div>
+    </a>
 
-      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
-        <div>
-          <div class="ttl">Чаты</div>
-          <div class="url">t.me/</div>
-        </div>
-        <div class="arrow">›</div>
-      </a>
+    <a class="btn" style="animation-delay:7.16s" href="https://t.me/" target="_blank" rel="noopener">
+      <div class="text"><span class="ttl">Отзывы</span><span class="url">t.me/</span></div>
+      <div class="chev"><span>›</span></div>
+    </a>
 
-      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
-        <div>
-          <div class="ttl">Отзывы</div>
-          <div class="url">t.me/</div>
-        </div>
-        <div class="arrow">›</div>
-      </a>
+    <a class="btn" style="animation-delay:7.24s" href="https://t.me/" target="_blank" rel="noopener">
+      <div class="text"><span class="ttl">Бот автопродаж</span><span class="url">t.me/</span></div>
+      <div class="chev"><span>›</span></div>
+    </a>
 
-      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
-        <div>
-          <div class="ttl">Бот автопродаж</div>
-          <div class="url">t.me/</div>
-        </div>
-        <div class="arrow">›</div>
-      </a>
+    <a class="btn" style="animation-delay:7.32s" href="https://t.me/" target="_blank" rel="noopener">
+      <div class="text"><span class="ttl">Канал</span><span class="url">t.me/</span></div>
+      <div class="chev"><span>›</span></div>
+    </a>
 
-      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
-        <div>
-          <div class="ttl">Канал</div>
-          <div class="url">t.me/</div>
-        </div>
-        <div class="arrow">›</div>
-      </a>
+    <a class="btn" style="animation-delay:7.40s" href="https://t.me/" target="_blank" rel="noopener">
+      <div class="text"><span class="ttl">Обменник</span><span class="url">t.me/</span></div>
+      <div class="chev"><span>›</span></div>
+    </a>
 
-      <a class="linkcard" href="https://t.me/" target="_blank" rel="noopener">
-        <div>
-          <div class="ttl">Обменник</div>
-          <div class="url">t.me/</div>
-        </div>
-        <div class="arrow">›</div>
-      </a>
-
-      <!-- last single card aligned left like the screenshot -->
-      <a class="linkcard span2" href="https://t.me/" target="_blank" rel="noopener">
-        <div>
-          <div class="ttl">Вакансии</div>
-          <div class="url">t.me/</div>
-        </div>
-        <div class="arrow">›</div>
-      </a>
-    </nav>
-  </main>
-
-<script>
-  // --- Typewriter timing: headline first, then description, then stagger links
-  function enableTypewriter(){
-    // activate headline rows sequentially
-    const rows = document.querySelectorAll('.headline .row');
-    let t = 0;
-    rows.forEach((row, i) => {
-      const dur = parseFloat(getComputedStyle(row).getPropertyValue('--dur')) || 1;
-      setTimeout(()=> row.classList.add('typer'), t*1000);
-      t += dur + 0.05; // slight gap between lines
-    });
-
-    // description anim starts after headline completes
-    const desc = document.querySelector('.desc');
-    const descDur = parseFloat(getComputedStyle(desc).getPropertyValue('--dur')) || 3;
-    setTimeout(()=> desc.classList.add('typer'), t*1000);
-
-    // reveal buttons after description completes, with cascading delay
-    const links = [...document.querySelectorAll('.linkcard')];
-    const startLinksAt = t + descDur + 0.2;
-    links.forEach((el, i)=>{
-      el.style.animationDelay = (startLinksAt + i*0.08) + 's';
-    });
-  }
-  window.addEventListener('load', enableTypewriter);
-</script>
+    <a class="btn left-only" style="animation-delay:7.48s" href="https://t.me/" target="_blank" rel="noopener">
+      <div class="text"><span class="ttl">Вакансии</span><span class="url">t.me/</span></div>
+      <div class="chev"><span>›</span></div>
+    </a>
+  </nav>
+</main>
 </body>
 </html>
