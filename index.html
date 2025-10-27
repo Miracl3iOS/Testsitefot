@@ -3,193 +3,254 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Сайт-визитка — Светлый неоморфизм</title>
-  <meta name="description" content="Визитка в стиле светлого неоморфизма с округлёнными кнопками и золотыми акцентами" />
+  <title>Визитка — светлый неоморфизм</title>
 
+  <!-- Шрифты: похожий вайб, но не идентично оригиналу -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Lora:wght@700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg: #f2f3f7;
-      --surface: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --gold: #c9a227;
-      --shadow-out: 18px 18px 40px #d2d6de, -18px -18px 40px #ffffff;
-      --shadow-in: inset 10px 10px 20px rgba(0,0,0,.06), inset -10px -10px 20px rgba(255,255,255,.85);
-      --radius-xl: 28px;
-      --radius-pill: 999px;
+    :root{
+      /* палитра */
+      --bg:#f3f4f7;
+      --surface:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --accent:#c9a227; /* золото */
+      --accent-soft:#e8dbac;
+
+      /* неоморфные тени */
+      --out: 18px 18px 40px #d1d5db, -18px -18px 40px #ffffff;
+      --in: inset 10px 10px 20px rgba(0,0,0,.06), inset -10px -10px 20px rgba(255,255,255,.85);
+
+      --r-xl:28px;
+      --r-lg:20px;
+      --r-pill:999px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:var(--bg);color:var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .wrap{max-width:1120px;margin:0 auto;padding:18px 16px 64px}
+
+    /* Верхний блок как на референсе: фон-картинка + крупный заголовок + описание */
+    .hero{
+      position:relative;
+      background:var(--surface);
+      border-radius:var(--r-xl);
+      overflow:hidden;
+      box-shadow:var(--out);
+    }
+    /* правая картинка */
+    .hero__media{
+      position:absolute; inset:0 0 0 0;
+      background:linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.86) 42%, rgba(255,255,255,.0) 62%),
+                  url('hero.jpg') right center/cover no-repeat;
+      /* замените hero.jpg на своё фото (портрет/иллюстрация) */
+    }
+    .hero__content{
+      position:relative; z-index:1;
+      padding:52px 28px 28px;
+      max-width:760px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      padding: 40px 20px;
-      display: flex;
-      justify-content: center;
+    .eyebrow{font-weight:700;letter-spacing:.08em;font-size:13px;color:var(--muted);text-transform:uppercase}
+    .title{
+      font-family:Lora, serif;
+      font-weight:700;
+      font-size:clamp(28px,5.2vw,56px);
+      line-height:1.1;
+      margin:.35rem 0 .25rem;
+      text-wrap:balance;
+    }
+    .title .accent{color:var(--accent)}
+    .subtitle{
+      color:var(--muted);
+      font-size:clamp(14px,1.8vw,18px);
+      max-width:56ch;
     }
 
-    .container {
-      max-width: 1100px;
-      width: 100%;
+    /* сетка «кнопок» как в примере */
+    .links{
+      margin:26px 0 6px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+    @media (max-width: 760px){
+      .links{grid-template-columns:1fr}
+      .hero__content{padding:40px 16px 18px}
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 60px;
+    /* неоморфная округлённая «плитка-кнопка» */
+    .pill{
+      position:relative;
+      background:var(--surface);
+      border-radius:24px;
+      padding:16px 18px;
+      box-shadow:var(--out);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      transition:transform .15s ease, box-shadow .2s ease;
+      cursor:pointer;
     }
-
-    header h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 48px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
+    .pill::before{
+      content:"";
+      position:absolute; inset:2px;
+      border-radius:22px;
+      border:2px solid var(--accent);
+      opacity:.9;
     }
-
-    header p {
-      color: var(--muted);
-      font-size: 18px;
-      margin-top: 8px;
+    .pill:hover{transform:translateY(-2px)}
+    .pill:active{box-shadow:var(--in); transform:translateY(0)}
+    .pill__label{
+      display:flex; flex-direction:column;
     }
+    .pill__title{font-weight:700}
+    .pill__sub{color:var(--muted);font-size:14px;line-height:1.3}
 
-    .hero {
-      display: grid;
+    /* круглая стрелка справа */
+    .chev{
+      flex:0 0 auto;
+      width:44px;height:44px;border-radius:50%;
+      background:var(--surface);
+      box-shadow:var(--out);
+      display:grid;place-items:center;
+    }
+    .chev svg{width:22px;height:22px}
+
+    /* низ страницы — дополнительный блок для будущего меню/страниц */
+    .below{
+      margin-top:18px;
+      display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
+      gap:16px;
     }
+    @media (max-width: 900px){ .below{grid-template-columns:1fr} }
 
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
+    .card{
+      background:var(--surface);
+      border-radius:var(--r-lg);
+      padding:22px;
+      box-shadow:var(--out);
     }
-
-    .photo {
-      background: var(--surface);
-      border-radius: var(--radius-xl);
-      padding: 20px;
-      box-shadow: var(--shadow-out);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .photo img {
-      width: 100%;
-      border-radius: calc(var(--radius-xl) - 10px);
-      box-shadow: var(--shadow-in);
-    }
-
-    .content {
-      background: var(--surface);
-      border-radius: var(--radius-xl);
-      padding: 40px;
-      box-shadow: var(--shadow-out);
-      text-align: center;
-      position: relative;
-    }
-
-    .content::before {
-      content: "";
-      position: absolute;
-      inset: 22px;
-      border-radius: calc(var(--radius-xl) - 12px);
-      border: 2px solid var(--gold);
-      opacity: 0.6;
-    }
-
-    .content h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .content p {
-      color: var(--muted);
-      font-size: 16px;
-      margin-bottom: 30px;
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-    }
-
-    .btn {
-      position: relative;
-      background: var(--surface);
-      border: none;
-      border-radius: var(--radius-pill);
-      padding: 14px 26px;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
-      cursor: pointer;
-      box-shadow: var(--shadow-out);
-      transition: all 0.2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn:active {
-      box-shadow: var(--shadow-in);
-      transform: translateY(0);
-    }
-
-    .btn.gold::before {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: var(--radius-pill);
-      border: 2px solid var(--gold);
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 80px;
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .card h3{margin:0 0 6px}
+    .muted{color:var(--muted)}
+    footer{margin-top:26px;color:var(--muted);font-size:14px;text-align:center}
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <header>
-      <h1>Нейтральная визитка</h1>
-      <p>Современный минимализм в неоморфизме</p>
-    </header>
+  <main class="wrap">
+    <!-- HERO как на примере -->
+    <section class="hero">
+      <div class="hero__media"></div>
 
-    <div class="hero">
-      <div class="photo">
-        <img src="your-photo.jpg" alt="Ваше фото" />
-      </div>
+      <div class="hero__content">
+        <div class="eyebrow">Нейтральный проект</div>
+        <h1 class="title">Современный <span class="accent">сайт-визитка</span> в светлом неоморфизме</h1>
+        <p class="subtitle">
+          Лёгкая стартовая страница с мягкими тенями, округлёнными элементами и чистой типографикой. Тексты и ссылки — заглушки, замените на свои.
+        </p>
 
-      <div class="content">
-        <h2>Ваше имя</h2>
-        <p>Краткое описание, позиция или слоган. Можно добавить пару предложений о себе или своей деятельности.</p>
+        <!-- Сетка «кнопок» 2×N как в референсе -->
+        <div class="links">
+          <a class="pill" href="#">
+            <div class="pill__label">
+              <span class="pill__title">Обо мне</span>
+              <span class="pill__sub">краткая информация</span>
+            </div>
+            <div class="chev" aria-hidden="true">
+              <!-- стрелка -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          </a>
 
-        <div class="buttons">
-          <button class="btn gold">Обо мне</button>
-          <button class="btn gold">Портфолио</button>
-          <button class="btn gold">Контакты</button>
+          <a class="pill" href="#">
+            <div class="pill__label">
+              <span class="pill__title">Портфолио</span>
+              <span class="pill__sub">примеры работ</span>
+            </div>
+            <div class="chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          </a>
+
+          <a class="pill" href="#">
+            <div class="pill__label">
+              <span class="pill__title">Услуги</span>
+              <span class="pill__sub">что предлагаю</span>
+            </div>
+            <div class="chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          </a>
+
+          <a class="pill" href="#">
+            <div class="pill__label">
+              <span class="pill__title">Контакты</span>
+              <span class="pill__sub">связаться со мной</span>
+            </div>
+            <div class="chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          </a>
+
+          <a class="pill" href="#">
+            <div class="pill__label">
+              <span class="pill__title">Отзывы</span>
+              <span class="pill__sub">мнения клиентов</span>
+            </div>
+            <div class="chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          </a>
+
+          <a class="pill" href="#">
+            <div class="pill__label">
+              <span class="pill__title">Блог</span>
+              <span class="pill__sub">заметки и статьи</span>
+            </div>
+            <div class="chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          </a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <footer>
-      © 2025 Ваша визитка. Все права защищены.
-    </footer>
-  </div>
+    <!-- Место под следующие страницы/секции (добавим позже) -->
+    <section class="below">
+      <article class="card">
+        <h3>О проекте</h3>
+        <p class="muted">Этот блок — заглушка под будущие страницы. Попросишь — разобьём на отдельные страницы/якоря и подключим меню.</p>
+      </article>
+      <article class="card">
+        <h3>Как заменить фото</h3>
+        <p class="muted">Положи своё изображение рядом с этим HTML и назови файл <strong>hero.jpg</strong>. Комбинацию градиента и фото можно менять в CSS (класс <code>.hero__media</code>).</p>
+      </article>
+    </section>
+
+    <footer>© 2025. Нейтральная визитка.</footer>
+  </main>
 </body>
 </html>
