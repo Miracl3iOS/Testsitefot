@@ -9,212 +9,124 @@
   --bg:#f0f0f3;
   --card:#f7f7fb;
   --ink:#2f2f36;
-  --gold:#d4af37;
   --shadow:5px 5px 10px #cfcfd6, -5px -5px 10px #ffffff;
   --inset:inset 5px 5px 10px #cfcfd6, inset -5px -5px 10px #ffffff;
   --maxw:428px;
 }
 
 /* База */
-html,body{height:100%;}
+html,body{height:100%}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 .phone{
-  width:min(100vw,var(--maxw));
-  margin:0 auto;
-  min-height:100dvh;
-  background:var(--bg);
-  box-shadow:var(--shadow);
-  border-radius:24px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
+  width:min(100vw,var(--maxw)); margin:0 auto; min-height:100dvh;
+  background:var(--bg); box-shadow:var(--shadow); border-radius:24px; overflow:hidden;
+  display:flex; flex-direction:column;
 }
 
 /* Верхняя панель */
 .status{
-  height:56px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
+  height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 16px;
 }
 .center{
-  background:var(--bg);
-  box-shadow:var(--shadow);
-  border-radius:18px;
-  padding:8px 14px;
-  font-weight:700;
-  font-size:12px;
-  color:#5b5c64;
+  background:var(--bg); box-shadow:var(--shadow); border-radius:18px; padding:8px 14px;
+  font-weight:700; font-size:12px; color:#5b5c64;
 }
+/* Меню-кнопка: 3 горизонтальные полоски */
 .menu-btn{
-  width:44px;
-  height:36px;
-  border:none;
-  border-radius:12px;
-  background:var(--bg);
-  box-shadow:var(--shadow);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:5px;
-  cursor:pointer;
+  width:48px; height:34px; border:none; border-radius:12px; background:var(--bg); box-shadow:var(--shadow);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; cursor:pointer;
 }
 .menu-btn span{
-  width:20px;
-  height:2px;
-  border-radius:2px;
-  background:#000;
+  width:22px; height:2.5px; background:#000; border-radius:3px;
 }
 
 /* Обложка 1/3 экрана */
 .hero{
-  height:33vh; min-height:200px; max-height:360px;
-  margin:0 16px;
-  border-radius:22px;
-  background:#000 center/cover no-repeat;
-  background-image:url('hero.jpg');
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
+  height:33vh; min-height:200px; max-height:360px; margin:0 16px;
+  border-radius:22px; background:#000 center/cover no-repeat; background-image:url('hero.jpg');
+  box-shadow:var(--shadow); position:relative; overflow:hidden;
 }
 
 /* Контент */
-.wrap{padding:18px 16px 22px;}
+.wrap{padding:18px 16px 22px}
+
+/* === ГЛАВНЫЙ ЗАГОЛОВОК — ОДНА СТРОКА === */
+.headline-scroll{
+  /* контейнер, если вдруг не влезло — даст горизонтальный скролл по касанию */
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
 h1{
+  display:inline-block;                 /* чтобы скроллился как одна строка */
   margin:0 0 10px;
   font-weight:900;
-  font-size:clamp(24px,7vw,36px);
+  font-size:clamp(20px, 5.4vw, 34px);   /* адаптив: уменьшаем на узких экранах */
+  line-height:1.1;
   color:#fff5e6;
   text-shadow:
-    0 0 5px #fff5e6,
-    0 0 10px #ffcc80,
-    0 0 20px #ff9900,
-    0 0 35px #ff6600;
-}
-.desc{
-  margin:4px 0 18px;
-  color:#383943;
-  font-size:14px;
-}
-
-/* Кнопки — сетка 2x4 с Telegram-иконками */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-.btn{
-  background:var(--card);
-  box-shadow:var(--shadow);
-  border-radius:16px;
-  text-decoration:none;
-  color:var(--ink);
-  font-weight:700;
-  font-size:14px;
-  padding:12px 12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  transition:.15s;
-}
-.btn:hover{box-shadow:var(--inset);}
-.btn svg{width:18px;height:18px;flex:0 0 18px;}
-
-/* Блоки маркетов */
-.markets{margin-top:18px;display:grid;gap:12px;}
-.market{
-  background:var(--card);
-  box-shadow:var(--shadow);
-  border-radius:16px;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.m-left{display:flex;align-items:center;gap:10px;}
-.m-logo{
-  width:22px;height:22px;border-radius:6px;
-  background:#fffdf5 center/cover no-repeat;
-  box-shadow:var(--shadow);
-}
-.m-title{font-weight:800;}
-.m-buttons{display:flex;gap:8px;}
-.pill-black{
-  text-decoration:none;
-  color:#fff;
-  background:#111;
-  padding:8px 12px;
-  border-radius:10px;
-  font-weight:800;
-  font-size:13px;
-  box-shadow:0 2px 0 rgba(0,0,0,.35), var(--shadow);
-  transition:transform .12s ease, box-shadow .12s ease;
-}
-.pill-black:active{transform:scale(.97);box-shadow:0 1px 0 rgba(0,0,0,.45), var(--inset);}
-
-/* Подвал */
-.footer{
-  padding:12px 16px;
-  font-size:12px;
-  color:#666;
+    0 0 4px #fff2cc,
+    0 0 10px #ffb366,
+    0 0 22px #ff9900,
+    0 0 36px #ff6f00;                   /* мягкий оранжевый неон */
+  white-space:nowrap;                   /* 🚀 запрещаем переносы */
   text-align:center;
 }
-.footer a{
-  color:#3a3b44;
-  font-weight:700;
-  text-decoration:none;
-  border-bottom:1px dashed #3a3b44;
-}
-.footer a:hover{border-bottom-style:solid;}
+.desc{ margin:6px 0 16px; color:#383943; font-size:14px }
 
-/* Меню — теперь открывается слева */
-.drawer-wrap{
-  position:fixed;
-  inset:0;
-  display:none;
-  z-index:50;
+/* Кнопки 2x4 с чёрным Telegram-лого */
+.grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.btn{
+  background:var(--card); box-shadow:var(--shadow); border-radius:16px;
+  text-decoration:none; color:var(--ink); font-weight:700; font-size:14px;
+  padding:12px; display:flex; align-items:center; gap:10px; transition:.15s;
 }
-.drawer-wrap.active{display:block;}
-.backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.25);
-  backdrop-filter:blur(6px);
+.btn:hover{ box-shadow:var(--inset) }
+.btn svg{ width:18px; height:18px; flex:0 0 18px }
+
+/* Блоки маркетов */
+.markets{ margin-top:18px; display:grid; gap:12px }
+.market{
+  background:var(--card); box-shadow:var(--shadow); border-radius:16px;
+  padding:12px; display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
+.m-left{ display:flex; align-items:center; gap:10px }
+.m-logo{
+  width:22px; height:22px; border-radius:6px; background:#fffdf5 center/cover no-repeat; box-shadow:var(--shadow)
+}
+.m-title{ font-weight:800 }
+.m-buttons{ display:flex; gap:8px }
+.pill-black{
+  text-decoration:none; color:#fff; background:#111; padding:8px 12px; border-radius:10px;
+  font-weight:800; font-size:13px; box-shadow:0 2px 0 rgba(0,0,0,.35), var(--shadow);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.pill-black:active{ transform:scale(.97); box-shadow:0 1px 0 rgba(0,0,0,.45), var(--inset) }
+
+/* Подвал */
+.footer{ padding:12px 16px; font-size:12px; color:#666; text-align:center }
+.footer a{ color:#3a3b44; font-weight:700; text-decoration:none; border-bottom:1px dashed #3a3b44 }
+.footer a:hover{ border-bottom-style:solid }
+
+/* Меню: открывается слева */
+.drawer-wrap{ position:fixed; inset:0; display:none; z-index:50 }
+.drawer-wrap.active{ display:block }
+.backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.25); backdrop-filter:blur(6px) }
 .drawer{
-  position:absolute;
-  left:0;
-  top:0;
-  height:100%;
-  width:min(84vw,340px);
-  background:rgba(240,240,243,.85);
-  backdrop-filter:blur(15px);
+  position:absolute; left:0; top:0; height:100%; width:min(84vw,340px);
+  background:rgba(240,240,243,.85); backdrop-filter:blur(15px);
   box-shadow:12px 0 28px rgba(0,0,0,.15);
-  border-top-right-radius:20px;
-  border-bottom-right-radius:20px;
-  padding:22px 20px 18px;
-  transform:translateX(-100%);
-  transition:transform .25s ease;
+  border-top-right-radius:20px; border-bottom-right-radius:20px;
+  padding:22px 20px 18px; transform:translateX(-100%); transition:transform .25s ease;
 }
-.drawer-wrap.active .drawer{transform:none;}
-.drawer h2{margin:0 0 14px;font-size:18px;}
+.drawer-wrap.active .drawer{ transform:none }
+.drawer h2{ margin:0 0 14px; font-size:18px }
 .m-link{
-  display:block;
-  padding:12px 10px;
-  margin-bottom:8px;
-  background:#fff;
-  border-radius:12px;
-  box-shadow:var(--shadow);
-  text-decoration:none;
-  color:#2f2f36;
-  font-weight:600;
+  display:block; padding:12px 10px; margin-bottom:8px; background:#fff; border-radius:12px;
+  box-shadow:var(--shadow); text-decoration:none; color:#2f2f36; font-weight:600;
 }
 </style>
 </head>
@@ -230,45 +142,49 @@ h1{
   <div class="hero"></div>
 
   <section class="wrap">
-    <h1>ЛЕГЕНДАРНЫЙ МАГАЗИН ПРИВЕТСТВУЕТ ТЕБЯ!</h1>
+    <!-- Заголовок теперь всегда одной строкой -->
+    <div class="headline-scroll">
+      <h1>ЛЕГЕНДАРНЫЙ МАГАЗИН ПРИВЕТСТВУЕТ ТЕБЯ!</h1>
+    </div>
+
     <p class="desc">Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надёжным и качественным по всей России.</p>
 
-    <div class="grid">
-      <a href="https://t.me/" class="btn" target="_blank">
+    <div class="grid" aria-label="Ссылки">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Оператор
       </a>
-      <a href="https://t.me/" class="btn" target="_blank">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Чаты
       </a>
-      <a href="https://t.me/" class="btn" target="_blank">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Отзывы
       </a>
-      <a href="https://t.me/" class="btn" target="_blank">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Бот автопродаж
       </a>
-      <a href="https://t.me/" class="btn" target="_blank">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Канал
       </a>
-      <a href="https://t.me/" class="btn" target="_blank">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Обменник
       </a>
-      <a href="https://t.me/" class="btn" target="_blank">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Вакансии
       </a>
-      <a href="https://t.me/" class="btn" target="_blank">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Поддержка
       </a>
     </div>
 
-    <div class="markets">
+    <div class="markets" aria-label="Маркетплейсы">
       <div class="market">
         <div class="m-left">
           <div class="m-logo" id="logo-kraken"></div>
@@ -292,14 +208,13 @@ h1{
     </div>
   </section>
 
-  <footer class="footer">
-    <span>Сделано с 💛 • </span><a href="https://t.me/" target="_blank">наш TELEGRAM</a>
-  </footer>
+  <footer class="footer">Сделано с 💛 • <a href="https://t.me/" target="_blank" rel="noopener">наш TELEGRAM</a></footer>
 </main>
 
+<!-- Выдвижное меню слева -->
 <div class="drawer-wrap" id="drawer">
   <div class="backdrop" id="backdrop"></div>
-  <aside class="drawer">
+  <aside class="drawer" role="dialog" aria-label="Меню">
     <h2>Меню</h2>
     <a class="m-link" href="#">Калькулятор</a>
     <a class="m-link" href="#">Почему мы?</a>
@@ -311,10 +226,12 @@ h1{
 const btn=document.getElementById('menuBtn');
 const drawer=document.getElementById('drawer');
 const backdrop=document.getElementById('backdrop');
+
 btn.addEventListener('click',()=>drawer.classList.add('active'));
 backdrop.addEventListener('click',()=>drawer.classList.remove('active'));
-window.addEventListener('keydown',e=>{if(e.key==='Escape')drawer.classList.remove('active');});
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.remove('active'); });
 
+/* Логотипы маркетов (как hero.jpg) */
 document.getElementById('logo-kraken').style.backgroundImage="url('kraken.png')";
 document.getElementById('logo-blacksprut').style.backgroundImage="url('blacksprut.png')";
 </script>
