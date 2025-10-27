@@ -3,21 +3,23 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Неоморфизм — 4 столбца кнопок</title>
+<title>Неоморфизм — сетка + маркет-плашки</title>
 <style>
 :root{
   --bg:#f0f0f3;
   --card:#f7f7fb;
   --ink:#2f2f36;
+  --muted:#6c6d75;
   --gold:#d4af37;
   --shadow:5px 5px 10px #cfcfd6, -5px -5px 10px #ffffff;
+  --inset:inset 5px 5px 10px #cfcfd6, inset -5px -5px 10px #ffffff;
   --r:18px;
   --g:16px;
   --maxw:428px;
 }
 
-/* Общая база */
-html,body{height:100%;}
+/* База */
+html,body{height:100%}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
@@ -39,73 +41,101 @@ body{
   border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64;
 }
 .menu-btn{
-  width:44px;height:36px;border-radius:12px;border:none;
-  background:var(--bg);box-shadow:var(--shadow);
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  gap:5px;cursor:pointer;
+  height:36px; padding:0 10px; border-radius:10px; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  background:var(--bg); box-shadow:var(--shadow);
 }
-.menu-btn span{
-  width:22px;height:2px;border-radius:2px;background:#000;
+.menu-btn .bar{
+  width:20px; height:2px; background:#000; border-radius:2px;
 }
+.menu-btn .bar:nth-child(2){width:16px}
+.menu-btn .bar:nth-child(3){width:12px}
 
 /* Обложка 1/3 экрана */
 .hero{
-  height:33vh;min-height:200px;max-height:360px;margin:0 var(--g);
-  border-radius:22px;background:#000 center/cover no-repeat;
-  background-image:url('hero.jpg');box-shadow:var(--shadow);position:relative;overflow:hidden;
+  height:33vh; min-height:200px; max-height:360px; margin:0 var(--g);
+  border-radius:22px; background:#000 center/cover no-repeat;
+  background-image:url('hero.jpg'); box-shadow:var(--shadow); position:relative; overflow:hidden;
+}
+.hero:after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(60% 60% at 70% 10%, rgba(212,175,55,.18), transparent 60%);
+  pointer-events:none;
 }
 
 /* Контент */
-.wrap{padding:18px var(--g) 22px;text-align:center;}
+.wrap{padding:18px var(--g) 22px}
 h1{
-  margin:0 0 10px;font-weight:900;font-size:clamp(26px,7vw,38px);
-  color:#fffdf5;text-shadow:0 0 3px #fff7d6,0 0 8px #ffe08a,0 0 16px #d4af37,0 0 26px #d4af37;
+  margin:0 0 10px; font-weight:900; font-size:clamp(26px,7vw,38px);
+  color:#fffdf5; text-shadow:0 0 3px #fff7d6,0 0 8px #ffe08a,0 0 16px #d4af37,0 0 26px #d4af37;
 }
-.desc{margin:4px 0 18px;color:#383943;text-shadow:0 0 2px #fff7d6,0 0 6px rgba(212,175,55,.45);font-size:14px;}
+.desc{margin:4px 0 18px; color:#383943; text-shadow:0 0 2px #fff7d6,0 0 6px rgba(212,175,55,.45); font-size:14px}
 
-/* Кнопки — 2 в ряд */
+/* Кнопки — по две в ряд, с чёрным телеграм-лого */
 .grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  justify-items:stretch;
+  display:grid; grid-template-columns:1fr 1fr; gap:12px; justify-items:stretch;
 }
 .btn{
-  background:var(--card);
-  box-shadow:var(--shadow);
-  border-radius:16px;
-  text-decoration:none;
-  color:#2f2f36;
-  font-weight:700;
-  font-size:14px;
-  padding:14px 0;
-  transition:0.15s;
+  background:var(--card); box-shadow:var(--shadow); border-radius:16px;
+  text-decoration:none; color:var(--ink); font-weight:800; font-size:14px;
+  padding:12px 12px; display:flex; align-items:center; gap:10px; transition:.15s;
 }
-.btn:hover{box-shadow:inset 5px 5px 10px #cfcfd6, inset -5px -5px 10px #ffffff;}
-.btn:active{transform:scale(0.97);}
-.spacer{height:max(10px,env(safe-area-inset-bottom));}
+.btn:hover{ box-shadow:var(--inset) }
+.btn svg{ flex:0 0 18px; width:18px; height:18px; }
+.btn span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 
-/* Выезжающее меню */
-.drawer-wrap{
-  position:fixed;inset:0;display:none;z-index:50;
+/* Блоки «Мы на ...» в стиле старых кнопок */
+.markets{ margin-top:18px; display:grid; gap:12px }
+.market{
+  background:var(--card); box-shadow:var(--shadow); border-radius:16px;
+  padding:12px; display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
-.drawer-wrap.active{display:block;}
-.backdrop{
-  position:absolute;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(6px);
+.m-left{ display:flex; align-items:center; gap:10px; min-width:0 }
+.m-logo{
+  width:22px; height:22px; border-radius:6px; background:#fffdf5; box-shadow:var(--shadow);
+  background-position:center; background-size:cover; background-repeat:no-repeat;
 }
+/* Пример: добавишь класс has-logo и style="background-image:url('kraken.png')" */
+.m-title{ font-weight:800 }
+.m-buttons{ display:flex; gap:8px }
+.pill-black{
+  text-decoration:none; color:#fff; background:#111; padding:8px 12px; border-radius:10px;
+  font-weight:800; font-size:13px; box-shadow:0 2px 0 rgba(0,0,0,.35), var(--shadow);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.pill-black:active{ transform:scale(.98); box-shadow:0 1px 0 rgba(0,0,0,.45), var(--inset) }
+
+/* Низ */
+.footer{
+  padding:10px var(--g) max(12px, env(safe-area-inset-bottom));
+  font-size:12px; color:#666; display:flex; justify-content:center;
+}
+.footer a{ color:#3a3b44; font-weight:700; text-decoration:none; border-bottom:1px dashed #3a3b44 }
+.footer a:hover{ border-bottom-style:solid }
+.spacer{height:max(8px, env(safe-area-inset-bottom))}
+
+/* Выезжающее меню (справа) */
+.drawer-wrap{ position:fixed; inset:0; display:none; z-index:50 }
+.drawer-wrap.active{ display:block }
+.backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.25); backdrop-filter:blur(6px) }
 .drawer{
-  position:absolute;right:0;top:0;height:100%;width:min(84vw,340px);
-  background:rgba(240,240,243,.85);backdrop-filter:blur(15px);
+  position:absolute; right:0; top:0; height:100%; width:min(84vw,340px);
+  background:rgba(240,240,243,.85); backdrop-filter:blur(15px);
   box-shadow:-12px 0 28px rgba(0,0,0,.15);
-  border-top-left-radius:20px;border-bottom-left-radius:20px;
-  padding:22px 20px 18px;transform:translateX(100%);transition:transform .25s ease;
+  border-top-left-radius:20px; border-bottom-left-radius:20px;
+  padding:22px 20px 18px; transform:translateX(100%); transition:transform .25s ease;
 }
-.drawer-wrap.active .drawer{transform:none;}
-.drawer h2{margin:0 0 14px;font-size:18px;}
+.drawer-wrap.active .drawer{ transform:none }
+.drawer h2{ margin:0 0 14px; font-size:18px }
 .m-link{
-  display:block;padding:12px 10px;margin-bottom:8px;
-  background:#fff;border-radius:12px;box-shadow:var(--shadow);
-  text-decoration:none;color:#2f2f36;font-weight:600;
+  display:block; padding:12px 10px; margin-bottom:8px;
+  background:#fff; border-radius:12px; box-shadow:var(--shadow);
+  text-decoration:none; color:#2f2f36; font-weight:600;
+}
+
+@media (max-width:360px){
+  .grid{ gap:10px }
+  .btn{ padding:10px }
 }
 </style>
 </head>
@@ -115,50 +145,116 @@ h1{
   <div class="status">
     <div class="center">TELEGRAM</div>
     <button class="menu-btn" id="menuBtn" aria-label="Меню">
-      <span></span><span></span><span></span>
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
     </button>
   </div>
 
-  <!-- Обложка -->
-  <div class="hero"></div>
+  <!-- Обложка (1/3 экрана): hero.jpg подставится автоматически -->
+  <div class="hero" title="Место под фото (1/3 страницы)"></div>
 
   <!-- Контент -->
   <section class="wrap">
     <h1>ЛЕГЕНДАРНЫЙ МАГАЗИН<br>ПРИВЕТСТВУЕТ ТЕБЯ!</h1>
     <p class="desc">Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надёжным и качественным по всей России</p>
 
-    <div class="grid">
-      <a href="https://t.me/" class="btn" target="_blank">Оператор</a>
-      <a href="https://t.me/" class="btn" target="_blank">Чаты</a>
-      <a href="https://t.me/" class="btn" target="_blank">Отзывы</a>
-      <a href="https://t.me/" class="btn" target="_blank">Бот</a>
-      <a href="https://t.me/" class="btn" target="_blank">Канал</a>
-      <a href="https://t.me/" class="btn" target="_blank">Обменник</a>
-      <a href="https://t.me/" class="btn" target="_blank">Вакансии</a>
-      <a href="https://t.me/" class="btn" target="_blank">Поддержка</a>
+    <!-- Кнопки 2×4 с черным логотипом телеграма -->
+    <div class="grid" aria-label="Ссылки">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <!-- Чёрный Telegram (SVG) -->
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Оператор</span>
+      </a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Чаты</span>
+      </a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Отзывы</span>
+      </a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Бот автопродаж</span>
+      </a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Канал</span>
+      </a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Обменник</span>
+      </a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Вакансии</span>
+      </a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <span>Поддержка</span>
+      </a>
+    </div>
+
+    <!-- Блоки «Мы на ...» -->
+    <div class="markets" aria-label="Маркетплейсы">
+      <!-- Kraken -->
+      <div class="market">
+        <div class="m-left">
+          <div class="m-logo" id="logo-kraken" title="Логотип Kraken"></div>
+          <div class="m-title">Мы на Kraken</div>
+        </div>
+        <div class="m-buttons">
+          <a class="pill-black" href="#" target="_blank" rel="noopener">КЛИР</a>
+          <a class="pill-black" href="#" target="_blank" rel="noopener">ТОР</a>
+        </div>
+      </div>
+      <!-- BlackSprut -->
+      <div class="market">
+        <div class="m-left">
+          <div class="m-logo" id="logo-blacksprut" title="Логотип BlackSprut"></div>
+          <div class="m-title">Мы на BlackSprut</div>
+        </div>
+        <div class="m-buttons">
+          <a class="pill-black" href="#" target="_blank" rel="noopener">КЛИР</a>
+          <a class="pill-black" href="#" target="_blank" rel="noopener">ТОР</a>
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- Низ -->
+  <footer class="footer">
+    <span>Сделано с 💛 • </span>&nbsp;<a href="https://t.me/" target="_blank" rel="noopener">наш TELEGRAM</a>
+  </footer>
   <div class="spacer"></div>
 </main>
 
-<!-- Выезжающее меню -->
+<!-- Меню -->
 <div class="drawer-wrap" id="drawer">
   <div class="backdrop" id="backdrop"></div>
-  <aside class="drawer">
+  <aside class="drawer" role="dialog" aria-label="Меню">
     <h2>Меню</h2>
-    <a href="#" class="m-link">Калькулятор</a>
-    <a href="#" class="m-link">Почему мы?</a>
-    <a href="#" class="m-link">Контакты</a>
+    <a class="m-link" href="#">Калькулятор</a>
+    <a class="m-link" href="#">Почему мы?</a>
+    <a class="m-link" href="#">Контакты</a>
   </aside>
 </div>
 
 <script>
+/* Бургер-меню */
 const btn=document.getElementById('menuBtn');
 const drawer=document.getElementById('drawer');
 const backdrop=document.getElementById('backdrop');
 btn.addEventListener('click',()=>drawer.classList.add('active'));
 backdrop.addEventListener('click',()=>drawer.classList.remove('active'));
 window.addEventListener('keydown',e=>{if(e.key==='Escape')drawer.classList.remove('active');});
+
+/* Подстановка мини-логотипов (по аналогии с hero.jpg):
+   Положи рядом файлы kraken.png и blacksprut.png, тогда просто раскомментируй строки ниже,
+   либо задай свои пути в backgroundImage. */
+
+// try to load logos if files exist — просто укажи путь:
+document.getElementById('logo-kraken').style.backgroundImage = "url('kraken.png')";
+document.getElementById('logo-blacksprut').style.backgroundImage = "url('blacksprut.png')";
 </script>
 </body>
 </html>
