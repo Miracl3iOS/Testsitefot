@@ -36,7 +36,6 @@ body{
   background:var(--bg); box-shadow:var(--shadow); border-radius:18px; padding:8px 14px;
   font-weight:700; font-size:12px; color:#5b5c64;
 }
-/* Меню-кнопка */
 .menu-btn{
   width:48px; height:34px; border:none; border-radius:12px; background:var(--bg); box-shadow:var(--shadow);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; cursor:pointer;
@@ -56,47 +55,76 @@ body{
 /* Заголовок — оранжевый неон только тут */
 .headline{
   margin:0 0 10px; font-weight:900; font-size:clamp(22px, 6vw, 34px); line-height:1.08;
-  text-wrap:balance; word-break:keep-all; letter-spacing:.2px; color:#fff5e6;
+  text-wrap:balance; letter-spacing:.2px; color:#fff5e6;
   text-shadow:0 0 4px #fff2cc, 0 0 10px #ffb366, 0 0 22px #ff9900, 0 0 32px #ff6f00;
 }
-.desc{ margin:6px 0 20px; color:#383943; font-size:14px } /* чуть больше интервал */
+.desc{ margin:6px 0 20px; color:#383943; font-size:14px }
 
-/* ===== КНОПКА «КОЛЕСО ФОРТУНЫ» — ПОЛНАЯ ШИРИНА ===== */
-.fortune-wide{
-  display:block;
-  width:100%;
-  background: linear-gradient(135deg,
-    #c5113a 0%,   /* помадово-красный (глубокий) */
-    #e11e3a 35%,  /* насыщенный красный */
-    #ff3b5f 70%,  /* ало-розовый перелив */
-    #ff6ea9 100%  /* тёплый розовый финал */
-  );
-  color:#111;                         /* чёрный текст */
-  border:1px solid #000;              /* чёрная обводка, без неона */
-  border-radius:16px;
+/* ===== ПРОМО-КАРТОЧКА (чуть меньше, чем образец; по высоте ~ половина hero) ===== */
+.promo{
+  position:relative;
+  height:clamp(160px,16.5vh,220px);
+  border-radius:22px;
+  overflow:hidden;
+  background:linear-gradient(130deg,#5c2478 0%, #8a2aa6 45%, #d430b5 100%); /* фиолетовый градиент под пример */
   box-shadow:var(--shadow);
-  text-decoration:none;
-  font-weight:900;
-  letter-spacing:.3px;
-  font-size:14px;
-  padding:14px 14px;
-  display:flex; align-items:center; justify-content:center; gap:10px;
-  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
-  margin:0 0 var(--gap);
+  display:flex; align-items:center; padding:16px;
 }
-.fortune-wide:active{ transform:translateY(1px) scale(.985); box-shadow:var(--inset) }
-.fortune-wide .gift{ width:18px; height:18px; flex:0 0 18px; }
-.fortune-wide .gift path{ fill:#111 } /* иконка тоже чёрная */
+.promo-inner{ flex:1 1 auto; max-width:60%}
+.promo h3{
+  margin:0 0 8px; color:#fff; font-weight:900; font-size:clamp(18px,5.5vw,26px); line-height:1.1;
+}
+.promo p{
+  margin:0 0 14px; color:#e7e0ee; font-size:13.5px; line-height:1.25;
+}
+
+/* таймер */
+.timer{
+  position:absolute; top:12px; right:12px;
+  padding:6px 10px; border-radius:14px;
+  background:rgba(255,255,255,.25);
+  color:#fff; font-weight:800; font-size:12px;
+  backdrop-filter:blur(6px);
+}
+
+/* Кнопка КРУТИТЬ — красно-розовый неон */
+.spin-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:12px 16px; border-radius:14px; text-decoration:none;
+  font-weight:900; font-size:14px; letter-spacing:.3px;
+  color:#111; border:1px solid #000;
+  background:linear-gradient(135deg,#c5113a 0%, #e11e3a 35%, #ff3b5f 70%, #ff6ea9 100%);
+  box-shadow:0 0 10px rgba(255,61,112,.35), 0 0 20px rgba(255,110,169,.25), var(--shadow);
+  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.spin-btn:active{ transform:translateY(1px) scale(.985); box-shadow:var(--inset) }
+.spin-btn .gift{
+  width:18px; height:18px; display:block;
+}
+.promo-visual{
+  position:absolute; right:0; bottom:0; top:0; width:42%;
+  display:flex; align-items:flex-end; justify-content:center; padding:10px;
+}
+.promo-visual .gift-img{
+  width:100%; height:100%; background: center/contain no-repeat;
+  background-image:url('gift.png'); /* положи gift.png рядом — будет как на примере */
+}
+.promo-visual .gift-fallback{
+  width:70%; aspect-ratio:1/1; border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #ffd7e8 0%, #ff6ea9 40%, #8a2aa6 100%);
+  box-shadow:0 15px 30px rgba(0,0,0,.25);
+}
 
 /* Сетка кнопок 2×4 */
-.grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap) }
+.grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); margin-top:14px }
 .btn{
   background:var(--card); box-shadow:var(--shadow); border-radius:16px;
   text-decoration:none; color:var(--ink); font-weight:700; font-size:14px;
   padding:12px; display:flex; align-items:center; gap:10px; transition:.15s;
 }
 .btn:hover{ box-shadow:var(--inset) }
-.btn svg{ width:18px; height:18px; flex:0 0 18px }
+/* фикс иконок: корректный SVG, не режется */
+.btn svg{ width:18px; height:18px; display:block; flex:0 0 18px }
 
 /* Блоки маркетов */
 .markets{ margin-top:18px; display:grid; gap:var(--gap) }
@@ -105,9 +133,7 @@ body{
   padding:12px; display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
 .m-left{ display:flex; align-items:center; gap:10px }
-.m-logo{
-  width:22px; height:22px; border-radius:6px; background:#fffdf5 center/cover no-repeat; box-shadow:var(--shadow)
-}
+.m-logo{ width:22px; height:22px; border-radius:6px; background:#fffdf5 center/cover no-repeat; box-shadow:var(--shadow) }
 .m-title{ font-weight:800 }
 .m-buttons{ display:flex; gap:8px }
 .pill-black{
@@ -157,51 +183,61 @@ body{
 
     <p class="desc">Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надёжным и качественным по всей России.</p>
 
-    <!-- Кнопка «Колесо фортуны» — ПОЛНАЯ ШИРИНА -->
-    <a class="fortune-wide" href="#" target="_blank" rel="noopener" title="Колесо фортуны">
-      <svg class="gift" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20 7h-2.4c.6-.6 1-1.4 1-2.3 0-1.9-1.6-3.5-3.5-3.5-1.6 0-2.9 1.1-3.3 2.5-.5-1.4-1.8-2.5-3.4-2.5C4.6 1.2 3 2.8 3 4.7c0 .9.4 1.7 1 2.3H2c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1h9V8H6.3c-.9 0-1.6-.7-1.6-1.6S5.4 4.8 6.3 4.8c1.1 0 2 .9 2 2V7h1.7c.6 0 1-.4 1-1 0-1.1.9-2 2-2 1 0 1.9.9 1.9 2 0 .6.5 1 1.1 1H13v5h9c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1zM2 13v8c0 .6.4 1 1 1h8v-9H2zm11 0v9h8c.6 0 1-.4 1-1v-8h-9z"/>
-      </svg>
-      <span>КОЛЕСО ФОРТУНЫ</span>
-    </a>
+    <!-- ПРОМО-КАРТОЧКА -->
+    <div class="promo" id="promo">
+      <div class="promo-inner">
+        <div class="timer" id="timer">24:00:00</div>
+        <h3>Бесплатное колесо фортуны</h3>
+        <p>Вы имеете возможность прокрутить бесплатное колесо фортуны 1 раз в сутки на нашем сайте.</p>
+        <a class="spin-btn" href="#" id="spinBtn">
+          <svg class="gift" viewBox="0 0 24 24" aria-hidden="true"><path fill="#111" d="M20 7h-2.4c.6-.6 1-1.4 1-2.3 0-1.9-1.6-3.5-3.5-3.5-1.6 0-2.9 1.1-3.3 2.5-.5-1.4-1.8-2.5-3.4-2.5C4.6 1.2 3 2.8 3 4.7c0 .9.4 1.7 1 2.3H2c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1h9V8H6.3c-.9 0-1.6-.7-1.6-1.6S5.4 4.8 6.3 4.8c1.1 0 2 .9 2 2V7h1.7c.6 0 1-.4 1-1 0-1.1.9-2 2-2 1 0 1.9.9 1.9 2 0 .6.5 1 1.1 1H13v5h9c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1zM2 13v8c0 .6.4 1 1 1h8v-9H2zm11 0v9h8c.6 0 1-.4 1-1v-8h-9z"/></svg>
+          <span>КРУТИТЬ</span>
+        </a>
+      </div>
+      <div class="promo-visual">
+        <div class="gift-img" id="giftImg"></div>
+        <div class="gift-fallback" id="giftFallback"></div>
+      </div>
+    </div>
 
-    <!-- Сетка кнопок 2×4 -->
+    <!-- Сетка кнопок -->
     <div class="grid" aria-label="Ссылки">
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <!-- Чистый, не обрезающийся Telegram SVG -->
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Оператор
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Чаты
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Отзывы
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Бот автопродаж
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Канал
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Обменник
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Вакансии
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Поддержка
       </a>
     </div>
 
-    <!-- Маркетплейсы -->
+    <!-- Маркеты -->
     <div class="markets" aria-label="Маркетплейсы">
       <div class="market">
         <div class="m-left">
@@ -241,17 +277,53 @@ body{
 </div>
 
 <script>
+/* бургер */
 const btn=document.getElementById('menuBtn');
 const drawer=document.getElementById('drawer');
 const backdrop=document.getElementById('backdrop');
-
 btn.addEventListener('click',()=>drawer.classList.add('active'));
 backdrop.addEventListener('click',()=>drawer.classList.remove('active'));
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.remove('active'); });
 
-/* Логотипы маркетов (как hero.jpg) */
+/* логотипы маркетов (как hero.jpg) */
 document.getElementById('logo-kraken').style.backgroundImage="url('kraken.png')";
 document.getElementById('logo-blacksprut').style.backgroundImage="url('blacksprut.png')";
+
+/* Подарок в промо: если gift.png не найден — показываем градиентную заглушку */
+const giftImg = document.getElementById('giftImg');
+const giftFallback = document.getElementById('giftFallback');
+const testGift = new Image();
+testGift.onload = ()=>{ giftFallback.style.display='none'; };
+testGift.onerror = ()=>{ giftImg.style.display='none'; };
+testGift.src='gift.png';
+
+/* Таймер 24 часа (сохраняется между посещениями) */
+const timerEl=document.getElementById('timer');
+const spinBtn=document.getElementById('spinBtn');
+const KEY='fortuneResetAt_v1';
+function startCountdown(targetMs){
+  function tick(){
+    const left = targetMs - Date.now();
+    if(left<=0){ timerEl.textContent='00:00:00'; return; }
+    const h=Math.floor(left/3600000);
+    const m=Math.floor((left%3600000)/60000);
+    const s=Math.floor((left%60000)/1000);
+    timerEl.textContent =
+      String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    requestAnimationFrame(tick);
+  }
+  tick();
+}
+let resetAt = Number(localStorage.getItem(KEY));
+if(!resetAt || resetAt<Date.now()){ resetAt = Date.now()+24*60*60*1000; localStorage.setItem(KEY,String(resetAt)); }
+startCountdown(resetAt);
+spinBtn.addEventListener('click',e=>{
+  e.preventDefault();
+  const newReset = Date.now()+24*60*60*1000;
+  localStorage.setItem(KEY,String(newReset));
+  startCountdown(newReset);
+  // тут можешь запустить модалку/колесо — пока только таймер.
+});
 </script>
 </body>
 </html>
