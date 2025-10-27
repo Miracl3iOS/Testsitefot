@@ -1,277 +1,195 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GanjaSeeds — Neon Minimal (логотип PNG без круга)</title>
-<style>
-:root{
-  --bg-color: #0b0b0b;
-  --muted: #bdbdbd;
-  --accent-green: #2ee06a;
-  --neon-green: #24ff7b;
-  --neon-text-glow: 0 0 6px rgba(36,255,123,0.35), 0 0 20px rgba(36,255,123,0.25);
-}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Сайт-визитка — Светлый неоморфизм</title>
+  <meta name="description" content="Визитка в стиле светлого неоморфизма с округлёнными кнопками и золотыми акцентами" />
 
-/* Сброс */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family: "Bauhaus 93", "Gill Sans", "Futura", "Segoe UI", Arial, sans-serif;
-  background: var(--bg-color) url("background.jpg") center/cover no-repeat;
-  color: var(--muted);
-  -webkit-font-smoothing:antialiased;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  padding:24px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 
-/* Оверлей */
-.page-overlay{
-  position:absolute;
-  inset:0;
-  background: rgba(0,0,0,0.35);
-  z-index:0;
-  backdrop-filter: blur(2px);
-}
+  <style>
+    :root {
+      --bg: #f2f3f7;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --gold: #c9a227;
+      --shadow-out: 18px 18px 40px #d2d6de, -18px -18px 40px #ffffff;
+      --shadow-in: inset 10px 10px 20px rgba(0,0,0,.06), inset -10px -10px 20px rgba(255,255,255,.85);
+      --radius-xl: 28px;
+      --radius-pill: 999px;
+    }
 
-/* Центровка */
-.container{
-  position:relative;
-  z-index:2;
-  width:100%;
-  max-width:880px;
-  height:calc(100vh - 48px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
 
-/* Карточка */
-.card {
-  width:100%;
-  max-width:720px;
-  border-radius:30px;
-  padding:2rem 3rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  box-shadow:
-    12px 12px 30px rgba(0,0,0,0.65),
-    -8px -8px 24px rgba(255,255,255,0.02);
-  border: 1px solid rgba(180,180,180,0.25);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:18px;
-  position:relative;
-  min-height:420px;
-  transition: box-shadow 0.5s ease;
-}
-.card:hover{
-  box-shadow:
-    12px 12px 30px rgba(0,0,0,0.65),
-    -8px -8px 24px rgba(255,255,255,0.02),
-    0 0 12px rgba(180,180,180,0.15);
-}
+    .container {
+      max-width: 1100px;
+      width: 100%;
+    }
 
-/* Логотип PNG */
-.logo-svg {
-  width:240px;
-  height:auto;
-  display:block;
-  margin-bottom:12px;
-  transform-origin:center;
-  transition: transform 220ms ease;
-}
-.card:hover .logo-svg { transform: scale(1.03); }
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
 
-/* Glow */
-.logo-core {
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.9))
-          drop-shadow(0 0 16px rgba(255,255,255,0.6))
-          drop-shadow(0 0 28px rgba(255,255,255,0.4));
-  animation: logoPulse 3s ease-in-out infinite;
-}
-@keyframes logoPulse {
-  0%   { opacity:0.9; transform: scale(1); }
-  50%  { opacity:1;   transform: scale(1.03); }
-  100% { opacity:0.9; transform: scale(1); }
-}
+    header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
 
-/* PNG чёткость */
-.logo-svg image{
-  image-rendering: auto;
-  shape-rendering: geometricPrecision;
-}
+    header p {
+      color: var(--muted);
+      font-size: 18px;
+      margin-top: 8px;
+    }
 
-/* Заголовок */
-.brand {
-  font-size:48px;
-  line-height:1;
-  letter-spacing:1px;
-  color:var(--neon-green);
-  text-shadow: var(--neon-text-glow);
-  font-weight:700;
-  margin-top:-6px;
-}
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
 
-/* Подзаголовок */
-.subtitle {
-  margin-top:6px;
-  font-size:18px;
-  color:var(--muted);
-  text-align:center;
-  max-width:80%;
-  min-height:48px;
-  white-space:pre-wrap;
-  overflow-wrap:break-word;
-  line-height:1.4;
-  border-right:2px solid var(--neon-green);
-  padding-right:6px;
-  animation: blinkCursor 0.9s infinite;
-}
-.subtitle span.red{
-  color:#ff4040;
-  font-weight:600;
-}
-@keyframes blinkCursor{
-  0%,100%{ border-color: transparent }
-  50%{ border-color: var(--neon-green) }
-}
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
 
-/* Кнопки */
-.actions{
-  margin-top:18px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.btn{
-  display:inline-flex;
-  gap:10px;
-  align-items:center;
-  padding:10px 16px;
-  border-radius:12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
-  color:var(--muted);
-  font-weight:600;
-  text-decoration:none;
-  box-shadow:
-    6px 6px 16px rgba(0,0,0,0.6),
-    -4px -4px 10px rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.03);
-  transition: transform 160ms ease, box-shadow 160ms ease;
-  min-height:44px;
-}
-.btn .accent{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:6px 10px;
-  border-radius:8px;
-  background: linear-gradient(180deg, rgba(36,255,123,0.12), rgba(36,255,123,0.06));
-  color:var(--accent-green);
-  font-weight:700;
-  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5);
-}
-.btn:hover{ transform: translateY(-4px); }
+    .photo {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      box-shadow: var(--shadow-out);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-/* Водяной знак */
-.watermark{
-  position:absolute;
-  bottom:14px;
-  right:14px;
-  z-index:3;
-  opacity:0.6;
-}
-.watermark img{ width:68px; height:auto; display:block; }
+    .photo img {
+      width: 100%;
+      border-radius: calc(var(--radius-xl) - 10px);
+      box-shadow: var(--shadow-in);
+    }
 
-/* Адаптив */
-@media (max-width:768px){
-  .logo-svg{ width:180px }
-  .brand{font-size:40px}
-  .subtitle{font-size:16px}
-}
-@media (max-width:420px){
-  .logo-svg{ width:140px }
-  .brand{ font-size:28px}
-  .subtitle{font-size:15px}
-}
-</style>
+    .content {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: var(--shadow-out);
+      text-align: center;
+      position: relative;
+    }
+
+    .content::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: calc(var(--radius-xl) - 12px);
+      border: 2px solid var(--gold);
+      opacity: 0.6;
+    }
+
+    .content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .btn {
+      position: relative;
+      background: var(--surface);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 14px 26px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow-out);
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      box-shadow: var(--shadow-in);
+      transform: translateY(0);
+    }
+
+    .btn.gold::before {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--gold);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 80px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="page-overlay"></div>
-
   <div class="container">
-    <div class="card">
+    <header>
+      <h1>Нейтральная визитка</h1>
+      <p>Современный минимализм в неоморфизме</p>
+    </header>
 
-      <!-- Логотип -->
-      <svg class="logo-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <g class="logo-core">
-          <image x="0" y="0" width="500" height="500"
-                 href="gands.png"
-                 preserveAspectRatio="xMidYMid meet" />
-        </g>
-      </svg>
-
-      <!-- Название -->
-      <div class="brand">GanjaSeeds</div>
-
-      <!-- Подзаголовок -->
-      <div class="subtitle" id="typed-text" aria-live="polite"></div>
-
-      <!-- Кнопки -->
-      <div class="actions">
-        <a class="btn" href="#"><span>🇷🇺 Интернет магазин в РФ</span><span class="accent">Вход</span></a>
-        <a class="btn" href="#"><span>🇺🇦 Інтернет магазин в Україні</span><span class="accent">Вхід</span></a>
-        <a class="btn" href="#"><span>🤖 Бот в Telegram</span><span class="accent">Открыть</span></a>
+    <div class="hero">
+      <div class="photo">
+        <img src="your-photo.jpg" alt="Ваше фото" />
       </div>
 
+      <div class="content">
+        <h2>Ваше имя</h2>
+        <p>Краткое описание, позиция или слоган. Можно добавить пару предложений о себе или своей деятельности.</p>
+
+        <div class="buttons">
+          <button class="btn gold">Обо мне</button>
+          <button class="btn gold">Портфолио</button>
+          <button class="btn gold">Контакты</button>
+        </div>
+      </div>
     </div>
+
+    <footer>
+      © 2025 Ваша визитка. Все права защищены.
+    </footer>
   </div>
-
-  <div class="watermark">
-    <img src="watermark.png" alt="Водяной знак" />
-  </div>
-
-<script>
-/* Эффект печати с красной частью */
-const el = document.getElementById("typed-text");
-const textMain = "Семена, которым доверяют гроверы по всему миру — ";
-const textRed = "работаем с 2008 года";
-let i = 0;
-
-function typeText() {
-  if (i < textMain.length) {
-    el.textContent += textMain[i];
-    i++;
-    setTimeout(typeText, 60);
-  } else {
-    // после основной строки — добавляем красную часть посимвольно
-    typeRed(0);
-  }
-}
-
-function typeRed(j) {
-  if (j === 0) {
-    const span = document.createElement("span");
-    span.classList.add("red");
-    el.appendChild(span);
-  }
-  const span = el.querySelector("span.red");
-  if (j < textRed.length) {
-    span.textContent += textRed[j];
-    setTimeout(() => typeRed(j + 1), 70);
-  } else {
-    el.style.borderRight = "none";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", typeText);
-</script>
 </body>
 </html>
