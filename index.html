@@ -59,33 +59,36 @@ body{
   text-wrap:balance; word-break:keep-all; letter-spacing:.2px; color:#fff5e6;
   text-shadow:0 0 4px #fff2cc, 0 0 10px #ffb366, 0 0 22px #ff9900, 0 0 32px #ff6f00;
 }
-.desc{ margin:6px 0 20px; color:#383943; font-size:14px } /* ↑ интервал чуть больше */
+.desc{ margin:6px 0 20px; color:#383943; font-size:14px } /* чуть больше интервал */
 
-/* ===== КНОПКА «КОЛЕСО ФОРТУНЫ» как IG-подарок (красная), ширина как у нижних кнопок ===== */
-.fortune-row{
-  display:grid; grid-template-columns:1fr 1fr; gap:var(--gap);
-  margin:0 0 14px;
-}
-.fortune-cell{ /* одну ячейку оставляем пустой, другая — кнопка, ширина ровно как у нижних */
-}
-.fortune-btn{
+/* ===== КНОПКА «КОЛЕСО ФОРТУНЫ» — ПОЛНАЯ ШИРИНА ===== */
+.fortune-wide{
+  display:block;
+  width:100%;
+  background: linear-gradient(135deg,
+    #c5113a 0%,   /* помадово-красный (глубокий) */
+    #e11e3a 35%,  /* насыщенный красный */
+    #ff3b5f 70%,  /* ало-розовый перелив */
+    #ff6ea9 100%  /* тёплый розовый финал */
+  );
+  color:#111;                         /* чёрный текст */
+  border:1px solid #000;              /* чёрная обводка, без неона */
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  text-decoration:none;
+  font-weight:900;
+  letter-spacing:.3px;
+  font-size:14px;
+  padding:14px 14px;
   display:flex; align-items:center; justify-content:center; gap:10px;
-  padding:12px; border-radius:16px; text-decoration:none; font-weight:900; font-size:14px;
-  color:#fff; letter-spacing:.3px;
-  background:linear-gradient(135deg,#ff2d55 0%, #ff4b5c 40%, #ff6b3d 100%); /* более красная палитра */
-  border:1px solid #000;                 /* чёрная обводка, как просил */
-  box-shadow: var(--shadow);             /* без НЕОНА */
   transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+  margin:0 0 var(--gap);
 }
-.fortune-btn:active{
-  transform:translateY(1px) scale(.98);
-  box-shadow: var(--inset);
-}
-.fortune-btn .gift{
-  width:18px; height:18px; flex:0 0 18px;
-}
+.fortune-wide:active{ transform:translateY(1px) scale(.985); box-shadow:var(--inset) }
+.fortune-wide .gift{ width:18px; height:18px; flex:0 0 18px; }
+.fortune-wide .gift path{ fill:#111 } /* иконка тоже чёрная */
 
-/* Сетка кнопок 2x4 */
+/* Сетка кнопок 2×4 */
 .grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap) }
 .btn{
   background:var(--card); box-shadow:var(--shadow); border-radius:16px;
@@ -154,54 +157,51 @@ body{
 
     <p class="desc">Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надёжным и качественным по всей России.</p>
 
-    <!-- Кнопка «Колесо фортуны» — ширина как у нижних кнопок -->
-    <div class="fortune-row">
-      <a class="fortune-btn" href="#" target="_blank" rel="noopener" title="Колесо фортуны">
-        <svg class="gift" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="#ffffff" d="M20 7h-2.4c.6-.6 1-1.4 1-2.3 0-1.9-1.6-3.5-3.5-3.5-1.6 0-2.9 1.1-3.3 2.5-.5-1.4-1.8-2.5-3.4-2.5C4.6 1.2 3 2.8 3 4.7c0 .9.4 1.7 1 2.3H2c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1h9V8H6.3c-.9 0-1.6-.7-1.6-1.6S5.4 4.8 6.3 4.8c1.1 0 2 .9 2 2V7h1.7c.6 0 1-.4 1-1 0-1.1.9-2 2-2 1 0 1.9.9 1.9 2 0 .6.5 1 1.1 1H13v5h9c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1zM2 13v8c0 .6.4 1 1 1h8v-9H2zm11 0v9h8c.6 0 1-.4 1-1v-8h-9z"/>
-        </svg>
-        <span>КОЛЕСО ФОРТУНЫ</span>
-      </a>
-      <div class="fortune-cell"></div>
-    </div>
+    <!-- Кнопка «Колесо фортуны» — ПОЛНАЯ ШИРИНА -->
+    <a class="fortune-wide" href="#" target="_blank" rel="noopener" title="Колесо фортуны">
+      <svg class="gift" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 7h-2.4c.6-.6 1-1.4 1-2.3 0-1.9-1.6-3.5-3.5-3.5-1.6 0-2.9 1.1-3.3 2.5-.5-1.4-1.8-2.5-3.4-2.5C4.6 1.2 3 2.8 3 4.7c0 .9.4 1.7 1 2.3H2c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1h9V8H6.3c-.9 0-1.6-.7-1.6-1.6S5.4 4.8 6.3 4.8c1.1 0 2 .9 2 2V7h1.7c.6 0 1-.4 1-1 0-1.1.9-2 2-2 1 0 1.9.9 1.9 2 0 .6.5 1 1.1 1H13v5h9c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1zM2 13v8c0 .6.4 1 1 1h8v-9H2zm11 0v9h8c.6 0 1-.4 1-1v-8h-9z"/>
+      </svg>
+      <span>КОЛЕСО ФОРТУНЫ</span>
+    </a>
 
     <!-- Сетка кнопок 2×4 -->
     <div class="grid" aria-label="Ссылки">
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Оператор
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Чаты
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6l5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Отзывы
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9l3.7-17.3c.3-1.2-.4-1.7-1.4-1.3L1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2.7.2L9.2 15.3z"/></svg>
         Бот автопродаж
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
         Канал
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c(.5 0 .8-.2 1.1-.5)л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
         Обменник
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c(.5 0 .8-.2 1.1-.5)л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
         Вакансии
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c(.5 0 .8-.2 1.1-.5)л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3h0c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#000" d="M9.2 15.3 8.9 19c.5 0 .8-.2 1.1-.5л2.6-2.5 5.3 3.9c1 .6 1.7.3 2-.9л3.7-17.3c.3-1.2-.4-1.7-1.4-1.3Л1.2 9.2C.1 9.6.1 10.3 1 10.6л5.5 1.7 12.8-8.1c.6-.4 1.1-.2 .7.2L9.2 15.3z"/></svg>
         Поддержка
       </a>
     </div>
 
-    <!-- Маркеты -->
+    <!-- Маркетплейсы -->
     <div class="markets" aria-label="Маркетплейсы">
       <div class="market">
         <div class="m-left">
