@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Неоморфизм — лендинг</title>
+<title>Лендинг (2 участка)</title>
 <style>
 :root{
   --bg:#f0f0f3;
@@ -18,153 +18,97 @@
 /* База */
 html,body{height:100%}
 body{
-  margin:0; background:var(--bg); color:var(--ink);
+  margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
-  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 .phone{
-  width:min(100vw,var(--maxw)); margin:0 auto; min-height:100dvh;
-  background:var(--bg); box-shadow:var(--shadow); border-radius:24px; overflow:hidden;
-  display:flex; flex-direction:column;
+  width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;
+  background:var(--bg);box-shadow:var(--shadow);border-radius:24px;overflow:hidden;
+  display:flex;flex-direction:column;
 }
 
 /* Верхняя панель */
-.status{
-  height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 16px;
-}
-.center{
-  background:var(--bg); box-shadow:var(--shadow); border-radius:18px; padding:8px 14px;
-  font-weight:700; font-size:12px; color:#5b5c64;
-}
-.menu-btn{
-  width:48px; height:34px; border:none; border-radius:12px; background:var(--bg); box-shadow:var(--shadow);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; cursor:pointer;
-}
-.menu-btn span{ width:22px; height:2.5px; background:#000; border-radius:3px }
+.status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.center{background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64}
+.menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}
+.menu-btn span{width:22px;height:2.5px;background:#000;border-radius:3px}
 
-/* Обложка 1/3 экрана */
-.hero{
-  height:33vh; min-height:200px; max-height:360px; margin:0 16px;
-  border-radius:22px; background:#000 center/cover no-repeat; background-image:url('hero.jpg');
-  box-shadow:var(--shadow); position:relative; overflow:hidden;
-}
-
-/* Контент */
-.wrap{ padding:18px 16px 22px }
-
-/* Заголовок — оранжевый неон только тут */
-.headline{
-  margin:0 0 10px; font-weight:900; font-size:clamp(22px, 6vw, 34px); line-height:1.08;
-  text-wrap:balance; letter-spacing:.2px; color:#fff5e6;
-  text-shadow:0 0 4px #fff2cc, 0 0 10px #ffb366, 0 0 22px #ff9900, 0 0 32px #ff6f00;
-}
-.desc{ margin:6px 0 20px; color:#383943; font-size:14px }
-
-/* ===== ПРОМО-КАРТОЧКА (чуть меньше, чем образец; по высоте ~ половина hero) ===== */
-.promo{
-  position:relative;
-  height:clamp(160px,16.5vh,220px);
+/* Участок 1 — только логотип hero.jpg */
+.hero-section{
+  height:clamp(260px, 38vh, 360px);      /* можно поменять высоту участка 1 */
+  margin:0 16px 10px;
   border-radius:22px;
-  overflow:hidden;
-  background:linear-gradient(130deg,#5c2478 0%, #8a2aa6 45%, #d430b5 100%); /* фиолетовый градиент под пример */
   box-shadow:var(--shadow);
-  display:flex; align-items:center; padding:16px;
+  background:#ececf2;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
 }
-.promo-inner{ flex:1 1 auto; max-width:60%}
-.promo h3{
-  margin:0 0 8px; color:#fff; font-weight:900; font-size:clamp(18px,5.5vw,26px); line-height:1.1;
-}
-.promo p{
-  margin:0 0 14px; color:#e7e0ee; font-size:13.5px; line-height:1.25;
-}
-
-/* таймер */
-.timer{
-  position:absolute; top:12px; right:12px;
-  padding:6px 10px; border-radius:14px;
-  background:rgba(255,255,255,.25);
-  color:#fff; font-weight:800; font-size:12px;
-  backdrop-filter:blur(6px);
+.hero-img{
+  width:100%;height:100%;
+  object-fit:contain;                    /* показать изображение целиком */
+  object-position:center;
+  display:block;
+  /* для лёгкого параллакса можно раскомментировать:
+  will-change: transform;
+  */
 }
 
-/* Кнопка КРУТИТЬ — красно-розовый неон */
-.spin-btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:10px;
-  padding:12px 16px; border-radius:14px; text-decoration:none;
-  font-weight:900; font-size:14px; letter-spacing:.3px;
-  color:#111; border:1px solid #000;
-  background:linear-gradient(135deg,#c5113a 0%, #e11e3a 35%, #ff3b5f 70%, #ff6ea9 100%);
-  box-shadow:0 0 10px rgba(255,61,112,.35), 0 0 20px rgba(255,110,169,.25), var(--shadow);
-  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+/* Участок 2 — контент */
+.wrap{padding:6px 16px 22px}
+
+/* Заголовок (оранжевый неон только тут) */
+.headline{
+  margin:0 0 10px;font-weight:900;font-size:clamp(22px,6vw,34px);line-height:1.08;
+  text-wrap:balance;letter-spacing:.2px;color:#fff5e6;
+  text-shadow:0 0 4px #fff2cc,0 0 10px #ffb366,0 0 22px #ff9900,0 0 32px #ff6f00;
 }
-.spin-btn:active{ transform:translateY(1px) scale(.985); box-shadow:var(--inset) }
-.spin-btn .gift{
-  width:18px; height:18px; display:block;
-}
-.promo-visual{
-  position:absolute; right:0; bottom:0; top:0; width:42%;
-  display:flex; align-items:flex-end; justify-content:center; padding:10px;
-}
-.promo-visual .gift-img{
-  width:100%; height:100%; background: center/contain no-repeat;
-  background-image:url('gift.png'); /* положи gift.png рядом — будет как на примере */
-}
-.promo-visual .gift-fallback{
-  width:70%; aspect-ratio:1/1; border-radius:50%;
-  background:radial-gradient(circle at 35% 35%, #ffd7e8 0%, #ff6ea9 40%, #8a2aa6 100%);
-  box-shadow:0 15px 30px rgba(0,0,0,.25);
-}
+.desc{margin:6px 0 20px;color:#383943;font-size:14px}
+
+/* Промо-карточка (с таймером) */
+.promo{position:relative;height:clamp(160px,16.5vh,220px);border-radius:22px;overflow:hidden;
+  background:linear-gradient(130deg,#5c2478 0%, #8a2aa6 45%, #d430b5 100%);
+  box-shadow:var(--shadow);display:flex;align-items:center;padding:16px;margin-top:6px}
+.promo-inner{flex:1 1 auto;max-width:60%}
+.promo h3{margin:0 0 8px;color:#fff;font-weight:900;font-size:clamp(18px,5.5vw,26px);line-height:1.1}
+.promo p{margin:0 0 14px;color:#e7e0ee;font-size:13.5px;line-height:1.25}
+.timer{position:absolute;top:12px;right:12px;padding:6px 10px;border-radius:14px;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:12px;backdrop-filter:blur(6px)}
+.spin-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border-radius:14px;text-decoration:none;font-weight:900;font-size:14px;letter-spacing:.3px;color:#111;border:1px solid #000;background:linear-gradient(135deg,#c5113a 0%,#e11e3a 35%,#ff3b5f 70%,#ff6ea9 100%);box-shadow:0 0 10px rgba(255,61,112,.35),0 0 20px rgba(255,110,169,.25),var(--shadow);transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+.spin-btn:active{transform:translateY(1px) scale(.985);box-shadow:var(--inset)}
+.spin-btn .gift{width:18px;height:18px;display:block}
+.promo-visual{position:absolute;right:0;bottom:0;top:0;width:42%;display:flex;align-items:flex-end;justify-content:center;padding:10px}
+.promo-visual .gift-img{width:100%;height:100%;background:center/contain no-repeat;background-image:url('gift.png')}
+.promo-visual .gift-fallback{width:70%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 35% 35%, #ffd7e8 0%, #ff6ea9 40%, #8a2aa6 100%);box-shadow:0 15px 30px rgba(0,0,0,.25)}
 
 /* Сетка кнопок 2×4 */
-.grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); margin-top:14px }
-.btn{
-  background:var(--card); box-shadow:var(--shadow); border-radius:16px;
-  text-decoration:none; color:var(--ink); font-weight:700; font-size:14px;
-  padding:12px; display:flex; align-items:center; gap:10px; transition:.15s;
-}
-.btn:hover{ box-shadow:var(--inset) }
-/* фикс иконок: корректный SVG, не режется */
-.btn svg{ width:18px; height:18px; display:block; flex:0 0 18px }
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:14px}
+.btn{background:var(--card);box-shadow:var(--shadow);border-radius:16px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;padding:12px;display:flex;align-items:center;gap:10px;transition:.15s}
+.btn:hover{box-shadow:var(--inset)}
+.btn svg{width:18px;height:18px;display:block;flex:0 0 18px} /* фикс иконок */
 
-/* Блоки маркетов */
-.markets{ margin-top:18px; display:grid; gap:var(--gap) }
-.market{
-  background:var(--card); box-shadow:var(--shadow); border-radius:16px;
-  padding:12px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-}
-.m-left{ display:flex; align-items:center; gap:10px }
-.m-logo{ width:22px; height:22px; border-radius:6px; background:#fffdf5 center/cover no-repeat; box-shadow:var(--shadow) }
-.m-title{ font-weight:800 }
-.m-buttons{ display:flex; gap:8px }
-.pill-black{
-  text-decoration:none; color:#fff; background:#111; padding:8px 12px; border-radius:10px;
-  font-weight:800; font-size:13px; box-shadow:0 2px 0 rgba(0,0,0,.35), var(--shadow);
-  transition:transform .12s ease, box-shadow .12s ease;
-}
-.pill-black:active{ transform:scale(.97); box-shadow:0 1px 0 rgba(0,0,0,.45), var(--inset) }
+/* Маркеты */
+.markets{margin-top:18px;display:grid;gap:var(--gap)}
+.market{background:var(--card);box-shadow:var(--shadow);border-radius:16px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.m-left{display:flex;align-items:center;gap:10px}
+.m-logo{width:22px;height:22px;border-radius:6px;background:#fffdf5 center/cover no-repeat;box-shadow:var(--shadow)}
+.m-title{font-weight:800}
+.m-buttons{display:flex;gap:8px}
+.pill-black{text-decoration:none;color:#fff;background:#111;padding:8px 12px;border-radius:10px;font-weight:800;font-size:13px;box-shadow:0 2px 0 rgba(0,0,0,.35),var(--shadow);transition:transform .12s ease,box-shadow .12s ease}
+.pill-black:active{transform:scale(.97);box-shadow:0 1px 0 rgba(0,0,0,.45),var(--inset)}
 
 /* Подвал */
-.footer{ padding:12px 16px; font-size:12px; color:#666; text-align:center }
-.footer a{ color:#3a3b44; font-weight:700; text-decoration:none; border-bottom:1px dashed #3a3b44 }
-.footer a:hover{ border-bottom-style:solid }
+.footer{padding:12px 16px;font-size:12px;color:#666;text-align:center}
+.footer a{color:#3a3b44;font-weight:700;text-decoration:none;border-bottom:1px dashed #3a3b44}
+.footer a:hover{border-bottom-style:solid}
 
 /* Меню слева */
-.drawer-wrap{ position:fixed; inset:0; display:none; z-index:50 }
-.drawer-wrap.active{ display:block }
-.backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.25); backdrop-filter:blur(6px) }
-.drawer{
-  position:absolute; left:0; top:0; height:100%; width:min(84vw,340px);
-  background:rgba(240,240,243,.85); backdrop-filter:blur(15px);
-  box-shadow:12px 0 28px rgba(0,0,0,.15);
-  border-top-right-radius:20px; border-bottom-right-radius:20px;
-  padding:22px 20px 18px; transform:translateX(-100%); transition:transform .25s ease;
-}
-.drawer-wrap.active .drawer{ transform:none }
-.drawer h2{ margin:0 0 14px; font-size:18px }
-.m-link{
-  display:block; padding:12px 10px; margin-bottom:8px; background:#fff; border-radius:12px;
-  box-shadow:var(--shadow); text-decoration:none; color:#2f2f36; font-weight:600;
-}
+.drawer-wrap{position:fixed;inset:0;display:none;z-index:50}
+.drawer-wrap.active{display:block}
+.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(6px)}
+.drawer{position:absolute;left:0;top:0;height:100%;width:min(84vw,340px);background:rgba(240,240,243,.85);backdrop-filter:blur(15px);box-shadow:12px 0 28px rgba(0,0,0,.15);border-top-right-radius:20px;border-bottom-right-radius:20px;padding:22px 20px 18px;transform:translateX(-100%);transition:transform .25s ease}
+.drawer-wrap.active .drawer{transform:none}
+.drawer h2{margin:0 0 14px;font-size:18px}
+.m-link{display:block;padding:12px 10px;margin-bottom:8px;background:#fff;border-radius:12px;box-shadow:var(--shadow);text-decoration:none;color:#2f2f36;font-weight:600}
 </style>
 </head>
 <body>
@@ -176,14 +120,18 @@ body{
     </button>
   </div>
 
-  <div class="hero"></div>
+  <!-- Участок 1: только логотип -->
+  <section class="hero-section">
+    <img src="hero.jpg" alt="Логотип" class="hero-img" loading="eager">
+  </section>
 
+  <!-- Участок 2: весь остальной контент -->
   <section class="wrap">
     <h1 class="headline">ЛЕГЕНДАРНЫЙ МАГАЗИН ПРИВЕТСТВУЕТ ТЕБЯ!</h1>
 
     <p class="desc">Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надёжным и качественным по всей России.</p>
 
-    <!-- ПРОМО-КАРТОЧКА -->
+    <!-- Промо-карточка с таймером и кнопкой КРУТИТЬ -->
     <div class="promo" id="promo">
       <div class="promo-inner">
         <div class="timer" id="timer">24:00:00</div>
@@ -200,10 +148,9 @@ body{
       </div>
     </div>
 
-    <!-- Сетка кнопок -->
+    <!-- Кнопки 2×4 -->
     <div class="grid" aria-label="Ссылки">
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <!-- Чистый, не обрезающийся Telegram SVG -->
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
         Оператор
       </a>
@@ -216,23 +163,23 @@ body{
         Отзывы
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22Л9.04 15.46Z"/></svg>
         Бот автопродаж
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22Л9.04 15.46Z"/></svg>
         Канал
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22Л9.04 15.46Z"/></svg>
         Обменник
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67Л19 4.33c.61-.36 1.08-.16.69.22Л9.04 15.46Z"/></svg>
         Вакансии
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67Л19 4.33c.61-.36 1.08-.16.69.22Л9.04 15.46Z"/></svg>
         Поддержка
       </a>
     </div>
@@ -277,7 +224,7 @@ body{
 </div>
 
 <script>
-/* бургер */
+/* меню */
 const btn=document.getElementById('menuBtn');
 const drawer=document.getElementById('drawer');
 const backdrop=document.getElementById('backdrop');
@@ -285,44 +232,40 @@ btn.addEventListener('click',()=>drawer.classList.add('active'));
 backdrop.addEventListener('click',()=>drawer.classList.remove('active'));
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.remove('active'); });
 
-/* логотипы маркетов (как hero.jpg) */
+/* логотипы маркетов */
 document.getElementById('logo-kraken').style.backgroundImage="url('kraken.png')";
 document.getElementById('logo-blacksprut').style.backgroundImage="url('blacksprut.png')";
 
-/* Подарок в промо: если gift.png не найден — показываем градиентную заглушку */
+/* промо: fallback подарка */
 const giftImg = document.getElementById('giftImg');
 const giftFallback = document.getElementById('giftFallback');
-const testGift = new Image();
-testGift.onload = ()=>{ giftFallback.style.display='none'; };
-testGift.onerror = ()=>{ giftImg.style.display='none'; };
-testGift.src='gift.png';
+const img = new Image();
+img.onload=()=>{giftFallback.style.display='none';};
+img.onerror=()=>{giftImg.style.display='none';};
+img.src='gift.png';
 
-/* Таймер 24 часа (сохраняется между посещениями) */
+/* Таймер 24 часа */
 const timerEl=document.getElementById('timer');
 const spinBtn=document.getElementById('spinBtn');
 const KEY='fortuneResetAt_v1';
-function startCountdown(targetMs){
+function startCountdown(target){
   function tick(){
-    const left = targetMs - Date.now();
-    if(left<=0){ timerEl.textContent='00:00:00'; return; }
-    const h=Math.floor(left/3600000);
-    const m=Math.floor((left%3600000)/60000);
-    const s=Math.floor((left%60000)/1000);
-    timerEl.textContent =
-      String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    const left=target-Date.now();
+    if(left<=0){timerEl.textContent='00:00:00';return;}
+    const h=Math.floor(left/3600000), m=Math.floor((left%3600000)/60000), s=Math.floor((left%60000)/1000);
+    timerEl.textContent=[h,m,s].map(v=>String(v).padStart(2,'0')).join(':');
     requestAnimationFrame(tick);
   }
   tick();
 }
-let resetAt = Number(localStorage.getItem(KEY));
-if(!resetAt || resetAt<Date.now()){ resetAt = Date.now()+24*60*60*1000; localStorage.setItem(KEY,String(resetAt)); }
+let resetAt=Number(localStorage.getItem(KEY));
+if(!resetAt || resetAt<Date.now()){resetAt=Date.now()+24*60*60*1000;localStorage.setItem(KEY,String(resetAt));}
 startCountdown(resetAt);
 spinBtn.addEventListener('click',e=>{
   e.preventDefault();
-  const newReset = Date.now()+24*60*60*1000;
+  const newReset=Date.now()+24*60*60*1000;
   localStorage.setItem(KEY,String(newReset));
   startCountdown(newReset);
-  // тут можешь запустить модалку/колесо — пока только таймер.
 });
 </script>
 </body>
