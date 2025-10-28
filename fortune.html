@@ -17,7 +17,7 @@ html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
-.phone{width:min(100vw,var(--maxw));margin:0 авто;min-height:100dvh;background:var(--bg);
+.phone{width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;background:var(--bg);
   box-shadow:var(--shadow);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
 .status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .center{background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64}
@@ -117,7 +117,7 @@ body{margin:0;background:var(--bg);color:var(--ink);
   </div>
   <p id="toastText"></p>
   <a href="https://t.me/" target="_blank" rel="noopener" class="tg-btn" id="toastBtn" style="display:none">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
     Оператор
   </a>
 </div>
@@ -126,14 +126,15 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* ===== Геометрия и математика ===== */
 const N = 12, FULL = Math.PI*2, STEP = FULL/N;
 const CENTER = {x:500, y:500};
-/* обводка + лампочки — ещё ближе к диску, без изменения толщин */
-const R_OUT  = 468;             // внешний радиус клиньев (диск)
-const R_LIP  = 476;             // белая кромка (stroke 16 → внутр. край = 476-8 = 468)
-const R_RING2= 480;             // внутреннее золотое кольцо (как было +6)
-const R_RING1= 488;             // внешнее золотое кольцо (как было +6)
-const R_BULB = 484;             // радиус лампочек (как было +6)
-/* подписи */
-const R_TEXT = 360;
+
+/* Золотые кольца/лампочки (толщины прежние) */
+const R_RING1 = 488;      // внешнее золото, stroke 36
+const R_RING2 = 480;      // внутреннее золото, stroke 24 (внутр. край = 468)
+const R_BULB  = 484;      // лампочки
+/* Диск клиньев — чуть ЗАХОДИТ под золотое кольцо (на 1px), чтобы без щели */
+const R_OUT   = 469;      // 468 + 1px overlap
+/* Подписи */
+const R_TEXT  = 360;
 const POINTER_OFFSET = Math.PI;
 
 const PRIZES = [
@@ -159,35 +160,22 @@ function wedgePath(r,a0,a1){
   const la = (a1-a0)>Math.PI ? 1 : 0;
   return `M ${CENTER.x},${CENTER.y} L ${x0},${y0} A ${r},${r} 0 ${la} 1 ${x1},${y1} Z`;
 }
-function indexFromRotation(rot){
-  const theta = norm(POINTER_OFFSET - norm(rot));
-  return Math.floor(theta/STEP) % N;
-}
 
 /* ===== Рисуем SVG ===== */
 const svg = document.getElementById('wheelSVG');
-const g   = document.createElementNS('http://www.w3.org/2000/svg','g'); g.id='wheelGroup';
 
-[['#b86a00',36,R_RING1],['#e3a300',24,R_RING2],['#ffffff',16,R_LIP]].forEach(([color,w,r])=>{
-  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y); c.setAttribute('r',r);
-  c.setAttribute('fill','none'); c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
-  svg.appendChild(c);
-});
-for(let i=0;i<36;i++){ const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
-  const bulb=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  bulb.setAttribute('class','bulb'); bulb.setAttribute('r','12'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
-  svg.appendChild(bulb);
-}
-
+/* 1) СНАЧАЛА клинья и текст (ниже по z-index) */
+const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+g.id = 'wheelGroup';
 const colors=['#941f12','#a82316','#b82719','#cd2c1d'];
 for(let i=0;i<N;i++){
-  const a0 = -Math.PI/2 + i*STEP, a1 = a0 + STEP, mid=(a0+a1)/2;
+  const a0 = -Math.PI/2 + i*(FULL/N), a1 = a0 + (FULL/N), mid=(a0+a1)/2;
 
   const p=document.createElementNS('http://www.w3.org/2000/svg','path');
   p.setAttribute('d',wedgePath(R_OUT,a0,a1));
   p.setAttribute('fill',colors[i%colors.length]);
-  p.setAttribute('stroke','#7d170f'); p.setAttribute('stroke-width','2');
+  p.setAttribute('stroke','#7d170f'); 
+  p.setAttribute('stroke-width','2');
   g.appendChild(p);
 
   const [tx,ty]=polar(R_TEXT, mid);
@@ -197,13 +185,29 @@ for(let i=0;i<N;i++){
   const label = PRIZES[i].label;
   const fs = label.length>6 ? 32 : label.length>4 ? 36 : 40;
   t.setAttribute('font-size', fs);
-  t.setAttribute('text-anchor','middle'); t.setAttribute('dominant-baseline','middle');
+  t.setAttribute('text-anchor','middle'); 
+  t.setAttribute('dominant-baseline','middle');
   t.setAttribute('transform',`rotate(${toDeg(mid)} ${tx} ${ty})`);
   t.textContent = label;
   g.appendChild(t);
 }
 svg.appendChild(g);
 
+/* 2) СВЕРХУ кладём золотые кольца и лампочки (чтобы скрыть стык) */
+[['#b86a00',36,R_RING1],['#e3a300',24,R_RING2]].forEach(([color,w,r])=>{
+  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y); c.setAttribute('r',r);
+  c.setAttribute('fill','none'); c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
+  svg.appendChild(c);
+});
+for(let i=0;i<36;i++){
+  const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
+  const bulb=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  bulb.setAttribute('class','bulb'); bulb.setAttribute('r','12'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
+  svg.appendChild(bulb);
+}
+
+/* центр */
 [['90','#e3a300'],['60','#ffd86b']].forEach(([r,c])=>{
   const cc=document.createElementNS('http://www.w3.org/2000/svg','circle');
   cc.setAttribute('cx',CENTER.x); cc.setAttribute('cy',CENTER.y); cc.setAttribute('r',r); cc.setAttribute('fill',c); svg.appendChild(cc);
@@ -222,7 +226,7 @@ const toast=document.getElementById('toast'), toastTitle=document.getElementById
 document.getElementById('toastClose').onclick=()=>toast.classList.remove('show');
 const pad2=n=>String(n).padStart(2,'0');
 const leftFmt=ms=>`${pad2(Math.floor(ms/3600000))}:${pad2(Math.floor((ms%3600000)/60000))}:${pad2(Math.floor((ms%60000)/1000))}`;
-const setCoupon=(т,copy)=>{couponEl.textContent=т; copyBtn.disabled=!copy;}
+const setCoupon=(t,copy)=>{couponEl.textContent=t; copyBtn.disabled=!copy;}
 const last=()=>Number(localStorage.getItem(KEY_LAST))||0;
 const left =()=>Math.max(0,last()+COOLDOWN-Date.now());
 const saveLast=()=>localStorage.setItem(KEY_LAST,String(Date.now()));
@@ -251,22 +255,33 @@ function spin(){
     const t=Math.min(1,(now-start)/dur);
     rotation = ((startA + (target-startA)*ease(t))%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
     applyRotation();
-    const idx = Math.floor((((POINTER_OFFSET - rotation)%(Math.PI*2)+Math.PI*2)%(Math.PI*2))/STEP)%N;
-    if(idx!==lastTick){ tickSound(); lastTick=idx; }
     if(t<1){ requestAnimationFrame(frame); }
     else{
       rotation = ((rotation%(Math.PI*2))+Math.PI*2)%(Math.PI*2); applyRotation();
-      const prize = PRIZES[Math.floor((((POINTER_OFFSET - rotation)%(Math.PI*2)+Math.PI*2)%(Math.PI*2))/STEP)%N];
-      if(prize.type==='none'){ loseSound(); flashBulbs(true); setCoupon('Увы, пусто. Попробуйте завтра!',false); toastShow('lose'); saveLast(); spinning=false; (function tt(){const l=left(); if(l>0){timerEl.textContent='Следующее через '+leftFmt(l); requestAnimationFrame(tt);} else timerEl.textContent='Доступно сейчас';})(); return; }
-      winSound(); flashBulbs(true);
-      const coupon=makeCoupon(prize); setCoupon(coupon.display,true); saveCode(coupon.raw); saveLast(); toastShow('win',coupon);
-      spinning=false; (function tt(){const l=left(); if(l>0){timerEl.textContent='Следующее через '+leftFmt(l); requestAnimationFrame(tt);} else timerEl.textContent='Доступно сейчас';})();
+      const idx = Math.floor((((POINTER_OFFSET - rotation)%(Math.PI*2)+Math.PI*2)%(Math.PI*2))/STEP)%N;
+      const prize = PRIZES[idx];
+      if(prize.type==='none'){ 
+        loseSound(); 
+        setCoupon('Увы, пусто. Попробуйте завтра!',false); 
+        toastShow('lose'); 
+        saveLast(); 
+        return;
+      }
+      winSound();
+      const coupon=makeCoupon(prize);
+      setCoupon(coupon.display,true); saveCode(coupon.raw); saveLast(); toastShow('win',coupon);
     }
   }
   requestAnimationFrame(frame);
 }
 spinBtn.addEventListener('click',spin);
-copyBtn.addEventListener('click',e=>{const т=couponEl.textContent.trim(); if(!т||т.includes('появится')||т.includes('пусто')) return; navigator.clipboard.writeText(т).then(()=>{const old=e.target.textContent; e.target.textContent='Скопировано'; setTimeout(()=>e.target.textContent=old,900);});});
+copyBtn.addEventListener('click',e=>{
+  const t=couponEl.textContent.trim();
+  if(!t||t.includes('появится')||t.includes('пусто')) return;
+  navigator.clipboard.writeText(t).then(()=>{
+    const old=e.target.textContent; e.target.textContent='Скопировано'; setTimeout(()=>e.target.textContent=old,900);
+  });
+});
 
 /* стартовый рендер */
 applyRotation();
