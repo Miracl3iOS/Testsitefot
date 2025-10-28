@@ -1,86 +1,62 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Колесо фортуны — купон</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Колесо фортуны — идеальная версия</title>
 <style>
-:root{
+:root {
   --bg:#f0f0f3; --card:#f7f7fb; --ink:#2f2f36;
   --shadow:5px 5px 10px #cfcfd6, -5px -5px 10px #ffffff;
   --inset:inset 5px 5px 10px #cfcfd6, inset -5px -5px 10px #ffffff;
-  --maxw:428px;
   --accent1:#ffb366; --accent2:#ff6f00;
   --btn-grad-from:#c5113a; --btn-grad-to:#ff6ea9;
+  --maxw:428px;
 }
-html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--ink);
+body {
+  margin:0; background:var(--bg); color:var(--ink);
   font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden}
-.phone{width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;background:var(--bg);
-  box-shadow:var(--shadow);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
-.status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-.center{background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64}
-.menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:default}
+  display:flex; flex-direction:column; align-items:center; min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.phone {width:min(100vw,var(--maxw)); margin:auto; background:var(--bg); border-radius:24px; box-shadow:var(--shadow); overflow:hidden;}
+.status {height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 16px;}
+.back {background:#fff; padding:8px 12px; border-radius:12px; text-decoration:none; font-weight:700; color:#2f2f36; box-shadow:var(--shadow);}
+.center {background:var(--bg); box-shadow:var(--shadow); border-radius:18px; padding:8px 14px; font-weight:700; font-size:12px; color:#5b5c64;}
+.menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
 .menu-btn span{width:22px;height:2.5px;background:#000;border-radius:3px}
-.back{display:inline-block;text-decoration:none;font-weight:700;color:#2f2f36;background:#fff;padding:8px 12px;border-radius:12px;box-shadow:var(--shadow)}
-
 .wrap{padding:12px 16px 22px}
-.headline{margin:8px 0 6px;font-weight:900;font-size:clamp(22px,6vw,34px);line-height:1.08;color:#fff5e6;
-  text-shadow:0 0 4px #fff2cc,0 0 10px var(--accent1),0 0 22px #ff9900,0 0 32px var(--accent2)}
-.sub{margin:4px 0 14px;color:#3c3d46;font-size:14px}
-
+.headline{margin:8px 0 6px;font-weight:900;font-size:clamp(22px,6vw,34px);color:#fff5e6;text-shadow:0 0 4px #fff2cc,0 0 10px var(--accent1),0 0 22px #ff9900,0 0 32px var(--accent2);}
+.sub{color:#3c3d46;font-size:14px;margin:4px 0 14px}
 .card{background:var(--card);box-shadow:var(--shadow);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:14px}
-
-/* колесо */
-.wheel-wrap{position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg);
-  border-radius:18px;padding:12px;box-shadow:var(--inset)}
-.wheel-box{width:min(84vw,360px);height:min(84vw,360px);max-width:360px;max-height:360px;position:relative}
-.pointer{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);
-  width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:22px solid #d28a00;
+.wheel-wrap{position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:18px;padding:12px;box-shadow:var(--inset);}
+.wheel-box{width:min(84vw,360px);height:min(84vw,360px);position:relative;max-width:360px;max-height:360px;}
+/* стрелка перевёрнута остриём внутрь */
+.pointer{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(180deg);
+  width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #d28a00;
   filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}
 .bulb{fill:#ffe9a8;stroke:#e1a400;stroke-width:3px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}} .blink .bulb{animation:blink .35s linear infinite}
-
-/* кнопка, инфо */
-.spin-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:14px;
-  text-decoration:none;font-weight:900;font-size:16px;letter-spacing:.3px;color:#111;border:1px solid #000;
-  background:linear-gradient(135deg,var(--btn-grad-from) 0%,#e11e3a 35%,#ff3b5f 70%,var(--btn-grad-to) 100%);
-  box-shadow:0 0 10px rgba(255,61,112,.35),0 0 20px rgba(255,110,169,.25),var(--shadow);transition:transform .12s ease,box-shadow .12s ease}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}.blink .bulb{animation:blink .35s linear infinite}
+.spin-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:14px;text-decoration:none;font-weight:900;font-size:16px;color:#111;border:1px solid #000;background:linear-gradient(135deg,var(--btn-grad-from),var(--btn-grad-to));box-shadow:0 0 10px rgba(255,61,112,.35),0 0 20px rgba(255,110,169,.25),var(--shadow);}
 .spin-btn:active{transform:translateY(1px) scale(.985);box-shadow:var(--inset)}
-.spin-btn[disabled]{opacity:.6;filter:grayscale(.2);cursor:not-allowed}
-
+.spin-btn[disabled]{opacity:.6;filter:grayscale(.3);cursor:not-allowed}
 .status-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
 .timer-pill{padding:8px 10px;border-radius:12px;background:#fff;color:#333;font-weight:800;font-size:13px;box-shadow:var(--shadow)}
 .copy-row{display:flex;gap:8px;align-items:center;justify-content:flex-end}
-.code{padding:8px 10px;border-radius:12px;background:#fff;box-shadow:var(--shadow);
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800;font-size:13px;color:#111}
+.code{padding:8px 10px;border-radius:12px;background:#fff;box-shadow:var(--shadow);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800;font-size:13px}
 .copy-btn{padding:8px 12px;border-radius:10px;background:#111;color:#fff;font-weight:800;text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.35),var(--shadow)}
 .copy-btn:active{transform:scale(.98)}
-
-.footer{padding:12px 16px;font-size:12px;color:#666;text-align:center}
+.footer{padding:12px 16px;font-size:12px;text-align:center;color:#666;}
 .footer a{color:#3a3b44;font-weight:700;text-decoration:none;border-bottom:1px dashed #3a3b44}
-.footer a:hover{border-bottom-style:solid}
-
-.toast{position:fixed;left:50%;bottom:16px;transform:translate(-50%,140%);width:min(92vw,420px);z-index:60;background:var(--card);box-shadow:var(--shadow);border-radius:18px;padding:14px;transition:transform .28s ease}
-.toast.show{transform:translate(-50%,0)}
-.toast h4{margin:0 0 6px;font-size:16px}
-.toast p{margin:0 0 10px;color:#444;font-size:14px}
-.toast .row{display:flex;justify-content:space-between;gap:8px;align-items:center}
-.tg-btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:#111;color:#fff;padding:10px 12px;border-radius:12px;font-weight:800;box-shadow:0 2px 0 rgba(0,0,0,.35),var(--shadow)}
-.tg-btn svg{width:18px;height:18px;display:block}
-.toast .close{border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;padding:6px 8px;border-radius:10px}
-.toast .close:active{background:#eee}
 </style>
 </head>
 <body>
 <main class="phone">
   <div class="status">
-    <a class="back" href="index.html">← Назад</a>
+    <a class="back" href="#">← Назад</a>
     <div class="center">TELEGRAM</div>
-    <button class="menu-btn" aria-label="Меню" disabled><span></span><span></span><span></span></button>
+    <button class="menu-btn" disabled><span></span><span></span><span></span></button>
   </div>
-
   <section class="wrap">
     <h1 class="headline">Бесплатное колесо фортуны</h1>
     <p class="sub">Крутите колесо 1 раз в сутки и получайте купон. Результат — по настоящему углу остановки стрелки.</p>
@@ -88,206 +64,57 @@ body{margin:0;background:var(--bg);color:var(--ink);
     <div class="card">
       <div class="wheel-wrap">
         <div class="wheel-box">
-          <div class="pointer" aria-hidden="true"></div>
-          <svg id="wheelSVG" viewBox="0 0 1000 1000" width="100%" height="100%" style="display:block"></svg>
+          <div class="pointer"></div>
+          <svg id="wheelSVG" viewBox="0 0 1000 1000" width="100%" height="100%"></svg>
         </div>
       </div>
 
       <button id="spinBtn" class="spin-btn">КРУТИТЬ</button>
-
-      <div class="status-row">
-        <div class="timer-pill"><span id="timer">Доступно сейчас</span></div>
-        <div class="copy-row">
-          <div class="code" id="couponCode">Купон появится здесь</div>
-          <button class="copy-btn" id="copyBtn" disabled>Копировать</button>
-        </div>
-      </div>
     </div>
   </section>
-
-  <footer class="footer">Сделано с 💛 • <a href="https://t.me/" target="_blank" rel="noopener">наш TELEGRAM</a></footer>
+  <footer class="footer">Сделано с 💛 • <a href="https://t.me/" target="_blank">наш TELEGRAM</a></footer>
 </main>
 
-<div class="toast" id="toast">
-  <div class="row">
-    <h4 id="toastTitle">Сообщение</h4>
-    <button class="close" id="toastClose" aria-label="Закрыть">×</button>
-  </div>
-  <p id="toastText"></p>
-  <a href="https://t.me/" target="_blank" rel="noopener" class="tg-btn" id="toastBtn" style="display:none">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
-    Оператор
-  </a>
-</div>
-
 <script>
-/* ===== Геометрия и математика ===== */
-const N = 12;
-const FULL = Math.PI*2;
-const STEP = FULL/N;
-const CENTER = {x:500, y:500};
-const R_BULB = 470;        // обод (золотое кольцо)
-const R_OUT  = 440;        // внешний радиус клиньев (вписан в обод)
-const R_TEXT = 325;        // радиус текстовой дуги внутри клина
-const POINTER_OFFSET = Math.PI; // стрелка снизу
-
-const PRIZES = [
-  { label:'500₽',  type:'coupon', value:'500'  },
-  { label:'ПУСТО', type:'none'                 },
-  { label:'700₽',  type:'coupon', value:'700'  },
-  { label:'900₽',  type:'coupon', value:'900'  },
-  { label:'ПУСТО', type:'none'                 },
-  { label:'1200₽', type:'coupon', value:'1200' },
-  { label:'1500₽', type:'coupon', value:'1500' },
-  { label:'ПУСТО', type:'none'                 },
-  { label:'2000₽', type:'coupon', value:'2000' },
-  { label:'300₽',  type:'coupon', value:'300'  },
-  { label:'1100₽', type:'coupon', value:'1100' },
-  { label:'СЮРПРИЗ', type:'coupon', value:'SP' },
-];
-
-const toDeg = r => r*180/Math.PI;
-const norm = a => ((a%FULL)+FULL)%FULL;
-const polar = (r,a)=>[CENTER.x+r*Math.cos(a), CENTER.y+r*Math.sin(a)];
-function arcPath(r,a0,a1){ // дуга по часовой
-  const [x0,y0]=polar(r,a0), [x1,y1]=polar(r,a1);
-  const la = (a1-a0)>Math.PI ? 1 : 0;
-  return `M ${x0},${y0} A ${r},${r} 0 ${la} 1 ${x1},${y1}`;
-}
-function wedgePath(r,a0,a1){
-  const [x0,y0]=polar(r,a0), [x1,y1]=polar(r,a1);
-  const la = (a1-a0)>Math.PI ? 1 : 0;
-  return `M ${CENTER.x},${CENTER.y} L ${x0},${y0} A ${r},${r} 0 ${la} 1 ${x1},${y1} Z`;
-}
-function indexFromRotation(rot){
-  const theta = norm(POINTER_OFFSET - norm(rot));
-  return Math.floor(theta/STEP) % N;
-}
-
-/* ===== Рисуем SVG (клинья + дуги с подписями внутри) ===== */
-const svg = document.getElementById('wheelSVG');
-const g = document.createElementNS('http://www.w3.org/2000/svg','g'); g.id='wheelGroup';
-const defs = document.createElementNS('http://www.w3.org/2000/svg','defs'); svg.appendChild(defs);
-
-/* обод */
-['#b86a00|30', '#e3a300|18'].forEach(str=>{
-  const [color,w]=str.split('|');
-  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y);
-  c.setAttribute('r',R_BULB); c.setAttribute('fill','none');
-  c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
-  svg.appendChild(c);
-});
-/* лампочки 36 шт */
-const bulbs=document.createElementNS('http://www.w3.org/2000/svg','g'); bulbs.id='bulbRing';
-for(let i=0;i<36;i++){ const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
-  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  c.setAttribute('class','bulb'); c.setAttribute('r','10'); c.setAttribute('cx',x); c.setAttribute('cy',y);
-  bulbs.appendChild(c);
-}
-svg.appendChild(bulbs);
-
-/* клинья + подписи по дуге */
+const N=12,FULL=Math.PI*2,STEP=FULL/N,CENTER={x:500,y:500};
+const R_BULB=470,R_OUT=460,R_TEXT=380,POINTER_OFFSET=Math.PI;
+const PRIZES=['500₽','ПУСТО','700₽','900₽','ПУСТО','1200₽','1500₽','ПУСТО','2000₽','300₽','1100₽','СЮРПРИЗ'];
+const svg=document.getElementById("wheelSVG");
+const g=document.createElementNS("http://www.w3.org/2000/svg","g");g.id="wheelGroup";
 const colors=['#941f12','#a82316','#b82719','#cd2c1d'];
-for(let i=0;i<N;i++){
-  const a0 = -Math.PI/2 + i*STEP;
-  const a1 = a0 + STEP;
-  // клин
-  const p=document.createElementNS('http://www.w3.org/2000/svg','path');
-  p.setAttribute('d',wedgePath(R_OUT,a0,a1));
-  p.setAttribute('fill',colors[i%colors.length]); p.setAttribute('stroke','#7d170f'); p.setAttribute('stroke-width','2');
+function polar(r,a){return [CENTER.x+r*Math.cos(a),CENTER.y+r*Math.sin(a)]}
+function wedgePath(r,a0,a1){const[x0,y0]=polar(r,a0),[x1,y1]=polar(r,a1);const la=(a1-a0)>Math.PI?1:0;return`M${CENTER.x},${CENTER.y}L${x0},${y0}A${r},${r}0${la}1${x1},${y1}Z`}
+[['#b86a00',30,R_BULB],['#e3a300',18,R_BULB]].forEach(([c,w,r])=>{const circ=document.createElementNS("http://www.w3.org/2000/svg","circle");circ.setAttribute("cx",CENTER.x);circ.setAttribute("cy",CENTER.y);circ.setAttribute("r",r);circ.setAttribute("fill","none");circ.setAttribute("stroke",c);circ.setAttribute("stroke-width",w);svg.appendChild(circ);});
+for(let i=0;i<36;i++){const a=i*(FULL/36);const[x,y]=polar(R_BULB,a);const b=document.createElementNS("http://www.w3.org/2000/svg","circle");b.setAttribute("class","bulb");b.setAttribute("r","10");b.setAttribute("cx",x);b.setAttribute("cy",y);svg.appendChild(b);}
+for(let i=0;i<N;i++){const a0=-Math.PI/2+i*STEP,a1=a0+STEP,mid=(a0+a1)/2;
+  const p=document.createElementNS("http://www.w3.org/2000/svg","path");
+  p.setAttribute("d",wedgePath(R_OUT,a0,a1));
+  p.setAttribute("fill",colors[i%colors.length]);p.setAttribute("stroke","#7d170f");p.setAttribute("stroke-width","2");
   g.appendChild(p);
-
-  // дуга для подписи (в defs)
-  const arc=document.createElementNS('http://www.w3.org/2000/svg','path');
-  const pad=STEP*0.22; // убрать края, чтобы не выходило из клина
-  arc.setAttribute('d',arcPath(R_TEXT,a0+pad,a1-pad));
-  const arcId='arc'+i; arc.setAttribute('id',arcId);
-  defs.appendChild(arc);
-
-  const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
-  txt.setAttribute('fill','#ffd86b'); txt.setAttribute('font-size','38'); txt.setAttribute('font-weight','900');
-  txt.setAttribute('text-anchor','middle'); // по центру дуги
-  const tp=document.createElementNS('http://www.w3.org/2000/svg','textPath');
-  tp.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href','#'+arcId);
-  tp.setAttribute('startOffset','50%');
-  tp.textContent = PRIZES[i].label;
-  txt.appendChild(tp); g.appendChild(txt);
-
-  if(PRIZES[i].type==='none'){
-    const mid=(a0+a1)/2; const [sx,sy]=polar(R_TEXT-35,mid);
-    const skull=document.createElementNS('http://www.w3.org/2000/svg','text');
-    skull.setAttribute('x',sx); skull.setAttribute('y',sy);
-    skull.setAttribute('font-size','52'); skull.setAttribute('text-anchor','middle'); skull.setAttribute('dominant-baseline','middle');
-    skull.textContent='💀'; g.appendChild(skull);
-  }
+  const[tx,ty]=polar(R_TEXT,mid);
+  const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+  t.setAttribute("x",tx);t.setAttribute("y",ty);
+  t.setAttribute("fill","#ffd86b");t.setAttribute("font-size","40");t.setAttribute("font-weight","900");
+  t.style.writingMode='vertical-rl';t.style.textOrientation='upright';
+  t.setAttribute("text-anchor","middle");t.setAttribute("dominant-baseline","middle");
+  t.setAttribute("transform",`rotate(${(mid*180/Math.PI)+90} ${tx} ${ty})`);
+  t.textContent=PRIZES[i];
+  g.appendChild(t);
 }
 svg.appendChild(g);
-/* центр */
-['90|#e3a300','60|#ffd86b'].forEach(s=>{const[r,c]=s.split('|');const cc=document.createElementNS('http://www.w3.org/2000/svg','circle');cc.setAttribute('cx',CENTER.x);cc.setAttribute('cy',CENTER.y);cc.setAttribute('r',r);cc.setAttribute('fill',c);svg.appendChild(cc);});
+[['90','#e3a300'],['60','#ffd86b']].forEach(([r,c])=>{const cc=document.createElementNS("http://www.w3.org/2000/svg","circle");cc.setAttribute("cx",CENTER.x);cc.setAttribute("cy",CENTER.y);cc.setAttribute("r",r);cc.setAttribute("fill",c);svg.appendChild(cc);});
 
-/* ===== Звук (мягкий) ===== */
-let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
-function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
-const tickSound=()=>wood({freq:650,duration:70,gain:0.015});
-const winSound =()=>[740,880,1175].forEach((f,i)=>setTimeout(()=>wood({freq:f,duration:140,gain:0.025}),i*140));
-const loseSound=()=>{wood({freq:220,duration:200,gain:0.02,type:'sine'});setTimeout(()=>wood({freq:170,duration:240,gain:0.018}),160);}
-
-/* ===== Купоны/таймер/тосты ===== */
-const KEY_LAST='fortune_last_spin_at_v8', KEY_COUP='fortune_last_coupon_v8', COOLDOWN=24*60*60*1000;
-const spinBtn=document.getElementById('spinBtn'), timerEl=document.getElementById('timer'), couponEl=document.getElementById('couponCode'), copyBtn=document.getElementById('copyBtn');
-const toast=document.getElementById('toast'), toastTitle=document.getElementById('toastTitle'), toastText=document.getElementById('toastText'), toastBtn=document.getElementById('toastBtn');
-document.getElementById('toastClose').onclick=()=>toast.classList.remove('show');
-const pad2=n=>String(n).padStart(2,'0');
-const leftFmt=ms=>`${pad2(Math.floor(ms/3600000))}:${pad2(Math.floor((ms%3600000)/60000))}:${pad2(Math.floor((ms%60000)/1000))}`;
-const setCoupon=(t,copy)=>{couponEl.textContent=t; copyBtn.disabled=!copy;}
-const last=()=>Number(localStorage.getItem(KEY_LAST))||0;
-const left =()=>Math.max(0,last()+COOLDOWN-Date.now());
-const saveLast=()=>localStorage.setItem(KEY_LAST,String(Date.now()));
-const saveCode=c=>localStorage.setItem(KEY_COUP,c);
-(function tick(){const l=left(); if(l>0){timerEl.textContent='Следующее через '+leftFmt(l); spinBtn.disabled=true; requestAnimationFrame(tick);} else {timerEl.textContent='Доступно сейчас'; spinBtn.disabled=false;}})();
-const saved=localStorage.getItem(KEY_COUP); if(saved) setCoupon(`Купон — ${saved}`,true);
-function makeCoupon(prize){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<6;i++) r+=A[Math.floor(Math.random()*A.length)]; const amount=prize.value==='SP'?'СЮРПРИЗ':`${prize.value}₽`; const code=prize.value==='SP'?`SP-${r}`:`D${prize.value}-${r}`; return {display:`${amount} — ${code}`, raw:code};}
-function toastShow(type,coupon){ if(type==='win'){ toastTitle.textContent='🎉 Поздравляем!'; toastText.textContent=`Вы выиграли купон ${coupon.display}. Для активации купона обратитесь к оператору.`; toastBtn.style.display='inline-flex'; } else { toastTitle.textContent='💀 К сожалению, сегодня пусто!'; toastText.textContent='Попробуйте в следующий раз.'; toastBtn.style.display='none'; } toast.classList.add('show'); }
-
-/* ===== Вращение ===== */
-let rotation=0, spinning=false, lastTick=-1;
-function applyRotation(){ g.setAttribute('transform',`rotate(${rotation*180/Math.PI} ${CENTER.x} ${CENTER.y})`); }
-function flashBulbs(on=true){ const s=document.getElementById('wheelSVG'); if(on){s.classList.add('blink'); setTimeout(()=>flashBulbs(false),2500);} else s.classList.remove('blink'); }
-
-function spin(){
-  if(spinning) return;
-  const l=left(); if(l>0){timerEl.style.transform='scale(1.04)'; setTimeout(()=>timerEl.style.transform='',120); return;}
-  ensureAC(); spinning=true; spinBtn.disabled=true; setCoupon('Крутим колесо…',false); lastTick=-1;
-
-  const minTurns=4, maxTurns=7;
-  const target = rotation + (minTurns + Math.random()*(maxTurns-minTurns)) * FULL;
-  const dur = 3600 + Math.random()*1200;
-  const start = performance.now(), startA=rotation;
+let rotation=0,spinning=false;
+const spinBtn=document.getElementById("spinBtn");
+function applyRotation(){g.setAttribute("transform",`rotate(${rotation*180/Math.PI} ${CENTER.x} ${CENTER.y})`);}
+function spin(){if(spinning)return;spinning=true;spinBtn.disabled=true;
+  const target=rotation+(4+Math.random()*3)*FULL;
+  const dur=3500,start=performance.now(),startA=rotation;
   const ease=t=>1-Math.pow(1-t,3);
-
-  function frame(now){
-    const t=Math.min(1,(now-start)/dur);
-    rotation = norm(startA + (target-startA)*ease(t));
-    applyRotation();
-    const idx=indexFromRotation(rotation);
-    if(idx!==lastTick){ tickSound(); lastTick=idx; }
-    if(t<1){ requestAnimationFrame(frame); }
-    else{
-      rotation = norm(rotation); applyRotation();
-      const prize=PRIZES[indexFromRotation(rotation)];
-      if(prize.type==='none'){ loseSound(); flashBulbs(true); setCoupon('Увы, пусто. Попробуйте завтра!',false); toastShow('lose'); saveLast(); spinning=false; (function tt(){const l=left(); if(l>0){timerEl.textContent='Следующее через '+leftFmt(l); requestAnimationFrame(tt);} else timerEl.textContent='Доступно сейчас';})(); return; }
-      winSound(); flashBulbs(true);
-      const coupon=makeCoupon(prize); setCoupon(coupon.display,true); saveCode(coupon.raw); saveLast(); toastShow('win',coupon);
-      spinning=false; (function tt(){const l=left(); if(l>0){timerEl.textContent='Следующее через '+leftFmt(l); requestAnimationFrame(tt);} else timerEl.textContent='Доступно сейчас';})();
-    }
-  }
-  requestAnimationFrame(frame);
-}
-spinBtn.addEventListener('click',spin);
-copyBtn.addEventListener('click',e=>{const t=couponEl.textContent.trim(); if(!t||t.includes('появится')||t.includes('пусто')) return; navigator.clipboard.writeText(t).then(()=>{const old=e.target.textContent; e.target.textContent='Скопировано'; setTimeout(()=>e.target.textContent=old,900);});});
-
-/* первый рендер */
+  function frame(now){const t=Math.min(1,(now-start)/dur);rotation=(startA+(target-startA)*ease(t))%(FULL);applyRotation();
+    if(t<1)requestAnimationFrame(frame);else{rotation%=FULL;applyRotation();spinning=false;spinBtn.disabled=false;}}
+  requestAnimationFrame(frame);}
+spinBtn.addEventListener("click",spin);
 applyRotation();
 </script>
 </body>
