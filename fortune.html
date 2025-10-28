@@ -35,8 +35,9 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* колесо */
 .wheel-wrap{position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg);
   border-radius:18px;padding:12px;box-shadow:var(--inset)}
-.wheel-box{width:min(84vw,360px);height:min(84vw,360px);max-width:360px;max-height:360px;position:relative}
-/* указатель снизу: остриё внутрь, на приз */
+/* меньшее колесо */
+.wheel-box{width:min(80vw,340px);height:min(80vw,340px);max-width:340px;max-height:340px;position:relative}
+/* указатель снизу */
 .pointer{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
   width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid #d28a00;
   filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}
@@ -125,13 +126,14 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* ===== Геометрия и математика ===== */
 const N = 12, FULL = Math.PI*2, STEP = FULL/N;
 const CENTER = {x:500, y:500};
-/* Обводка + лампочки — крупные; клинья прежние */
+/* обводка + лампочки — как раньше */
 const R_BULB = 488;
 const R_RING1 = 488, R_RING2 = 476;
 const R_LIP  = 472;
-const R_OUT  = 458;
-/* ⬇️ Подписи ближе к центру */
-const R_TEXT = 360;        // было 395
+/* диск ближе к окантовке */
+const R_OUT  = 468;
+/* подписи ближе к центру */
+const R_TEXT = 360;
 const POINTER_OFFSET = Math.PI;
 
 const PRIZES = [
@@ -188,12 +190,10 @@ for(let i=0;i<N;i++){
   p.setAttribute('stroke','#7d170f'); p.setAttribute('stroke-width','2');
   g.appendChild(p);
 
-  // Радиальная подпись — ближе к центру
   const [tx,ty]=polar(R_TEXT, mid);
   const t=document.createElementNS('http://www.w3.org/2000/svg','text');
   t.setAttribute('x',tx); t.setAttribute('y',ty);
   t.setAttribute('fill','#ffd86b'); t.setAttribute('font-weight','900');
-  // Чуть крупнее, раз подвинули внутрь
   const label = PRIZES[i].label;
   const fs = label.length>6 ? 32 : label.length>4 ? 36 : 40;
   t.setAttribute('font-size', fs);
@@ -209,7 +209,7 @@ svg.appendChild(g);
   cc.setAttribute('cx',CENTER.x); cc.setAttribute('cy',CENTER.y); cc.setAttribute('r',r); cc.setAttribute('fill',c); svg.appendChild(cc);
 });
 
-/* ===== Звук / логика (без изменений) ===== */
+/* ===== Звук / логика ===== */
 let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
 function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
 const tickSound=()=>wood({freq:650,duration:70,gain:0.015});
