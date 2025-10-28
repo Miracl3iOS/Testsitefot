@@ -17,7 +17,7 @@ html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
-.phone{width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;background:var(--bg);
+.phone{width:min(100vw,var(--maxw));margin:0 авто;min-height:100dvh;background:var(--bg);
   box-shadow:var(--shadow);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
 .status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .center{background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64}
@@ -117,7 +117,7 @@ body{margin:0;background:var(--bg);color:var(--ink);
   </div>
   <p id="toastText"></p>
   <a href="https://t.me/" target="_blank" rel="noopener" class="tg-btn" id="toastBtn" style="display:none">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
     Оператор
   </a>
 </div>
@@ -126,12 +126,13 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* ===== Геометрия и математика ===== */
 const N = 12, FULL = Math.PI*2, STEP = FULL/N;
 const CENTER = {x:500, y:500};
-/* впритык к диску */
-const R_OUT  = 468;       // внешний радиус клиньев
-const R_LIP  = 472;       // белая кромка (stroke 8 → внутренняя грань ровно на 468)
-const R_RING2= 474;       // внутреннее золотое кольцо
-const R_RING1= 476;       // внешнее золотое кольцо
-const R_BULB = 476;       // лампочки на внешнем кольце
+/* обводка + лампочки — ещё ближе к диску, без изменения толщин */
+const R_OUT  = 468;             // внешний радиус клиньев (диск)
+const R_LIP  = 476;             // белая кромка (stroke 16 → внутр. край = 476-8 = 468)
+const R_RING2= 480;             // внутреннее золотое кольцо (как было +6)
+const R_RING1= 488;             // внешнее золотое кольцо (как было +6)
+const R_BULB = 484;             // радиус лампочек (как было +6)
+/* подписи */
 const R_TEXT = 360;
 const POINTER_OFFSET = Math.PI;
 
@@ -167,27 +168,18 @@ function indexFromRotation(rot){
 const svg = document.getElementById('wheelSVG');
 const g   = document.createElementNS('http://www.w3.org/2000/svg','g'); g.id='wheelGroup';
 
-/* кольца: сначала два золотых, потом белая кромка-впритык */
-[
-  ['#b86a00',20,R_RING1],   // внешнее золото
-  ['#e3a300',14,R_RING2],   // внутреннее золото
-  ['#ffffff',8 ,R_LIP]      // белая кромка (внутренняя грань = 468)
-].forEach(([color,w,r])=>{
+[['#b86a00',36,R_RING1],['#e3a300',24,R_RING2],['#ffffff',16,R_LIP]].forEach(([color,w,r])=>{
   const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
   c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y); c.setAttribute('r',r);
   c.setAttribute('fill','none'); c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
   svg.appendChild(c);
 });
-
-/* лампочки прямо на внешнем золотом кольце */
-for(let i=0;i<36;i++){
-  const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
+for(let i=0;i<36;i++){ const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
   const bulb=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  bulb.setAttribute('class','bulb'); bulb.setAttribute('r','11'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
+  bulb.setAttribute('class','bulb'); bulb.setAttribute('r','12'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
   svg.appendChild(bulb);
 }
 
-/* клинья + подписи */
 const colors=['#941f12','#a82316','#b82719','#cd2c1d'];
 for(let i=0;i<N;i++){
   const a0 = -Math.PI/2 + i*STEP, a1 = a0 + STEP, mid=(a0+a1)/2;
@@ -212,13 +204,12 @@ for(let i=0;i<N;i++){
 }
 svg.appendChild(g);
 
-/* центр */
 [['90','#e3a300'],['60','#ffd86b']].forEach(([r,c])=>{
   const cc=document.createElementNS('http://www.w3.org/2000/svg','circle');
   cc.setAttribute('cx',CENTER.x); cc.setAttribute('cy',CENTER.y); cc.setAttribute('r',r); cc.setAttribute('fill',c); svg.appendChild(cc);
 });
 
-/* ===== Звук / логика (как было) ===== */
+/* ===== Звук / логика ===== */
 let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
 function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
 const tickSound=()=>wood({freq:650,duration:70,gain:0.015});
@@ -231,7 +222,7 @@ const toast=document.getElementById('toast'), toastTitle=document.getElementById
 document.getElementById('toastClose').onclick=()=>toast.classList.remove('show');
 const pad2=n=>String(n).padStart(2,'0');
 const leftFmt=ms=>`${pad2(Math.floor(ms/3600000))}:${pad2(Math.floor((ms%3600000)/60000))}:${pad2(Math.floor((ms%60000)/1000))}`;
-const setCoupon=(t,copy)=>{couponEl.textContent=t; copyBtn.disabled=!copy;}
+const setCoupon=(т,copy)=>{couponEl.textContent=т; copyBtn.disabled=!copy;}
 const last=()=>Number(localStorage.getItem(KEY_LAST))||0;
 const left =()=>Math.max(0,last()+COOLDOWN-Date.now());
 const saveLast=()=>localStorage.setItem(KEY_LAST,String(Date.now()));
@@ -275,7 +266,7 @@ function spin(){
   requestAnimationFrame(frame);
 }
 spinBtn.addEventListener('click',spin);
-copyBtn.addEventListener('click',e=>{const t=couponEl.textContent.trim(); if(!t||t.includes('появится')||t.includes('пусто')) return; navigator.clipboard.writeText(t).then(()=>{const old=e.target.textContent; e.target.textContent='Скопировано'; setTimeout(()=>e.target.textContent=old,900);});});
+copyBtn.addEventListener('click',e=>{const т=couponEl.textContent.trim(); if(!т||т.includes('появится')||т.includes('пусто')) return; navigator.clipboard.writeText(т).then(()=>{const old=e.target.textContent; e.target.textContent='Скопировано'; setTimeout(()=>e.target.textContent=old,900);});});
 
 /* стартовый рендер */
 applyRotation();
