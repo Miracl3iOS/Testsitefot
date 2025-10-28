@@ -13,9 +13,13 @@
   --accent1:#ffb366; --accent2:#ff6f00;
   --btn-grad-from:#c5113a; --btn-grad-to:#ff6ea9;
 }
-html,body{height:100%} body{margin:0;background:var(--bg);color:var(--ink);
-font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.phone{width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;background:var(--bg);box-shadow:var(--shadow);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+.phone{width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;
+  background:var(--bg);box-shadow:var(--shadow);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
+
 .status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .center{background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64}
 .menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:default}
@@ -24,7 +28,7 @@ font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,A
 
 .wrap{padding:12px 16px 22px}
 .headline{margin:8px 0 6px;font-weight:900;font-size:clamp(22px,6vw,34px);line-height:1.08;color:#fff5e6;
-text-shadow:0 0 4px #fff2cc,0 0 10px var(--accent1),0 0 22px #ff9900,0 0 32px var(--accent2)}
+  text-shadow:0 0 4px #fff2cc,0 0 10px var(--accent1),0 0 22px #ff9900,0 0 32px var(--accent2)}
 .sub{margin:4px 0 14px;color:#3c3d46;font-size:14px}
 
 .card{background:var(--card);box-shadow:var(--shadow);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:14px}
@@ -35,13 +39,14 @@ text-shadow:0 0 4px #fff2cc,0 0 10px var(--accent1),0 0 22px #ff9900,0 0 32px va
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}} .blink .bulb{animation:blink .35s linear infinite}
 
 .spin-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:14px;text-decoration:none;font-weight:900;font-size:16px;letter-spacing:.3px;color:#111;border:1px solid #000;
-background:linear-gradient(135deg,var(--btn-grad-from) 0%,#e11e3a 35%,#ff3b5f 70%,var(--btn-grad-to) 100%);box-shadow:0 0 10px rgba(255,61,112,.35),0 0 20px rgba(255,110,169,.25),var(--shadow);transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+  background:linear-gradient(135deg,var(--btn-grad-from) 0%,#e11e3a 35%,#ff3b5f 70%,var(--btn-grad-to) 100%);box-shadow:0 0 10px rgba(255,61,112,.35),0 0 20px rgba(255,110,169,.25),var(--shadow);transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
 .spin-btn:active{transform:translateY(1px) scale(.985);box-shadow:var(--inset)} .spin-btn[disabled]{opacity:.6;filter:grayscale(.2);cursor:not-allowed}
 
 .status-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
 .timer-pill{padding:8px 10px;border-radius:12px;background:#fff;color:#333;font-weight:800;font-size:13px;box-shadow:var(--shadow)}
 .copy-row{display:flex;gap:8px;align-items:center;justify-content:flex-end}
-.code{padding:8px 10px;border-radius:12px;background:#fff;box-shadow:var(--shadow);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800;font-size:13px;color:#111}
+.code{padding:8px 10px;border-radius:12px;background:#fff;box-shadow:var(--shadow);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800;font-size:13px;color:#111}
 .copy-btn{padding:8px 12px;border-radius:10px;background:#111;color:#fff;font-weight:800;text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.35),var(--shadow)}
 .copy-btn:active{transform:scale(.98)}
 
@@ -76,19 +81,18 @@ background:linear-gradient(135deg,var(--btn-grad-from) 0%,#e11e3a 35%,#ff3b5f 70
         <div class="wheel-box">
           <div class="pointer" aria-hidden="true"></div>
 
-          <!-- ✅ статичное SVG-колесо; обод теперь stroke-колецо (ничего не перекрывает) -->
+          <!-- Стационарный SVG без clipPath -->
           <svg id="wheelSVG" viewBox="0 0 1000 1000" width="100%" height="100%" style="display:block">
-            <defs>
-              <clipPath id="rimClip"><circle cx="500" cy="500" r="450"/></clipPath>
-            </defs>
-
-            <!-- золотой обод (кольцо) -->
+            <!-- обод как кольцо -->
             <circle cx="500" cy="500" r="470" fill="none" stroke="#b86a00" stroke-width="30"/>
             <circle cx="500" cy="500" r="470" fill="none" stroke="#e3a300" stroke-width="18"/>
 
-            <!-- 36 лампочек по кругу -->
+            <!-- лампочки (36 шт) -->
             <g id="bulbRing" transform="translate(500,500)">
               <!-- шаг 10° -->
+              <!-- шаблон: лампа на радиусе 470 -->
+              <!-- 0..350 -->
+              <!-- ниже 36 элементов -->
               <g transform="rotate(0) translate(0,-470)"><circle class="bulb" r="10"/></g>
               <g transform="rotate(10) translate(0,-470)"><circle class="bulb" r="10"/></g>
               <g transform="rotate(20) translate(0,-470)"><circle class="bulb" r="10"/></g>
@@ -127,22 +131,22 @@ background:linear-gradient(135deg,var(--btn-grad-from) 0%,#e11e3a 35%,#ff3b5f 70
               <g transform="rotate(350) translate(0,-470)"><circle class="bulb" r="10"/></g>
             </g>
 
-            <!-- вращаемая группа с клиньями -->
-            <g id="wheelGroup" clip-path="url(#rimClip)" transform="translate(500,500)">
-              <defs><path id="slice" d="M0,0 L-113.88,-425 A440,440 0 0 1 113.88,-425 Z"/></defs>
+            <!-- вращаемая группа с клиньями (внутри r=420, клип не нужен) -->
+            <g id="wheelGroup" transform="translate(500,500)">
+              <defs><path id="slice" d="M0,0 L-108.5,-405 A420,420 0 0 1 108.5,-405 Z"/></defs>
 
-              <g transform="rotate(0)"><use href="#slice" fill="#941f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">500₽</text></g>
-              <g transform="rotate(30)"><use href="#slice" fill="#a82316" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-250" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
-              <g transform="rotate(60)"><use href="#slice" fill="#b82719" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">700₽</text></g>
-              <g transform="rotate(90)"><use href="#slice" fill="#cd2c1d" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">900₽</text></g>
-              <g transform="rotate(120)"><use href="#slice" fill="#b32718" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-250" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
-              <g transform="rotate(150)"><use href="#slice" fill="#a42215" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1200₽</text></g>
-              <g transform="rotate(180)"><use href="#slice" fill="#931f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1500₽</text></g>
-              <g transform="rotate(210)"><use href="#slice" fill="#b12518" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-250" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
-              <g transform="rotate(240)"><use href="#slice" fill="#941f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">2000₽</text></g>
-              <g transform="rotate(270)"><use href="#slice" fill="#a82316" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">300₽</text></g>
-              <g transform="rotate(300)"><use href="#slice" fill="#b82719" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1100₽</text></g>
-              <g transform="rotate(330)"><use href="#slice" fill="#cd2c1d" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">СЮРПРИЗ</text></g>
+              <g transform="rotate(0)"><use href="#slice" fill="#941f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">500₽</text></g>
+              <g transform="rotate(30)"><use href="#slice" fill="#a82316" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-240" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
+              <g transform="rotate(60)"><use href="#slice" fill="#b82719" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">700₽</text></g>
+              <g transform="rotate(90)"><use href="#slice" fill="#cd2c1d" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">900₽</text></g>
+              <g transform="rotate(120)"><use href="#slice" fill="#b32718" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-240" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
+              <g transform="rotate(150)"><use href="#slice" fill="#a42215" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1200₽</text></g>
+              <g transform="rotate(180)"><use href="#slice" fill="#931f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1500₽</text></g>
+              <g transform="rotate(210)"><use href="#slice" fill="#b12518" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-240" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
+              <g transform="rotate(240)"><use href="#slice" fill="#941f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">2000₽</text></g>
+              <g transform="rotate(270)"><use href="#slice" fill="#a82316" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">300₽</text></g>
+              <g transform="rotate(300)"><use href="#slice" fill="#b82719" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1100₽</text></g>
+              <g transform="rotate(330)"><use href="#slice" fill="#cd2c1d" stroke="#7d170f" stroke-width="2"/><text x="0" y="-290" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">СЮРПРИЗ</text></g>
             </g>
 
             <!-- центральная шайба -->
@@ -181,27 +185,29 @@ background:linear-gradient(135deg,var(--btn-grad-from) 0%,#e11e3a 35%,#ff3b5f 70
 </div>
 
 <script>
-/* ===== МЯГКИЕ ЗВУКИ ===== */
+/* ===== мягкие звуки ===== */
 let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
 function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
 function tickSound(){ wood({freq:650,duration:70,gain:0.015}); }
 function winSound(){ [740,880,1175].forEach((f,i)=>setTimeout(()=>wood({freq:f,duration:140,gain:0.025}),i*140)); }
 function loseSound(){ wood({freq:220,duration:200,gain:0.02,type:'sine'}); setTimeout(()=>wood({freq:170,duration:240,gain:0.018}),160); }
 
-/* ===== ДАННЫЕ ===== */
+/* ===== данные ===== */
 const SEGMENTS=[{label:'500₽',type:'coupon',value:'500'},{label:'ПУСТО',type:'none'},{label:'700₽',type:'coupon',value:'700'},{label:'900₽',type:'coupon',value:'900'},{label:'ПУСТО',type:'none'},{label:'1200₽',type:'coupon',value:'1200'},{label:'1500₽',type:'coupon',value:'1500'},{label:'ПУСТО',type:'none'},{label:'2000₽',type:'coupon',value:'2000'},{label:'300₽',type:'coupon',value:'300'},{label:'1100₽',type:'coupon',value:'1100'},{label:'СЮРПРИЗ',type:'coupon',value:'SP'}];
 const NUM=SEGMENTS.length, FULL=Math.PI*2;
-const KEY_LAST='fortune_last_spin_at_v5', KEY_COUP='fortune_last_coupon_v5', COOLDOWN=24*60*60*1000;
+const KEY_LAST='fortune_last_spin_at_v6', KEY_COUP='fortune_last_coupon_v6', COOLDOWN=24*60*60*1000;
 
 /* ===== DOM/STATE ===== */
 const spinBtn=document.getElementById('spinBtn'), timerEl=document.getElementById('timer'), couponEl=document.getElementById('couponCode'), copyBtn=document.getElementById('copyBtn');
 const toast=document.getElementById('toast'), toastTitle=document.getElementById('toastTitle'), toastText=document.getElementById('toastText'), toastBtn=document.getElementById('toastBtn');
 document.getElementById('toastClose').onclick=()=>toast.classList.remove('show');
+
 let rotation=0, spinning=false, lastTickIdx=-1;
 const wheelGroup=document.getElementById('wheelGroup'), wheelSVG=document.getElementById('wheelSVG');
 
 function applyRotation(){ wheelGroup.setAttribute('transform',`translate(500,500) rotate(${rotation*180/Math.PI})`); }
 function flashBulbs(on=true){ if(on){ wheelSVG.classList.add('blink'); setTimeout(()=>flashBulbs(false),2500);} else wheelSVG.classList.remove('blink'); }
+
 function pad(n){return String(n).padStart(2,'0');}
 function fmtLeft(ms){const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);return `${pad(h)}:${pad(m)}:${pad(s)}`;}
 function setCouponText(t,enableCopy){couponEl.textContent=t; copyBtn.disabled=!enableCopy;}
