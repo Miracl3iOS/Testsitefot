@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Колесо фортуны — купон</title>
+<style>
+:root{
+  --bg:#f0f0f3; --card:#f7f7fb; --ink:#2f2f36;
+  --shadow:5px 5px 10px #cfcfd6, -5px -5px 10px #ffffff;
+  --inset:inset 5px 5px 10px #cfcfd6, inset -5px -5px 10px #ffffff;
+  --maxw:428px;
+  --accent1:#ffb366; --accent2:#ff6f00;
+  --btn-grad-from:#c5113a; --btn-grad-to:#ff6ea9;
+}
+html,body{height:100%} body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.phone{width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;background:var(--bg);box-shadow:var(--shadow);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
+.status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.center{background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64}
+.menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:default}
+.menu-btn span{width:22px;height:2.5px;background:#000;border-radius:3px}
+.back{display:inline-block;text-decoration:none;font-weight:700;color:#2f2f36;background:#fff;padding:8px 12px;border-radius:12px;box-shadow:var(--shadow)}
+
+.wrap{padding:12px 16px 22px}
+.headline{margin:8px 0 6px;font-weight:900;font-size:clamp(22px,6vw,34px);line-height:1.08;color:#fff5e6;
+text-shadow:0 0 4px #fff2cc,0 0 10px var(--accent1),0 0 22px #ff9900,0 0 32px var(--accent2)}
+.sub{margin:4px 0 14px;color:#3c3d46;font-size:14px}
+
+.card{background:var(--card);box-shadow:var(--shadow);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.wheel-wrap{position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:18px;padding:12px;box-shadow:var(--inset)}
+.wheel-box{width:min(84vw,360px);height:min(84vw,360px);max-width:360px;max-height:360px;position:relative}
+.pointer{position:absolute;left:50%;top:-4px;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid #d28a00;filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}
+.bulb{fill:#ffe9a8;stroke:#e1a400;stroke-width:3px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}} .blink .bulb{animation:blink .35s linear infinite}
+
+.spin-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:14px;text-decoration:none;font-weight:900;font-size:16px;letter-spacing:.3px;color:#111;border:1px solid #000;
+background:linear-gradient(135deg,var(--btn-grad-from) 0%,#e11e3a 35%,#ff3b5f 70%,var(--btn-grad-to) 100%);box-shadow:0 0 10px rgba(255,61,112,.35),0 0 20px rgba(255,110,169,.25),var(--shadow);transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+.spin-btn:active{transform:translateY(1px) scale(.985);box-shadow:var(--inset)} .spin-btn[disabled]{opacity:.6;filter:grayscale(.2);cursor:not-allowed}
+
+.status-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.timer-pill{padding:8px 10px;border-radius:12px;background:#fff;color:#333;font-weight:800;font-size:13px;box-shadow:var(--shadow)}
+.copy-row{display:flex;gap:8px;align-items:center;justify-content:flex-end}
+.code{padding:8px 10px;border-radius:12px;background:#fff;box-shadow:var(--shadow);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800;font-size:13px;color:#111}
+.copy-btn{padding:8px 12px;border-radius:10px;background:#111;color:#fff;font-weight:800;text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.35),var(--shadow)}
+.copy-btn:active{transform:scale(.98)}
+
+.footer{padding:12px 16px;font-size:12px;color:#666;text-align:center}
+.footer a{color:#3a3b44;font-weight:700;text-decoration:none;border-bottom:1px dashed #3a3b44}
+.footer a:hover{border-bottom-style:solid}
+
+.toast{position:fixed;left:50%;bottom:16px;transform:translate(-50%,140%);width:min(92vw,420px);z-index:60;background:var(--card);box-shadow:var(--shadow);border-radius:18px;padding:14px;transition:transform .28s ease}
+.toast.show{transform:translate(-50%,0)} .toast h4{margin:0 0 6px;font-size:16px} .toast p{margin:0 0 10px;color:#444;font-size:14px}
+.toast .row{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.tg-btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:#111;color:#fff;padding:10px 12px;border-radius:12px;font-weight:800;box-shadow:0 2px 0 rgba(0,0,0,.35),var(--shadow)}
+.tg-btn svg{width:18px;height:18px;display:block}
+.toast .close{border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;padding:6px 8px;border-radius:10px}
+.toast .close:active{background:#eee}
+.sticker{font-weight:900;fill:#222}
+</style>
+</head>
+<body>
+<main class="phone">
+  <div class="status">
+    <a class="back" href="index.html">← Назад</a>
+    <div class="center">TELEGRAM</div>
+    <button class="menu-btn" aria-label="Меню" disabled><span></span><span></span><span></span></button>
+  </div>
+
+  <section class="wrap">
+    <h1 class="headline">Бесплатное колесо фортуны</h1>
+    <p class="sub">Крутите колесо 1 раз в сутки и получайте купон. Результат — по настоящему углу остановки стрелки.</p>
+
+    <div class="card">
+      <div class="wheel-wrap">
+        <div class="wheel-box">
+          <div class="pointer" aria-hidden="true"></div>
+
+          <!-- ✅ статичное SVG-колесо; обод теперь stroke-колецо (ничего не перекрывает) -->
+          <svg id="wheelSVG" viewBox="0 0 1000 1000" width="100%" height="100%" style="display:block">
+            <defs>
+              <clipPath id="rimClip"><circle cx="500" cy="500" r="450"/></clipPath>
+            </defs>
+
+            <!-- золотой обод (кольцо) -->
+            <circle cx="500" cy="500" r="470" fill="none" stroke="#b86a00" stroke-width="30"/>
+            <circle cx="500" cy="500" r="470" fill="none" stroke="#e3a300" stroke-width="18"/>
+
+            <!-- 36 лампочек по кругу -->
+            <g id="bulbRing" transform="translate(500,500)">
+              <!-- шаг 10° -->
+              <g transform="rotate(0) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(10) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(20) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(30) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(40) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(50) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(60) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(70) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(80) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(90) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(100) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(110) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(120) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(130) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(140) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(150) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(160) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(170) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(180) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(190) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(200) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(210) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(220) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(230) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(240) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(250) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(260) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(270) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(280) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(290) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(300) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(310) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(320) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(330) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(340) translate(0,-470)"><circle class="bulb" r="10"/></g>
+              <g transform="rotate(350) translate(0,-470)"><circle class="bulb" r="10"/></g>
+            </g>
+
+            <!-- вращаемая группа с клиньями -->
+            <g id="wheelGroup" clip-path="url(#rimClip)" transform="translate(500,500)">
+              <defs><path id="slice" d="M0,0 L-113.88,-425 A440,440 0 0 1 113.88,-425 Z"/></defs>
+
+              <g transform="rotate(0)"><use href="#slice" fill="#941f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">500₽</text></g>
+              <g transform="rotate(30)"><use href="#slice" fill="#a82316" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-250" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
+              <g transform="rotate(60)"><use href="#slice" fill="#b82719" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">700₽</text></g>
+              <g transform="rotate(90)"><use href="#slice" fill="#cd2c1d" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">900₽</text></g>
+              <g transform="rotate(120)"><use href="#slice" fill="#b32718" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-250" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
+              <g transform="rotate(150)"><use href="#slice" fill="#a42215" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1200₽</text></g>
+              <g transform="rotate(180)"><use href="#slice" fill="#931f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1500₽</text></g>
+              <g transform="rotate(210)"><use href="#slice" fill="#b12518" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">ПУСТО</text><text x="0" y="-250" class="sticker" text-anchor="middle" font-size="62">💀 ПУСТО</text></g>
+              <g transform="rotate(240)"><use href="#slice" fill="#941f12" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">2000₽</text></g>
+              <g transform="rotate(270)"><use href="#slice" fill="#a82316" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">300₽</text></g>
+              <g transform="rotate(300)"><use href="#slice" fill="#b82719" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">1100₽</text></g>
+              <g transform="rotate(330)"><use href="#slice" fill="#cd2c1d" stroke="#7d170f" stroke-width="2"/><text x="0" y="-305" fill="#ffd86b" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle">СЮРПРИЗ</text></g>
+            </g>
+
+            <!-- центральная шайба -->
+            <circle cx="500" cy="500" r="90" fill="#e3a300"/>
+            <circle cx="500" cy="500" r="60" fill="#ffd86b"/>
+          </svg>
+        </div>
+      </div>
+
+      <button id="spinBtn" class="spin-btn">КРУТИТЬ</button>
+
+      <div class="status-row">
+        <div class="timer-pill"><span id="timer">Доступно сейчас</span></div>
+        <div class="copy-row">
+          <div class="code" id="couponCode">Купон появится здесь</div>
+          <button class="copy-btn" id="copyBtn" disabled>Копировать</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">Сделано с 💛 • <a href="https://t.me/" target="_blank" rel="noopener">наш TELEGRAM</a></footer>
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="row">
+    <h4 id="toastTitle">Сообщение</h4>
+    <button class="close" id="toastClose" aria-label="Закрыть">×</button>
+  </div>
+  <p id="toastText"></p>
+  <a href="https://t.me/" target="_blank" rel="noopener" class="tg-btn" id="toastBtn" style="display:none">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+    Оператор
+  </a>
+</div>
+
+<script>
+/* ===== МЯГКИЕ ЗВУКИ ===== */
+let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
+function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
+function tickSound(){ wood({freq:650,duration:70,gain:0.015}); }
+function winSound(){ [740,880,1175].forEach((f,i)=>setTimeout(()=>wood({freq:f,duration:140,gain:0.025}),i*140)); }
+function loseSound(){ wood({freq:220,duration:200,gain:0.02,type:'sine'}); setTimeout(()=>wood({freq:170,duration:240,gain:0.018}),160); }
+
+/* ===== ДАННЫЕ ===== */
+const SEGMENTS=[{label:'500₽',type:'coupon',value:'500'},{label:'ПУСТО',type:'none'},{label:'700₽',type:'coupon',value:'700'},{label:'900₽',type:'coupon',value:'900'},{label:'ПУСТО',type:'none'},{label:'1200₽',type:'coupon',value:'1200'},{label:'1500₽',type:'coupon',value:'1500'},{label:'ПУСТО',type:'none'},{label:'2000₽',type:'coupon',value:'2000'},{label:'300₽',type:'coupon',value:'300'},{label:'1100₽',type:'coupon',value:'1100'},{label:'СЮРПРИЗ',type:'coupon',value:'SP'}];
+const NUM=SEGMENTS.length, FULL=Math.PI*2;
+const KEY_LAST='fortune_last_spin_at_v5', KEY_COUP='fortune_last_coupon_v5', COOLDOWN=24*60*60*1000;
+
+/* ===== DOM/STATE ===== */
+const spinBtn=document.getElementById('spinBtn'), timerEl=document.getElementById('timer'), couponEl=document.getElementById('couponCode'), copyBtn=document.getElementById('copyBtn');
+const toast=document.getElementById('toast'), toastTitle=document.getElementById('toastTitle'), toastText=document.getElementById('toastText'), toastBtn=document.getElementById('toastBtn');
+document.getElementById('toastClose').onclick=()=>toast.classList.remove('show');
+let rotation=0, spinning=false, lastTickIdx=-1;
+const wheelGroup=document.getElementById('wheelGroup'), wheelSVG=document.getElementById('wheelSVG');
+
+function applyRotation(){ wheelGroup.setAttribute('transform',`translate(500,500) rotate(${rotation*180/Math.PI})`); }
+function flashBulbs(on=true){ if(on){ wheelSVG.classList.add('blink'); setTimeout(()=>flashBulbs(false),2500);} else wheelSVG.classList.remove('blink'); }
+function pad(n){return String(n).padStart(2,'0');}
+function fmtLeft(ms){const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);return `${pad(h)}:${pad(m)}:${pad(s)}`;}
+function setCouponText(t,enableCopy){couponEl.textContent=t; copyBtn.disabled=!enableCopy;}
+function getLast(){return Number(localStorage.getItem(KEY_LAST))||0;}
+function getLeft(){const left=getLast()+COOLDOWN-Date.now();return left>0?left:0;}
+function saveLastNow(){localStorage.setItem(KEY_LAST,String(Date.now()));}
+function saveCoupon(c){localStorage.setItem(KEY_COUP,c);}
+function tickTimer(){const left=getLeft(); if(left>0){timerEl.textContent='Следующее через '+fmtLeft(left); spinBtn.disabled=true; requestAnimationFrame(tickTimer);} else {timerEl.textContent='Доступно сейчас'; spinBtn.disabled=false;}}
+tickTimer();
+
+function makeCoupon(prize){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<6;i++) r+=A[Math.floor(Math.random()*A.length)]; const amount=prize.value==='SP'?'СЮРПРИЗ':`${prize.value}₽`; const code=prize.value==='SP'?`SP-${r}`:`D${prize.value}-${r}`; return {display:`${amount} — ${code}`, raw:code, amount};}
+function segmentFromAngle(a){a=((a%FULL)+FULL)%FULL; const step=FULL/NUM; return Math.floor((FULL-a)/step)%NUM;}
+
+function spin(){
+  if(spinning) return;
+  const left=getLeft(); if(left>0){timerEl.style.transform='scale(1.04)'; setTimeout(()=>timerEl.style.transform='',120); return;}
+  ensureAC(); spinning=true; spinBtn.disabled=true; setCouponText('Крутим колесо…',false); lastTickIdx=-1;
+
+  const minTurns=4, maxTurns=7, target=rotation+(minTurns+Math.random()*(maxTurns-minTurns))*FULL;
+  const duration=3600+Math.random()*1200, start=performance.now(), startAngle=rotation;
+  const easeOut=t=>1-Math.pow(1-t,3);
+
+  function frame(now){
+    const t=Math.min(1,(now-start)/duration), e=easeOut(t);
+    rotation=startAngle+(target-startAngle)*e; applyRotation();
+    const idx=segmentFromAngle(rotation); if(idx!==lastTickIdx){ tickSound(); lastTickIdx=idx; }
+    if(t<1){ requestAnimationFrame(frame); }
+    else{
+      rotation=((rotation%FULL)+FULL)%FULL; applyRotation();
+      const prize=SEGMENTS[segmentFromAngle(rotation)];
+      if(prize.type==='none'){ loseSound(); flashBulbs(true); setCouponText('Увы, пусто. Попробуйте завтра!',false); showToast('lose'); saveLastNow(); spinning=false; tickTimer(); return; }
+      winSound(); flashBulbs(true);
+      const coupon=makeCoupon(prize); setCouponText(coupon.display,true); saveCoupon(coupon.raw); saveLastNow(); showToast('win',coupon); spinning=false; tickTimer();
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+function showToast(type,coupon){
+  if(type==='win'){ toastTitle.textContent='🎉 Поздравляем!'; toastText.textContent=`Вы выиграли купон ${coupon.display}. Для активации купона обратитесь к оператору.`; toastBtn.style.display='inline-flex'; }
+  else { toastTitle.textContent='💀 К сожалению, сегодня пусто!'; toastText.textContent='Попробуйте в следующий раз.'; toastBtn.style.display='none'; }
+  toast.classList.add('show');
+}
+
+spinBtn.addEventListener('click',spin);
+copyBtn.addEventListener('click',e=>{const t=couponEl.textContent.trim(); if(!t||t.includes('появится')||t.includes('пусто')) return; navigator.clipboard.writeText(t).then(()=>{const old=e.target.textContent; e.target.textContent='Скопировано'; setTimeout(()=>e.target.textContent=old,900);});});
+const saved=localStorage.getItem(KEY_COUP); if(saved){ setCouponText(`Купон — ${saved}`,true); }
+applyRotation();
+</script>
+</body>
+</html>
