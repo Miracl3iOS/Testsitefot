@@ -125,13 +125,14 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* ===== Геометрия и математика ===== */
 const N = 12, FULL = Math.PI*2, STEP = FULL/N;
 const CENTER = {x:500, y:500};
-/* Обводку с лампочками увеличил, размер клиньев не трогал */
-const R_BULB = 488;        // кольцо лампочек (крупнее)
-const R_RING1 = 488, R_RING2 = 476; // золотые кольца
-const R_LIP  = 472;        // внутренняя белая окантовка
-const R_OUT  = 458;        // внешний радиус клиньев (как было)
-const R_TEXT = 395;        // радиус размещения текста — ближе к центру, чтобы точно влезал
-const POINTER_OFFSET = Math.PI; // стрелка снизу
+/* Обводка + лампочки — крупные; клинья прежние */
+const R_BULB = 488;
+const R_RING1 = 488, R_RING2 = 476;
+const R_LIP  = 472;
+const R_OUT  = 458;
+/* ⬇️ Подписи ближе к центру */
+const R_TEXT = 360;        // было 395
+const POINTER_OFFSET = Math.PI;
 
 const PRIZES = [
   { label:'500₽',  type:'coupon', value:'500'  },
@@ -165,21 +166,18 @@ function indexFromRotation(rot){
 const svg = document.getElementById('wheelSVG');
 const g   = document.createElementNS('http://www.w3.org/2000/svg','g'); g.id='wheelGroup';
 
-/* обод (двойное кольцо + внутренняя белая линия) — толще */
 [['#b86a00',36,R_RING1],['#e3a300',24,R_RING2],['#ffffff',16,R_LIP]].forEach(([color,w,r])=>{
   const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
   c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y); c.setAttribute('r',r);
   c.setAttribute('fill','none'); c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
   svg.appendChild(c);
 });
-/* лампочки — крупнее и ближе к краю */
 for(let i=0;i<36;i++){ const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
   const bulb=document.createElementNS('http://www.w3.org/2000/svg','circle');
   bulb.setAttribute('class','bulb'); bulb.setAttribute('r','12'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
   svg.appendChild(bulb);
 }
 
-/* клинья + РАДИАЛЬНЫЕ подписи (обычный текст, просто повернут) */
 const colors=['#941f12','#a82316','#b82719','#cd2c1d'];
 for(let i=0;i<N;i++){
   const a0 = -Math.PI/2 + i*STEP, a1 = a0 + STEP, mid=(a0+a1)/2;
@@ -190,14 +188,14 @@ for(let i=0;i<N;i++){
   p.setAttribute('stroke','#7d170f'); p.setAttribute('stroke-width','2');
   g.appendChild(p);
 
-  // Радиальная надпись — центрируем и поворачиваем вдоль луча
+  // Радиальная подпись — ближе к центру
   const [tx,ty]=polar(R_TEXT, mid);
   const t=document.createElementNS('http://www.w3.org/2000/svg','text');
   t.setAttribute('x',tx); t.setAttribute('y',ty);
   t.setAttribute('fill','#ffd86b'); t.setAttribute('font-weight','900');
-  // Авто-размер: длинные слова меньше, чтобы точно влезли внутрь клина
+  // Чуть крупнее, раз подвинули внутрь
   const label = PRIZES[i].label;
-  const fs = label.length>6 ? 30 : label.length>4 ? 34 : 38;
+  const fs = label.length>6 ? 32 : label.length>4 ? 36 : 40;
   t.setAttribute('font-size', fs);
   t.setAttribute('text-anchor','middle'); t.setAttribute('dominant-baseline','middle');
   t.setAttribute('transform',`rotate(${toDeg(mid)} ${tx} ${ty})`);
@@ -206,20 +204,18 @@ for(let i=0;i<N;i++){
 }
 svg.appendChild(g);
 
-/* центр */
 [['90','#e3a300'],['60','#ffd86b']].forEach(([r,c])=>{
   const cc=document.createElementNS('http://www.w3.org/2000/svg','circle');
   cc.setAttribute('cx',CENTER.x); cc.setAttribute('cy',CENTER.y); cc.setAttribute('r',r); cc.setAttribute('fill',c); svg.appendChild(cc);
 });
 
-/* ===== Звук (мягкий) ===== */
+/* ===== Звук / логика (без изменений) ===== */
 let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
 function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
 const tickSound=()=>wood({freq:650,duration:70,gain:0.015});
 const winSound =()=>[740,880,1175].forEach((f,i)=>setTimeout(()=>wood({freq:f,duration:140,gain:0.025}),i*140));
 const loseSound=()=>{wood({freq:220,duration:200,gain:0.02,type:'sine'});setTimeout(()=>wood({freq:170,duration:240,gain:0.018}),160);}
 
-/* ===== Купоны/таймер/тосты ===== */
 const KEY_LAST='fortune_last_spin_at_v9', KEY_COUP='fortune_last_coupon_v9', COOLDOWN=24*60*60*1000;
 const spinBtn=document.getElementById('spinBtn'), timerEl=document.getElementById('timer'), couponEl=document.getElementById('couponCode'), copyBtn=document.getElementById('copyBtn');
 const toast=document.getElementById('toast'), toastTitle=document.getElementById('toastTitle'), toastText=document.getElementById('toastText'), toastBtn=document.getElementById('toastBtn');
@@ -236,9 +232,8 @@ const saved=localStorage.getItem(KEY_COUP); if(saved) setCoupon(`Купон — 
 function makeCoupon(prize){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<6;i++) r+=A[Math.floor(Math.random()*A.length)]; const amount=prize.value==='SP'?'СЮРПРИЗ':`${prize.value}₽`; const code=prize.value==='SP'?`SP-${r}`:`D${prize.value}-${r}`; return {display:`${amount} — ${code}`, raw:code};}
 function toastShow(type,coupon){ if(type==='win'){ toastTitle.textContent='🎉 Поздравляем!'; toastText.textContent=`Вы выиграли купон ${coupon.display}. Для активации купона обратитесь к оператору.`; toastBtn.style.display='inline-flex'; } else { toastTitle.textContent='💀 К сожалению, сегодня пусто!'; toastText.textContent='Попробуйте в следующий раз.'; toastBtn.style.display='none'; } toast.classList.add('show'); }
 
-/* ===== Вращение ===== */
 let rotation=0, spinning=false, lastTick=-1;
-function applyRotation(){ g.setAttribute('transform',`rotate(${rotation*180/Math.PI} ${CENTER.x} ${CENTER.y})`); }
+function applyRotation(){ document.getElementById('wheelGroup').setAttribute('transform',`rotate(${rotation*180/Math.PI} ${CENTER.x} ${CENTER.y})`); }
 function flashBulbs(on=true){ const s=document.getElementById('wheelSVG'); if(on){s.classList.add('blink'); setTimeout(()=>flashBulbs(false),2500);} else s.classList.remove('blink'); }
 
 function spin(){
