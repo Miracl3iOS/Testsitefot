@@ -126,13 +126,12 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* ===== Геометрия и математика ===== */
 const N = 12, FULL = Math.PI*2, STEP = FULL/N;
 const CENTER = {x:500, y:500};
-/* обводка + лампочки — ближе к диску */
-const R_BULB = 478;
-const R_RING1 = 482, R_RING2 = 474;
-const R_LIP  = 470;
-/* диск прежний, у самой окантовки */
-const R_OUT  = 468;
-/* подписи */
+/* впритык к диску */
+const R_OUT  = 468;       // внешний радиус клиньев
+const R_LIP  = 472;       // белая кромка (stroke 8 → внутренняя грань ровно на 468)
+const R_RING2= 474;       // внутреннее золотое кольцо
+const R_RING1= 476;       // внешнее золотое кольцо
+const R_BULB = 476;       // лампочки на внешнем кольце
 const R_TEXT = 360;
 const POINTER_OFFSET = Math.PI;
 
@@ -168,18 +167,27 @@ function indexFromRotation(rot){
 const svg = document.getElementById('wheelSVG');
 const g   = document.createElementNS('http://www.w3.org/2000/svg','g'); g.id='wheelGroup';
 
-[['#b86a00',36,R_RING1],['#e3a300',24,R_RING2],['#ffffff',16,R_LIP]].forEach(([color,w,r])=>{
+/* кольца: сначала два золотых, потом белая кромка-впритык */
+[
+  ['#b86a00',20,R_RING1],   // внешнее золото
+  ['#e3a300',14,R_RING2],   // внутреннее золото
+  ['#ffffff',8 ,R_LIP]      // белая кромка (внутренняя грань = 468)
+].forEach(([color,w,r])=>{
   const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
   c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y); c.setAttribute('r',r);
   c.setAttribute('fill','none'); c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
   svg.appendChild(c);
 });
-for(let i=0;i<36;i++){ const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
+
+/* лампочки прямо на внешнем золотом кольце */
+for(let i=0;i<36;i++){
+  const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
   const bulb=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  bulb.setAttribute('class','bulb'); bulb.setAttribute('r','12'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
+  bulb.setAttribute('class','bulb'); bulb.setAttribute('r','11'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
   svg.appendChild(bulb);
 }
 
+/* клинья + подписи */
 const colors=['#941f12','#a82316','#b82719','#cd2c1d'];
 for(let i=0;i<N;i++){
   const a0 = -Math.PI/2 + i*STEP, a1 = a0 + STEP, mid=(a0+a1)/2;
@@ -204,12 +212,13 @@ for(let i=0;i<N;i++){
 }
 svg.appendChild(g);
 
+/* центр */
 [['90','#e3a300'],['60','#ffd86b']].forEach(([r,c])=>{
   const cc=document.createElementNS('http://www.w3.org/2000/svg','circle');
   cc.setAttribute('cx',CENTER.x); cc.setAttribute('cy',CENTER.y); cc.setAttribute('r',r); cc.setAttribute('fill',c); svg.appendChild(cc);
 });
 
-/* ===== Звук / логика ===== */
+/* ===== Звук / логика (как было) ===== */
 let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
 function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
 const tickSound=()=>wood({freq:650,duration:70,gain:0.015});
