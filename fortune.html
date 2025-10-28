@@ -35,8 +35,8 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* колесо */
 .wheel-wrap{position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg);
   border-radius:18px;padding:12px;box-shadow:var(--inset)}
-/* ещё меньшее колесо */
-.wheel-box{width:min(68vw,280px);height:min(68vw,280px);max-width:280px;max-height:280px;position:relative}
+/* МЕНЬШЕЕ колесо (уменьшил ~на 2 см) */
+.wheel-box{width:min(72vw,300px);height:min(72vw,300px);max-width:300px;max-height:300px;position:relative}
 /* указатель снизу */
 .pointer{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
   width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid #d28a00;
@@ -117,7 +117,7 @@ body{margin:0;background:var(--bg);color:var(--ink);
   </div>
   <p id="toastText"></p>
   <a href="https://t.me/" target="_blank" rel="noopener" class="tg-btn" id="toastBtn" style="display:none">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67Л19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67Л19 4.33c.61-.36 1.08-.16.69.22Л9.04 15.46Z"/></svg>
     Оператор
   </a>
 </div>
@@ -126,12 +126,12 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* ===== Геометрия ===== */
 const N = 12, FULL = Math.PI*2, STEP = FULL/N;
 const CENTER = {x:500, y:500};
-
-/* Вся графика точно влезает в viewBox (ничего не режется) */
-const R_RING1 = 480;           // внешнее золото (толщина 36 → край на 498)
-const R_RING2 = 472;           // внутреннее золото (толщина 24 → край на 484)
-const R_BULB  = 476;           // центры лампочек (радиус лампы 12 → край на 488)
-const R_OUT   = 468;           // клинья почти под кольцом — без белой щели
+/* Внешнее кольцо с учётом толщины не выходит за viewBox */
+const R_RING1 = 482;  // 482 + (36/2) = 500 — край ровно по границе
+const R_RING2 = 480;
+const R_BULB  = 484;
+/* Клинья чуть заходят под золото — без белой щели */
+const R_OUT   = 469;
 const R_TEXT  = 360;
 const POINTER_OFFSET = Math.PI;
 
@@ -162,11 +162,9 @@ function wedgePath(r,a0,a1){
 const svg = document.getElementById('wheelSVG');
 const g   = document.createElementNS('http://www.w3.org/2000/svg','g'); g.id='wheelGroup';
 
-/* клинья и подписи (под золотом, чтобы не было щели) */
 const colors=['#941f12','#a82316','#b82719','#cd2c1d'];
 for(let i=0;i<N;i++){
   const a0=-Math.PI/2+i*STEP, a1=a0+STEP, mid=(a0+a1)/2;
-
   const p=document.createElementNS('http://www.w3.org/2000/svg','path');
   p.setAttribute('d',wedgePath(R_OUT,a0,a1));
   p.setAttribute('fill',colors[i%colors.length]);
@@ -187,15 +185,14 @@ for(let i=0;i<N;i++){
 }
 svg.appendChild(g);
 
-/* золотые кольца и лампы — сверху клиньев */
+/* Золотые кольца и лампочки сверху */
 [['#b86a00',36,R_RING1],['#e3a300',24,R_RING2]].forEach(([color,w,r])=>{
   const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
   c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y); c.setAttribute('r',r);
   c.setAttribute('fill','none'); c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
   svg.appendChild(c);
 });
-for(let i=0;i<36;i++){
-  const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
+for(let i=0;i<36;i++){ const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
   const bulb=document.createElementNS('http://www.w3.org/2000/svg','circle');
   bulb.setAttribute('class','bulb'); bulb.setAttribute('r','12'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
   svg.appendChild(bulb);
@@ -207,7 +204,7 @@ for(let i=0;i<36;i++){
   cc.setAttribute('cx',CENTER.x); cc.setAttribute('cy',CENTER.y); cc.setAttribute('r',r); cc.setAttribute('fill',c); svg.appendChild(cc);
 });
 
-/* ===== Логика/звук (как было) ===== */
+/* ===== Логика/звук (без изменений) ===== */
 let AC; function ensureAC(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
 function wood({freq=500,duration=90,gain=0.02,type='triangle'}){ try{ ensureAC(); if(!AC) return; const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.value=freq; const t=AC.currentTime; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+duration/1000); o.connect(g).connect(AC.destination); o.start(t); o.stop(t+duration/1000);}catch(e){} }
 const tickSound=()=>wood({freq:650,duration:70,gain:0.015});
@@ -216,19 +213,27 @@ const loseSound=()=>{wood({freq:220,duration:200,gain:0.02,type:'sine'});setTime
 
 const KEY_LAST='fortune_last_spin_at_v9', KEY_COUP='fortune_last_coupon_v9', COOLDOWN=24*60*60*1000;
 const spinBtn=document.getElementById('spinBtn'), timerEl=document.getElementById('timer'), couponEl=document.getElementById('couponCode'), copyBtn=document.getElementById('copyBtn');
+const toast=document.getElementById('toast'), toastTitle=document.getElementById('toastTitle'), toastText=document.getElementById('toastText'), toastBtn=document.getElementById('toastBtn');
+document.getElementById('toastClose').onclick=()=>toast.classList.remove('show');
+const pad2=n=>String(n).padStart(2,'0');
+const leftFmt=ms=>`${pad2(Math.floor(ms/3600000))}:${pad2(Math.floor((ms%3600000)/60000))}:${pad2(Math.floor((ms%60000)/1000))}`;
+const setCoupon=(t,copy)=>{couponEl.textContent=t; copyBtn.disabled=!copy;}
+const last=()=>Number(localStorage.getItem(KEY_LAST))||0;
+const left =()=>Math.max(0,last()+COOLDOWN-Date.now());
+const saveLast=()=>localStorage.setItem(KEY_LAST,String(Date.now()));
+const saveCode=c=>localStorage.setItem(KEY_COUP,c);
+(function tick(){const l=left(); if(l>0){timerEl.textContent='Следующее через '+leftFmt(l); spinBtn.disabled=true; requestAnimationFrame(tick);} else {timerEl.textContent='Доступно сейчас'; spinBtn.disabled=false;}})();
+const saved=localStorage.getItem(KEY_COUP); if(saved) setCoupon(`Купон — ${saved}`,true);
+function makeCoupon(prize){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<6;i++) r+=A[Math.floor(Math.random()*A.length)]; const amount=prize.value==='SP'?'СЮРПРИЗ':`${prize.value}₽`; const code=prize.value==='SP'?`SP-${r}`:`D${prize.value}-${r}`; return {display:`${amount} — ${code}`, raw:code};}
+function toastShow(type,coupon){ if(type==='win'){ toastTitle.textContent='🎉 Поздравляем!'; toastText.textContent=`Вы выиграли купон ${coupon.display}. Для активации купона обратитесь к оператору.`; toastBtn.style.display='inline-flex'; } else { toastTitle.textContent='💀 К сожалению, сегодня пусто!'; toastText.textContent='Попробуйте в следующий раз.'; toastBtn.style.display='none'; } toast.classList.add('show'); }
 
 let rotation=0, spinning=false;
 function applyRotation(){ document.getElementById('wheelGroup').setAttribute('transform',`rotate(${rotation*180/Math.PI} ${CENTER.x} ${CENTER.y})`); }
-
-function left(){return Math.max(0,(Number(localStorage.getItem(KEY_LAST))||0)+COOLDOWN-Date.now());}
-(function tick(){const l=left(); const t=document.getElementById('timer'); const pad=n=>String(n).padStart(2,'0');
-  const fmt=ms=>`${pad(Math.floor(ms/3600000))}:${pad(Math.floor((ms%3600000)/60000))}:${pad(Math.floor((ms%60000)/1000))}`;
-  if(l>0){t.textContent='Следующее через '+fmt(l); spinBtn.disabled=true; requestAnimationFrame(tick);} else {t.textContent='Доступно сейчас'; spinBtn.disabled=false;}})();
-
 function spin(){
   if(spinning) return;
-  if(left()>0) return;
-  ensureAC(); spinning=true; couponEl.textContent='Крутим колесо…';
+  const l=Math.max(0,(Number(localStorage.getItem(KEY_LAST))||0)+COOLDOWN-Date.now());
+  if(l>0) return;
+  ensureAC(); spinning=true; setCoupon('Крутим колесо…',false);
 
   const minTurns=4, maxTurns=7;
   const target = rotation + (minTurns + Math.random()*(maxTurns-minTurns)) * Math.PI*2;
@@ -242,28 +247,27 @@ function spin(){
     applyRotation();
     if(t<1){ requestAnimationFrame(frame); }
     else{
-      rotation=((rotation%(Math.PI*2))+Math.PI*2)%(Math.PI*2); applyRotation();
-      const idx=Math.floor(((Math.PI - rotation + Math.PI*2)%(Math.PI*2))/STEP)%N;
-      const prize=PRIZES[idx];
+      rotation = ((rotation%(Math.PI*2))+Math.PI*2)%(Math.PI*2); applyRotation();
+      const idx = Math.floor(((Math.PI - rotation + Math.PI*2)%(Math.PI*2))/STEP)%N;
+      const prize = PRIZES[idx];
       if(prize.type==='none'){
-        couponEl.textContent='Увы, пусто. Попробуйте завтра!';
+        setCoupon('Увы, пусто. Попробуйте завтра!',false);
       }else{
         const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<6;i++) r+=A[Math.floor(Math.random()*A.length)];
-        const amount=prize.value==='SP'?'СЮРПРИЗ':`${prize.value}₽`;
-        const code=prize.value==='SP'?`SP-${r}`:`D${prize.value}-${r}`;
-        couponEl.textContent=`${amount} — ${code}`;
-        document.getElementById('copyBtn').disabled=false;
+        const amount = prize.value==='SP'?'СЮРПРИЗ':`${prize.value}₽`;
+        const code = prize.value==='SP'?`SP-${r}`:`D${prize.value}-${r}`;
+        setCoupon(`${amount} — ${code}`, true);
         localStorage.setItem(KEY_COUP, code);
       }
-      localStorage.setItem(KEY_LAST', String(Date.now()));
+      localStorage.setItem(KEY_LAST,String(Date.now()));
       spinning=false;
     }
   }
   requestAnimationFrame(frame);
 }
-spinBtn.addEventListener('click',spin);
+document.getElementById('spinBtn').addEventListener('click',spin);
 document.getElementById('copyBtn').addEventListener('click',e=>{
-  const t=couponEl.textContent.trim();
+  const t=document.getElementById('couponCode').textContent.trim();
   if(!t||t.includes('появится')||t.includes('пусто')) return;
   navigator.clipboard.writeText(t).then(()=>{
     const old=e.target.textContent; e.target.textContent='Скопировано'; setTimeout(()=>e.target.textContent=old,900);
