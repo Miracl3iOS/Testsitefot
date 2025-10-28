@@ -125,11 +125,12 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* ===== Геометрия и математика ===== */
 const N = 12, FULL = Math.PI*2, STEP = FULL/N;
 const CENTER = {x:500, y:500};
-/* Обод и клинья подогнаны «вровень» */
-const R_BULB = 470;        // радиус лампочного кольца (золотой обод)
-const R_LIP  = 460;        // внутренняя белая окантовка
-const R_OUT  = 458;        // внешний радиус клиньев — вплотную к окантовке
-const R_TEXT = 410;        // точка, откуда начинаем вертикальную колонку текста
+/* Обводку с лампочками увеличил, размер клиньев не трогал */
+const R_BULB = 488;        // кольцо лампочек (крупнее)
+const R_RING1 = 488, R_RING2 = 476; // золотые кольца
+const R_LIP  = 472;        // внутренняя белая окантовка
+const R_OUT  = 458;        // внешний радиус клиньев (как было)
+const R_TEXT = 395;        // радиус размещения текста — ближе к центру, чтобы точно влезал
 const POINTER_OFFSET = Math.PI; // стрелка снизу
 
 const PRIZES = [
@@ -163,45 +164,48 @@ function indexFromRotation(rot){
 /* ===== Рисуем SVG ===== */
 const svg = document.getElementById('wheelSVG');
 const g   = document.createElementNS('http://www.w3.org/2000/svg','g'); g.id='wheelGroup';
-/* обод (двойное кольцо + внутренняя белая линия) */
-[['#b86a00',30,R_BULB],['#e3a300',18,R_BULB],['#ffffff',14,R_LIP]].forEach(([color,w,r])=>{
+
+/* обод (двойное кольцо + внутренняя белая линия) — толще */
+[['#b86a00',36,R_RING1],['#e3a300',24,R_RING2],['#ffffff',16,R_LIP]].forEach(([color,w,r])=>{
   const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
   c.setAttribute('cx',CENTER.x); c.setAttribute('cy',CENTER.y); c.setAttribute('r',r);
   c.setAttribute('fill','none'); c.setAttribute('stroke',color); c.setAttribute('stroke-width',w);
   svg.appendChild(c);
 });
-/* лампочки */
-const bulbs=document.createElementNS('http://www.w3.org/2000/svg','g'); bulbs.id='bulbRing';
+/* лампочки — крупнее и ближе к краю */
 for(let i=0;i<36;i++){ const a=i*(FULL/36); const [x,y]=polar(R_BULB,a);
-  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  c.setAttribute('class','bulb'); c.setAttribute('r','10'); c.setAttribute('cx',x); c.setAttribute('cy',y);
-  bulbs.appendChild(c);
+  const bulb=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  bulb.setAttribute('class','bulb'); bulb.setAttribute('r','12'); bulb.setAttribute('cx',x); bulb.setAttribute('cy',y);
+  svg.appendChild(bulb);
 }
-svg.appendChild(bulbs);
 
-/* клинья + вертикальные подписи по радиусу */
+/* клинья + РАДИАЛЬНЫЕ подписи (обычный текст, просто повернут) */
 const colors=['#941f12','#a82316','#b82719','#cd2c1d'];
 for(let i=0;i<N;i++){
   const a0 = -Math.PI/2 + i*STEP, a1 = a0 + STEP, mid=(a0+a1)/2;
 
   const p=document.createElementNS('http://www.w3.org/2000/svg','path');
   p.setAttribute('d',wedgePath(R_OUT,a0,a1));
-  p.setAttribute('fill',colors[i%colors.length]); p.setAttribute('stroke','#7d170f'); p.setAttribute('stroke-width','2');
+  p.setAttribute('fill',colors[i%colors.length]);
+  p.setAttribute('stroke','#7d170f'); p.setAttribute('stroke-width','2');
   g.appendChild(p);
 
-  // вертикальная колонка текста, направленная к центру
+  // Радиальная надпись — центрируем и поворачиваем вдоль луча
   const [tx,ty]=polar(R_TEXT, mid);
   const t=document.createElementNS('http://www.w3.org/2000/svg','text');
   t.setAttribute('x',tx); t.setAttribute('y',ty);
-  t.setAttribute('fill','#ffd86b'); t.setAttribute('font-size','42'); t.setAttribute('font-weight','900');
+  t.setAttribute('fill','#ffd86b'); t.setAttribute('font-weight','900');
+  // Авто-размер: длинные слова меньше, чтобы точно влезли внутрь клина
+  const label = PRIZES[i].label;
+  const fs = label.length>6 ? 30 : label.length>4 ? 34 : 38;
+  t.setAttribute('font-size', fs);
   t.setAttribute('text-anchor','middle'); t.setAttribute('dominant-baseline','middle');
-  t.style.writingMode='vertical-rl';
-  t.style.textOrientation='upright';
-  t.setAttribute('transform',`rotate(${toDeg(mid)+90} ${tx} ${ty})`);
-  t.textContent=PRIZES[i].label;
+  t.setAttribute('transform',`rotate(${toDeg(mid)} ${tx} ${ty})`);
+  t.textContent = label;
   g.appendChild(t);
 }
 svg.appendChild(g);
+
 /* центр */
 [['90','#e3a300'],['60','#ffd86b']].forEach(([r,c])=>{
   const cc=document.createElementNS('http://www.w3.org/2000/svg','circle');
