@@ -3,24 +3,24 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Главная</title>
-
+<title>Лендинг (колесо + меню + баннер работы)</title>
 <style>
 :root{
   --bg:#f0f0f3;
   --card:#f7f7fb;
   --ink:#2f2f36;
-  --shadow:5px 5px 10px #cfcfd6,-5px -5px 10px #ffffff;
-  --inset:inset 5px 5px 10px #cfcfd6,inset -5px -5px 10px #ffffff;
+  --shadow:5px 5px 10px #cfcfd6, -5px -5px 10px #ffffff;
+  --inset:inset 5px 5px 10px #cfcfd6, inset -5px -5px 10px #ffffff;
   --maxw:428px;
+  --gap:12px;
   --heroH: clamp(260px, 42vh, 420px);
 }
 
-/* Base */
+/* База */
 html,body{height:100%}
 body{
   margin:0;background:var(--bg);color:var(--ink);
-  font:15px/1.4 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,Arial;
+  font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 .phone{
@@ -29,226 +29,277 @@ body{
   display:flex;flex-direction:column;
 }
 
-/* Status bar */
+/* Верхняя панель */
 .status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-.center{
-  background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;
-  font-weight:700;font-size:12px;color:#5b5c64
-}
-.menu-btn{
-  width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);
-  box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer
-}
-.menu-btn span{
-  width:22px;height:2.5px;background:#000;border-radius:3px
-}
+.center{background:var(--bg);box-shadow:var(--shadow);border-radius:18px;padding:8px 14px;font-weight:700;font-size:12px;color:#5b5c64}
+.menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}
+.menu-btn span{width:22px;height:2.5px;background:#000;border-radius:3px}
 
-/* Hero */
+/* HERO */
 .hero-top{
   height:var(--heroH);
-  background:center/cover no-repeat;
-  background-image:url("hero.jpg");
+  background: center / cover no-repeat;
+  background-image:url('hero.jpg'); /* положи рядом с index.html */
 }
 
-.divider{height:1px;background:#ceced4}
+/* Разделитель */
+.divider{height:1px;background:#d9d9de;margin:0}
 
-/* Content */
+/* Контент */
 .wrap{padding:12px 16px 22px}
-.headline{
-  margin:12px 0 10px;font-weight:900;font-size:clamp(22px,6vw,34px);
-  color:#fff5e6;text-shadow:0 0 4px #fff2cc,0 0 10px #ffb366,0 0 22px #ff9900,0 0 32px #ff6f00;
-}
-.desc{margin:6px 0 20px;color:#383943;font-size:14px}
 
-/* Fortune banner */
-.promo{position:relative;border-radius:22px;overflow:hidden;
-  background:linear-gradient(130deg,#5c2478 0%,#8a2aa6 45%,#d430b5 100%);
-  box-shadow:var(--shadow);padding:16px;margin-top:6px
+/* Заголовок и описание (починил стиль описания) */
+.headline{
+  margin:12px 0 10px;font-weight:900;font-size:clamp(22px,6vw,34px);line-height:1.08;
+  text-wrap:balance;letter-spacing:.2px;color:#fff5e6;
+  text-shadow:0 0 4px #fff2cc,0 0 10px #ffb366,0 0 22px #ff9900,0 0 32px #ff6f00;
 }
-.promo h3{margin:0 0 6px;color:#fff;font-weight:900;font-size:20px}
-.promo p{margin:0 0 8px;color:#e7e0ee;font-size:13px}
+.desc{
+  margin:6px 0 18px;
+  color:#3a3b44;
+  font-size:14px;
+  line-height:1.4;
+}
+
+/* Промо-карточка: колесо фортуны */
+.promo{position:relative;border-radius:22px;overflow:hidden;
+  background:linear-gradient(130deg,#5c2478 0%, #8a2aa6 45%, #d430b5 100%);
+  box-shadow:var(--shadow);display:flex;align-items:center;padding:16px;margin-top:6px;min-height:160px}
+.promo-inner{flex:1 1 auto}
+.promo h3{margin:0 0 8px;color:#fff;font-weight:900;font-size:clamp(18px,5.5vw,26px);line-height:1.1}
+.promo p{margin:0 12px 14px 0;color:#e7e0ee;font-size:13.5px;line-height:1.25}
+
+/* Кнопка КРУТИТЬ — вернул прошлый рабочий вариант */
 .spin-btn{
   display:inline-flex;align-items:center;justify-content:center;
-  padding:10px 14px;border-radius:14px;text-decoration:none;font-weight:900;font-size:14px;letter-spacing:.3px;
+  padding:12px 18px;border-radius:14px;
+  text-decoration:none;font-weight:900;font-size:15px;letter-spacing:.3px;
   color:#111;border:1px solid #000;
-  background:linear-gradient(135deg,#c5113a,#ff6ea9);
-  box-shadow:var(--shadow);
+  background:linear-gradient(135deg,#c5113a 0%,#e11e3a 35%,#ff3b5f 70%,#ff6ea9 100%);
+  box-shadow:0 0 10px rgba(255,61,112,.35),0 0 20px rgba(255,110,169,.25),var(--shadow);
+  transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
 }
-.spin-btn:active{box-shadow:var(--inset);transform:scale(.97)}
-.timer{position:absolute;top:12px;right:12px;padding:6px 10px;border-radius:14px;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:12px}
-.promo-visual{position:absolute;right:0;bottom:0;top:0;width:42%;display:flex;align-items:flex-end;justify-content:center;padding:10px}
-.promo-visual .gift-img{width:100%;height:100%;background:center/contain no-repeat;background-image:url('gift.png')}
-.promo-visual .gift-fallback{width:70%;aspect-ratio:1/1;border-radius:50%;background:#ff7fc7}
+.spin-btn:active{transform:translateY(1px) scale(.985);box-shadow:var(--inset)}
 
-/* Grid buttons */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+/* Баннер «РАБОТА» — сразу под кнопкой колеса */
+.job-banner{
+  position:relative;margin-top:12px;border-radius:18px;overflow:hidden;
+  /* Чёрно-белый градиент + лёгкое стекло сверху для глубины */
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.0)),
+    linear-gradient(180deg,#000 0%, #1a1a1a 40%, #000 100%);
+  box-shadow:var(--shadow);
+  padding:14px 16px;
+  min-height:84px; /* фикс, чтобы не «вылезала» и не схлопывалась */
+}
+.job-title{
+  margin:0 0 4px;
+  color:#fff;
+  font-weight:900;
+  font-size:clamp(16px,5vw,20px);
+  letter-spacing:.2px;
+}
+.job-sub{
+  margin:0;
+  color:#d7d7d7;
+  font-size:13px;
+  line-height:1.25;
+}
+.job-link{
+  position:absolute; inset:0; /* вся карточка кликабельна */
+}
+
+/* Тихие деньги (вспышки внутри баннера, по центру, без лагов) */
+.money-spark{
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  color:#7CFF7A; /* мягкий зелёный */
+  font-weight:900;
+  font-size:13px;
+  opacity:0;
+  transition:opacity .4s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+  text-shadow:0 0 6px rgba(124,255,122,.25);
+}
+
+/* Сетка кнопок 2×4 */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:14px}
 .btn{
-  background:var(--card);box-shadow:var(--shadow);border-radius:16px;text-decoration:none;color:var(--ink);
-  font-weight:700;font-size:14px;padding:12px;display:flex;align-items:center;gap:10px;transition:.15s
+  background:var(--card);box-shadow:var(--shadow);border-radius:16px;
+  text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;
+  padding:12px;display:flex;align-items:center;gap:10px;transition:.15s;
+  min-height:46px;
 }
 .btn:hover{box-shadow:var(--inset)}
-.btn img{width:20px;height:20px}
 
-/* Marketplace */
-.markets{margin-top:18px;display:grid;gap:12px}
-.market{
-  background:var(--card);box-shadow:var(--shadow);border-radius:16px;padding:12px;
-  display:flex;align-items:center;justify-content:space-between;
+/* ОДИН png для всех кнопок (telegram.png). Ничего не ломается. */
+.btn::before{
+  content:"";
+  width:20px;height:20px;border-radius:5px;
+  background:#fff center/contain no-repeat;
+  background-image:url('telegram.png'); /* положи telegram.png рядом */
+  flex:0 0 20px;
 }
+
+/* Маркеты */
+.markets{margin-top:18px;display:grid;gap:var(--gap)}
+.market{background:var(--card);box-shadow:var(--shadow);border-radius:16px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .m-left{display:flex;align-items:center;gap:10px}
-.m-logo{width:22px;height:22px;border-radius:6px;background:#fff center/cover no-repeat;box-shadow:var(--shadow)}
-.pill-black{
-  background:#111;color:#fff;padding:8px 12px;border-radius:10px;font-weight:800;
-  text-decoration:none;box-shadow:var(--shadow)
-}
-.pill-black:active{box-shadow:var(--inset);transform:scale(.97)}
+.m-logo{width:22px;height:22px;border-radius:6px;background:#fffdf5 center/cover no-repeat;box-shadow:var(--shadow)}
+.m-title{font-weight:800}
+.m-buttons{display:flex;gap:8px}
+.pill-black{text-decoration:none;color:#fff;background:#111;padding:8px 12px;border-radius:10px;font-weight:800;font-size:13px;box-shadow:0 2px 0 rgba(0,0,0,.35),var(--shadow);transition:transform .12s ease,box-shadow .12s ease}
+.pill-black:active{transform:scale(.97);box-shadow:0 1px 0 rgba(0,0,0,.45),var(--inset)}
 
-/* Job banner */
-.job-banner{
-  margin-top:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;
-  border-radius:20px;padding:22px;text-decoration:none;color:#fff;
-  background:linear-gradient(145deg,#000,#353535);
-  box-shadow:var(--shadow);position:relative;overflow:hidden;
-}
-.job-banner *{text-decoration:none}
-.job-title{font-size:20px;font-weight:900;margin-bottom:4px;text-align:center}
-.job-sub{font-size:13px;color:#ddd;margin-bottom:4px;text-align:center}
+/* Подвал */
+.footer{padding:12px 16px;font-size:12px;color:#666;text-align:center}
+.footer a{color:#3a3b44;font-weight:700;text-decoration:none;border-bottom:1px dashed #3a3b44}
+.footer a:hover{border-bottom-style:solid}
 
-/* Money bubbles */
-.money{position:absolute;bottom:10px;font-weight:900;color:#39ff14;font-size:14px;opacity:0;pointer-events:none;animation:fly 2s ease forwards}
-@keyframes fly{
-  0%{transform:translateY(10px);opacity:0}
-  30%{opacity:1}
-  100%{transform:translateY(-60px);opacity:0}
-}
-
-.footer{padding:12px;text-align:center;font-size:12px;color:#666}
-.footer a{text-decoration:none;color:#333;font-weight:700}
-
-/* Drawer */
+/* Меню слева */
 .drawer-wrap{position:fixed;inset:0;display:none;z-index:50}
 .drawer-wrap.active{display:block}
 .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(6px)}
-.drawer{
-  position:absolute;left:0;top:0;height:100%;width:min(84vw,340px);background:rgba(240,240,243,.95);
-  backdrop-filter:blur(15px);border-top-right-radius:20px;border-bottom-right-radius:20px;
-  padding:22px;box-shadow:12px 0 28px rgba(0,0,0,.15);transform:translateX(-100%);transition:.25s;
-}
+.drawer{position:absolute;left:0;top:0;height:100%;width:min(84vw,340px);background:rgba(240,240,243,.85);backdrop-filter:blur(15px);box-shadow:12px 0 28px rgba(0,0,0,.15);border-top-right-radius:20px;border-bottom-right-radius:20px;padding:22px 20px 18px;transform:translateX(-100%);transition:transform .25s ease}
 .drawer-wrap.active .drawer{transform:none}
-.drawer h2{margin-bottom:14px}
-.m-link{
-  display:block;padding:12px;margin-bottom:8px;background:#fff;border-radius:12px;
-  text-decoration:none;color:#000;font-weight:600;box-shadow:var(--shadow)
-}
+.drawer h2{margin:0 0 14px;font-size:18px}
+.m-link{display:block;padding:12px 10px;margin-bottom:8px;background:#fff;border-radius:12px;box-shadow:var(--shadow);text-decoration:none;color:#2f2f36;font-weight:600}
 </style>
 </head>
 <body>
-
 <main class="phone">
-
-<div class="status">
-  <div class="center">TELEGRAM</div>
-  <button class="menu-btn" id="menuBtn"><span></span><span></span><span></span></button>
-</div>
-
-<section class="hero-top"></section>
-<div class="divider"></div>
-
-<section class="wrap">
-
-<h1 class="headline">ЛЕГЕНДАРНЫЙ МАГАЗИН ПРИВЕТСТВУЕТ ТЕБЯ!</h1>
-<p class="desc">Работаем не покладая рук с 2016 года...</p>
-
-<!-- Fortune promo -->
-<div class="promo">
-  <div>
-    <div class="timer">24:00:00</div>
-    <h3>Бесплатное колесо фортуны</h3>
-    <p>Крути 1 раз в сутки и получай купон!</p>
-    <a class="spin-btn" href="fortune.html">КРУТИТЬ</a>
-  </div>
-  <div class="promo-visual">
-    <div class="gift-img"></div>
-    <div class="gift-fallback"></div>
-  </div>
-</div>
-
-<!-- Buttons -->
-<div class="grid">
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Оператор</a>
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Чаты</a>
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Отзывы</a>
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Бот автопродаж</a>
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Канал</a>
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Обменник</a>
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Вакансии</a>
-  <a href="https://t.me/" class="btn"><img src="telegram.png">Поддержка</a>
-</div>
-
-<!-- Markets -->
-<div class="markets">
-  <div class="market">
-    <div class="m-left">
-      <div class="m-logo" style="background-image:url('kraken.png')"></div>
-      <div>Мы на Kraken</div>
-    </div>
-    <div>
-      <a class="pill-black" href="#">КЛИР</a>
-      <a class="pill-black" href="#">ТОР</a>
-    </div>
+  <div class="status">
+    <div class="center">TELEGRAM</div>
+    <button class="menu-btn" id="menuBtn" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 
-  <div class="market">
-    <div class="m-left">
-      <div class="m-logo" style="background-image:url('blacksprut.png')"></div>
-      <div>Мы на BlackSprut</div>
+  <!-- Участок 1: фоновый hero на весь верх -->
+  <section class="hero-top" aria-label="Логотип"></section>
+
+  <!-- Тонкий серый разделитель -->
+  <div class="divider"></div>
+
+  <!-- Контент -->
+  <section class="wrap">
+    <h1 class="headline">ЛЕГЕНДАРНЫЙ МАГАЗИН ПРИВЕТСТВУЕТ ТЕБЯ!</h1>
+    <p class="desc">Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надёжным и качественным по всей России.</p>
+
+    <!-- Промо-карточка с колесом -->
+    <div class="promo" id="promo">
+      <div class="promo-inner">
+        <h3>Бесплатное колесо фортуны</h3>
+        <p>Вы имеете возможность прокрутить бесплатное колесо фортуны 1 раз в сутки на нашем сайте.</p>
+        <!-- ВЕРНУЛ прошлую кнопку -->
+        <a class="spin-btn" href="fortune.html" id="spinBtn">КРУТИТЬ</a>
+      </div>
     </div>
-    <div>
-      <a class="pill-black" href="#">КЛИР</a>
-      <a class="pill-black" href="#">ТОР</a>
+
+    <!-- Баннер РАБОТА — сразу под кнопкой колеса -->
+    <div class="job-banner" id="jobBanner">
+      <h4 class="job-title">РАБОТА — ЛЕГКИЕ ДЕНЬГИ 🥷</h4>
+      <p class="job-sub">1000р за штуку, начинай прямо сейчас</p>
+      <a class="job-link" href="job.html" aria-label="Перейти в раздел Работа"></a>
     </div>
-  </div>
-</div>
 
-<!-- JOB Banner -->
-<a class="job-banner" href="#">
-  <div class="job-title">РАБОТА — ЛЁГКИЕ ДЕНЬГИ 🥷</div>
-  <div class="job-sub">1000₽ за штуку • Начинай сейчас</div>
-</a>
+    <!-- Кнопки -->
+    <div class="grid" aria-label="Ссылки">
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Оператор</a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Чаты</a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Отзывы</a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Бот автопродаж</a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Канал</a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Обменник</a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Вакансии</a>
+      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Поддержка</a>
+    </div>
 
-</section>
+    <!-- Маркеты -->
+    <div class="markets" aria-label="Маркетплейсы">
+      <div class="market">
+        <div class="m-left">
+          <div class="m-logo" id="logo-kraken"></div>
+          <div class="m-title">Мы на Kraken</div>
+        </div>
+        <div class="m-buttons">
+          <a class="pill-black" href="#" target="_blank" rel="noopener">КЛИР</a>
+          <a class="pill-black" href="#" target="_blank" rel="noopener">ТОР</a>
+        </div>
+      </div>
+      <div class="market">
+        <div class="m-left">
+          <div class="m-logo" id="logo-blacksprut"></div>
+          <div class="m-title">Мы на BlackSprut</div>
+        </div>
+        <div class="m-buttons">
+          <a class="pill-black" href="#" target="_blank" rel="noopener">КЛИР</a>
+          <a class="pill-black" href="#" target="_blank" rel="noopener">ТОР</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer class="footer">Сделано с 💛 • <a href="https://t.me/">наш TELEGRAM</a></footer>
-
+  <footer class="footer">Сделано с 💛 • <a href="https://t.me/" target="_blank" rel="noopener">наш TELEGRAM</a></footer>
 </main>
 
-<!-- Drawer -->
+<!-- Меню слева -->
 <div class="drawer-wrap" id="drawer">
   <div class="backdrop" id="backdrop"></div>
-  <aside class="drawer">
+  <aside class="drawer" role="dialog" aria-label="Меню">
     <h2>Меню</h2>
-    <a class="m-link" href="index.html">Главная</a>
     <a class="m-link" href="fortune.html">Колесо фортуны</a>
     <a class="m-link" href="#">Калькулятор</a>
+    <a class="m-link" href="#">Почему мы?</a>
     <a class="m-link" href="#">Контакты</a>
   </aside>
 </div>
 
 <script>
-const drawer=document.getElementById("drawer");
-document.getElementById("menuBtn").onclick=()=>drawer.classList.add("active");
-document.getElementById("backdrop").onclick=()=>drawer.classList.remove("active");
+/* Бургер-меню */
+const btn=document.getElementById('menuBtn');
+const drawer=document.getElementById('drawer');
+const backdrop=document.getElementById('backdrop');
+btn.addEventListener('click',()=>drawer.classList.add('active'));
+backdrop.addEventListener('click',()=>drawer.classList.remove('active'));
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.remove('active'); });
 
-/* Money pulses */
-setInterval(()=>{
-  const b=document.querySelector(".job-banner");
-  const m=document.createElement("div");
-  m.className="money";
-  m.textContent="+"+["1200","3000","7000","5000","30000","60000","75000","110000"][Math.floor(Math.random()*8)]+"₽";
-  b.appendChild(m);
-  setTimeout(()=>m.remove(),2000);
-},2500);
+/* логотипы маркетов */
+document.getElementById('logo-kraken').style.backgroundImage="url('kraken.png')";
+document.getElementById('logo-blacksprut').style.backgroundImage="url('blacksprut.png')";
+
+/* Тихие вспышки денег в job-banner (без лагов) */
+(function moneyFlashes(){
+  const host = document.getElementById('jobBanner');
+  const amounts = ["+1200р","+3000р","+7000р","+5000р","+30000р","+60000р","+75000р","+110000р"];
+  let timer;
+  function spawn(){
+    const el = document.createElement('div');
+    el.className = 'money-spark';
+    el.textContent = amounts[Math.floor(Math.random()*amounts.length)];
+    host.appendChild(el);
+    // старт: чуть меньше и прозрачнее
+    el.style.transform = 'translate(-50%,-50%) scale(0.9)';
+    el.style.opacity = '0';
+
+    requestAnimationFrame(()=>{
+      // плавное появление
+      el.style.opacity = '1';
+      el.style.transform = 'translate(-50%,-50%) scale(1)';
+      setTimeout(()=>{
+        // плавное исчезновение
+        el.style.opacity = '0';
+        el.style.transform = 'translate(-50%,-50%) scale(0.96)';
+        setTimeout(()=>{ el.remove(); }, 400);
+      }, 800); // держим видимым ~0.8с
+    });
+    // следующая вспышка через 2–3с
+    timer = setTimeout(spawn, 2000 + Math.random()*1000);
+  }
+  spawn();
+  // на всякий случай очистка при навигации
+  window.addEventListener('beforeunload', ()=> clearTimeout(timer));
+})();
 </script>
-
 </body>
 </html>
