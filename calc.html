@@ -143,7 +143,7 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
       </div>
 
       <div class="block">
-        <h3>Тип упаковки (корпус)</h3>
+        <h3>Тип доплаты</h3>
         <div class="row" id="packWrap">
           <button class="chip" data-pack="none">Без</button>
           <button class="chip" data-pack="metal">Металл +50₽</button>
@@ -152,12 +152,12 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
       </div>
 
       <div class="block">
-        <h3>Вес упаковки</h3>
+        <h3>Вес клада</h3>
         <div class="row" id="weightWrap"></div>
       </div>
 
       <div class="block">
-        <h3>Количество упаковок в день</h3>
+        <h3>Количество кладов в день</h3>
         <div class="counter">
           <input type="number" id="qty" value="0" min="0" max="100" />
           <small>0–100</small>
@@ -207,10 +207,10 @@ window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.rem
 
 /* Тарифы */
 const PRICES = {
-  shu:   {name:"Шу пуэр",              weights: {"0.3":300,"0.5":400,"1.0":500,"5.0+":700}},
-  puer:  {name:"Пуэр",                  weights: {"0.5":300,"1.0":450,"2.0":500,"5.0+":650}},
-  tgy:   {name:"Тигуаньинь",            weights: {"1.0":300,"2.0":400,"5.0+":600}},
-  china: {name:"Рассыпной китайский",   weights: {"1":300,"2":400,"5":580}}
+  shu:   {name:"меф-крис,a-pvp",              weights: {"0.3":300,"0.5":400,"1.0":500,"5.0+":700}},
+  puer:  {name:"меф-мука",                  weights: {"0.5":300,"1.0":450,"2.0":500,"5.0+":650}},
+  tgy:   {name:"шишки,гаш,амф",            weights: {"1.0":300,"2.0":400,"5.0+":600}},
+  china: {name:"трим шишек",   weights: {"1":300,"2":400,"5":580}}
 };
 const FAC_SELF_BONUS = 50;
 const PACK_BONUS = {none:0, metal:50, stone:30};
