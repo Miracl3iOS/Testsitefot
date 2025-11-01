@@ -21,8 +21,9 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .phone{width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;background:var(--bg);
   box-shadow:var(--shadow);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
 
-/* Верхняя панель (бургер) */
+/* Верхняя панель */
 .status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.back{display:inline-block;text-decoration:none;font-weight:700;color:#2f2f36;background:#fff;padding:8px 12px;border-radius:12px;box-shadow:var(--shadow)}
 .menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}
 .menu-btn span{width:22px;height:2.5px;background:#000;border-radius:3px}
@@ -42,10 +43,8 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .wrap{padding:12px 16px 22px}
 
 /* Заголовок — «чёрный неон» */
-h1{
-  margin:6px 0 12px;font-weight:900;font-size:clamp(22px,6vw,30px);line-height:1.08;color:#111;
-  text-shadow:0 0 3px rgba(0,0,0,.35), 0 0 8px rgba(0,0,0,.25), 0 0 16px rgba(0,0,0,.2);
-}
+h1{margin:6px 0 12px;font-weight:900;font-size:clamp(22px,6vw,30px);line-height:1.08;color:#111;
+  text-shadow:0 0 3px rgba(0,0,0,.35), 0 0 8px rgba(0,0,0,.25), 0 0 16px rgba(0,0,0,.2)}
 .sub{margin:4px 0 14px;color:var(--ink-soft)}
 
 /* Две верхние кнопки */
@@ -60,9 +59,16 @@ h1{
 .block h3{margin:0 0 8px;font-size:13px;color:#3c3d46;letter-spacing:.2px}
 .row{display:flex;gap:10px;flex-wrap:wrap}
 
-/* селект */
-.select select{width:100%;appearance:none;border:none;background:var(--bg);box-shadow:var(--shadow);
-  padding:12px 14px;border-radius:14px;font-weight:800;color:#2f2f36}
+/* Кастомный dropdown */
+.dropdown{position:relative}
+.dd-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--bg);box-shadow:var(--shadow);border-radius:14px;padding:12px 14px;font-weight:800;cursor:pointer}
+.dd-caret{margin-left:auto;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #4a4b54}
+.dd-list{position:absolute;left:0;right:0;top:calc(100% + 8px);background:#fff;border-radius:14px;box-shadow:0 12px 24px rgba(0,0,0,.12),var(--shadow);
+  padding:6px;display:none;max-height:260px;overflow:auto;z-index:10}
+.dropdown.open .dd-list{display:block}
+.dd-item{padding:10px 12px;border-radius:10px;font-weight:800;color:#2f2f36;cursor:pointer}
+.dd-item:hover{background:#f2f2f6}
 
 /* чипы */
 .chip{appearance:none;border:none;background:var(--bg);box-shadow:var(--shadow);color:#2f2f36;border-radius:14px;
@@ -76,11 +82,9 @@ h1{
 .counter small{color:#666}
 
 /* кнопка расчёта — зелёный градиент */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:14px;
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:14px;
   background:linear-gradient(135deg,#099268 0%,#12b886 50%,#2fefb5 100%);color:#111;font-weight:900;text-decoration:none;
-  border:1px solid #000;box-shadow:var(--shadow)
-}
+  border:1px solid #000;box-shadow:var(--shadow)}
 .btn:active{box-shadow:var(--inset);transform:translateY(1px)}
 
 /* результат */
@@ -97,14 +101,14 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
 <body>
 <main class="phone">
   <div class="status">
-    <div style="width:48px"></div>
-    <div style="width:48px"></div>
+    <a class="back" href="index.html">← Назад</a>
+    <div></div>
     <button class="menu-btn" id="menuBtn" aria-label="Меню"><span></span><span></span><span></span></button>
   </div>
 
   <section class="wrap">
     <h1>Калькулятор дохода</h1>
-    <p class="sub">Введи параметры — увидишь ориентировочный доход. По умолчанию всё нули, пока не выберешь товар и условия.</p>
+    <p class="sub">Введи параметры — увидишь ориентировочный доход. По умолчанию выставлены базовые значения, всё можно изменить.</p>
 
     <!-- Верхние действия -->
     <div class="top-actions">
@@ -115,17 +119,12 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
     </div>
 
     <div class="card" id="form">
-      <!-- ТОВАР -->
+      <!-- ТОВАР (кастомный дропдаун) -->
       <div class="block">
         <h3>Товар</h3>
-        <div class="select">
-          <select id="product">
-            <option value="" selected disabled>Выберите товар…</option>
-            <option value="shu">Шу пуэр</option>
-            <option value="puer">Пуэр</option>
-            <option value="tgy">Тигуаньинь</option>
-            <option value="china">Рассыпной китайский</option>
-          </select>
+        <div class="dropdown" id="productDD">
+          <div class="dd-toggle" id="productToggle"><span id="productLabel">—</span><i class="dd-caret"></i></div>
+          <div class="dd-list" id="productList"></div>
         </div>
       </div>
 
@@ -139,7 +138,7 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
         <div class="help">Если фасуешь сам — доплата +50₽ за упаковку.</div>
       </div>
 
-      <!-- ТИП КОРПУСА -->
+      <!-- ТИП УПАКОВКИ -->
       <div class="block">
         <h3>Тип упаковки (корпус)</h3>
         <div class="row" id="packWrap">
@@ -152,7 +151,7 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
       <!-- ВЕС -->
       <div class="block">
         <h3>Вес упаковки</h3>
-        <div class="row" id="weightWrap"><!-- варианты появятся после выбора товара --></div>
+        <div class="row" id="weightWrap"></div>
       </div>
 
       <!-- КОЛИЧЕСТВО / ДНИ -->
@@ -178,7 +177,7 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
       <div class="result" id="resultBox">
         <h4>Ваш месячный доход:</h4>
         <div class="total" id="total">0 ₽ / месяц</div>
-        <div class="note" id="breakdown">Выбери товар и параметры.</div>
+        <div class="note" id="breakdown">Измени параметры выше.</div>
       </div>
 
       <a href="#" class="btn" id="recalcBtn">Рассчитать доход</a>
@@ -208,17 +207,16 @@ window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.rem
 
 /* Тарифы */
 const PRICES = {
-  shu:   {name:"Шу пуэр",              weights: {"0.3":300,"0.5":400,"1.0":500,"5.0+":700}},
-  puer:  {name:"Пуэр",                  weights: {"0.5":300,"1.0":450,"2.0":500,"5.0+":650}},
-  tgy:   {name:"Тигуаньинь",            weights: {"1.0":300,"2.0":400,"5.0+":600}},
-  china: {name:"Рассыпной китайский",   weights: {"1":300,"2":400,"5":580}}
+  shu:   {name:"Меф-крисс,a-pvp",              weights: {"0.3":300,"0.5":400,"1.0":500,"5.0+":700}},
+  puer:  {name:"Меф-мука",                  weights: {"0.5":300,"1.0":450,"2.0":500,"5.0+":650}},
+  tgy:   {name:"Шишки,гаш,амф",            weights: {"1.0":300,"2.0":400,"5.0+":600}},
+  china: {name:"Трим шишек",   weights: {"1":300,"2":400,"5":580}}
 };
 const FAC_SELF_BONUS = 50;
 const PACK_BONUS = {none:0, metal:50, stone:30};
 const weekToMonth = 4.345;
 
-/* DOM */
-const productEl = document.getElementById('product');
+/* DOM refs */
 const weightWrap = document.getElementById('weightWrap');
 const whoWrap = document.getElementById('whoWrap');
 const packWrap = document.getElementById('packWrap');
@@ -228,7 +226,35 @@ const totalEl = document.getElementById('total');
 const breakdownEl = document.getElementById('breakdown');
 const recalcBtn = document.getElementById('recalcBtn');
 
-/* helpers */
+/* dropdown product */
+const productDD = document.getElementById('productDD');
+const productToggle = document.getElementById('productToggle');
+const productLabel = document.getElementById('productLabel');
+const productList = document.getElementById('productList');
+let productKey = null;
+
+function openCloseDD(force){
+  if(force===true){ productDD.classList.add('open'); return; }
+  if(force===false){ productDD.classList.remove('open'); return; }
+  productDD.classList.toggle('open');
+}
+productToggle.addEventListener('click',()=>openCloseDD());
+document.addEventListener('click',e=>{
+  if(!productDD.contains(e.target)) openCloseDD(false);
+});
+
+function buildProductList(){
+  productList.innerHTML='';
+  Object.entries(PRICES).forEach(([key,obj])=>{
+    const div=document.createElement('div');
+    div.className='dd-item';
+    div.textContent=obj.name;
+    div.addEventListener('click',()=>{ selectProduct(key); openCloseDD(false); });
+    productList.appendChild(div);
+  });
+}
+
+/* util */
 function fmt(n){return n.toLocaleString('ru-RU')}
 function chipify(container, attrName, value){
   [...container.querySelectorAll('.chip')].forEach(ch=>{
@@ -246,13 +272,15 @@ function clampNum(el,min,max){
   el.value=v;
 }
 
-/* рендер весов */
+/* веса под выбранный товар */
 function renderWeights(){
   weightWrap.innerHTML='';
-  const key = productEl.value;
-  if(!key){calc(); return;}
-  const prod = PRICES[key];
+  if(!productKey) return;
+  const prod = PRICES[productKey];
+  let firstKey = null;
+
   Object.entries(prod.weights).forEach(([w,price])=>{
+    if(firstKey===null) firstKey = w;
     const b=document.createElement('button');
     b.className='chip';
     b.textContent=(w.includes('+')? w : w+' г')+` — ${price}₽`;
@@ -260,10 +288,25 @@ function renderWeights(){
     b.addEventListener('click',()=>{ chipify(weightWrap,'data-weight',w); calc(); });
     weightWrap.appendChild(b);
   });
+
+  // выбрать минимальный вес по умолчанию
+  if(firstKey){
+    // найти «самый маленький» — сравним по числу до «+»
+    const keys = Object.keys(prod.weights);
+    keys.sort((a,b)=>parseFloat(a) - parseFloat(b));
+    chipify(weightWrap,'data-weight', keys[0]);
+  }
+}
+
+/* выбрать товар из дропдауна */
+function selectProduct(key){
+  productKey = key;
+  productLabel.textContent = PRICES[key].name;
+  renderWeights();
+  calc();
 }
 
 /* события */
-productEl.addEventListener('change',()=>{ renderWeights(); calc(); });
 whoWrap.addEventListener('click',e=>{
   const btn=e.target.closest('.chip'); if(!btn) return;
   chipify(whoWrap,'data-name',btn.getAttribute('data-name')); calc();
@@ -278,7 +321,6 @@ recalcBtn.addEventListener('click',e=>{ e.preventDefault(); calc(); });
 
 /* расчёт */
 function calc(){
-  const prodKey = productEl.value;
   const weightKey = getActiveValue(weightWrap,'data-weight');
   const self = (getActiveValue(whoWrap,'data-name')==='self') ? FAC_SELF_BONUS : 0;
   const hasPack = getActiveValue(packWrap,'data-pack');
@@ -286,13 +328,13 @@ function calc(){
   const qty = parseInt(qtyEl.value,10)||0;
   const days = parseInt(daysEl.value,10)||0;
 
-  if(!prodKey || !weightKey || (!hasPack && hasPack!=="none") || (!whoWrap.querySelector('.chip[data-active="1"]'))){
+  if(!productKey || !weightKey){
     totalEl.textContent = `0 ₽ / месяц`;
-    breakdownEl.textContent = `Выбери товар, фасовку, упаковку, вес и введи количество / дни.`;
+    breakdownEl.textContent = `Выберите товар и вес.`;
     return;
   }
 
-  const base = PRICES[prodKey].weights[weightKey];
+  const base = PRICES[productKey].weights[weightKey];
   const perItem = base + self + pack;
   const perDay = perItem * qty;
   const perWeek = perDay * days;
@@ -300,12 +342,16 @@ function calc(){
 
   totalEl.textContent = `${fmt(perMonth)} ₽ / месяц`;
   breakdownEl.textContent =
-    `${PRICES[prodKey].name}: ${weightKey} — база ${fmt(base)}₽; доплаты: фасовка ${fmt(self)}₽, корпус ${fmt(pack)}₽; `+
+    `${PRICES[productKey].name}: ${weightKey} — база ${fmt(base)}₽; доплаты: фасовка ${fmt(self)}₽, корпус ${fmt(pack)}₽; `+
     `в день ${qty} × ${fmt(perItem)}₽ = ${fmt(perDay)}₽; в неделю ${days} дн = ${fmt(perWeek)}₽.`;
 }
 
-/* init — всё нули, без выбора */
-renderWeights();
+/* init — дефолты: НЕ САМ, Без, товар Шу пуэр + минимальный вес */
+buildProductList();
+chipify(whoWrap,'data-name','not');
+chipify(packWrap,'data-pack','none');
+selectProduct('shu'); // это проставит подпись и вызовет renderWeights()
+qtyEl.value = 0; daysEl.value = 0; // нули
 calc();
 </script>
 </body>
