@@ -61,8 +61,15 @@ h1{margin:6px 0 12px;font-weight:900;font-size:clamp(22px,6vw,30px);line-height:
 
 /* Кастомный dropdown */
 .dropdown{position:relative}
-.dd-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:var(--bg);box-shadow:var(--shadow);border-radius:14px;padding:12px 14px;font-weight:800;cursor:pointer}
+.dd-toggle{
+  box-sizing:border-box;       /* ✅ чтобы не выпирала */
+  max-width:100%;              /* ✅ ограничение по ширине */
+  width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--bg);box-shadow:var(--shadow);border-radius:14px;
+  padding:12px 12px;           /* чуть меньше по горизонтали */
+  font-weight:800;cursor:pointer
+}
 .dd-caret{margin-left:auto;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #4a4b54}
 .dd-list{position:absolute;left:0;right:0;top:calc(100% + 8px);background:#fff;border-radius:14px;box-shadow:0 12px 24px rgba(0,0,0,.12),var(--shadow);
   padding:6px;display:none;max-height:260px;overflow:auto;z-index:10}
@@ -110,7 +117,6 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
     <h1>Калькулятор дохода</h1>
     <p class="sub">Введи параметры — увидишь ориентировочный доход. По умолчанию выставлены базовые значения, всё можно изменить.</p>
 
-    <!-- Верхние действия -->
     <div class="top-actions">
       <a href="#" class="action">Вакансии</a>
       <a href="https://t.me/" target="_blank" rel="noopener" class="action tg">
@@ -119,7 +125,6 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
     </div>
 
     <div class="card" id="form">
-      <!-- ТОВАР (кастомный дропдаун) -->
       <div class="block">
         <h3>Товар</h3>
         <div class="dropdown" id="productDD">
@@ -128,7 +133,6 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
         </div>
       </div>
 
-      <!-- КТО ФАСУЕТ -->
       <div class="block">
         <h3>Кто фасует?</h3>
         <div class="row" id="whoWrap">
@@ -138,7 +142,6 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
         <div class="help">Если фасуешь сам — доплата +50₽ за упаковку.</div>
       </div>
 
-      <!-- ТИП УПАКОВКИ -->
       <div class="block">
         <h3>Тип упаковки (корпус)</h3>
         <div class="row" id="packWrap">
@@ -148,13 +151,11 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
         </div>
       </div>
 
-      <!-- ВЕС -->
       <div class="block">
         <h3>Вес упаковки</h3>
         <div class="row" id="weightWrap"></div>
       </div>
 
-      <!-- КОЛИЧЕСТВО / ДНИ -->
       <div class="block">
         <h3>Количество упаковок в день</h3>
         <div class="counter">
@@ -173,7 +174,6 @@ hr{height:1px;border:none;background:#e8e8ef;margin:4px 0}
 
       <hr>
 
-      <!-- РЕЗУЛЬТАТ -->
       <div class="result" id="resultBox">
         <h4>Ваш месячный доход:</h4>
         <div class="total" id="total">0 ₽ / месяц</div>
@@ -207,10 +207,10 @@ window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.rem
 
 /* Тарифы */
 const PRICES = {
-  shu:   {name:"Меф-крисс,a-pvp",              weights: {"0.3":300,"0.5":400,"1.0":500,"5.0+":700}},
-  puer:  {name:"Меф-мука",                  weights: {"0.5":300,"1.0":450,"2.0":500,"5.0+":650}},
-  tgy:   {name:"Шишки,гаш,амф",            weights: {"1.0":300,"2.0":400,"5.0+":600}},
-  china: {name:"Трим шишек",   weights: {"1":300,"2":400,"5":580}}
+  shu:   {name:"Шу пуэр",              weights: {"0.3":300,"0.5":400,"1.0":500,"5.0+":700}},
+  puer:  {name:"Пуэр",                  weights: {"0.5":300,"1.0":450,"2.0":500,"5.0+":650}},
+  tgy:   {name:"Тигуаньинь",            weights: {"1.0":300,"2.0":400,"5.0+":600}},
+  china: {name:"Рассыпной китайский",   weights: {"1":300,"2":400,"5":580}}
 };
 const FAC_SELF_BONUS = 50;
 const PACK_BONUS = {none:0, metal:50, stone:30};
@@ -291,7 +291,6 @@ function renderWeights(){
 
   // выбрать минимальный вес по умолчанию
   if(firstKey){
-    // найти «самый маленький» — сравним по числу до «+»
     const keys = Object.keys(prod.weights);
     keys.sort((a,b)=>parseFloat(a) - parseFloat(b));
     chipify(weightWrap,'data-weight', keys[0]);
@@ -338,7 +337,7 @@ function calc(){
   const perItem = base + self + pack;
   const perDay = perItem * qty;
   const perWeek = perDay * days;
-  const perMonth = Math.round(perWeek * weekToMonth);
+  const perMonth = Math.round(perWeek * 4.345);
 
   totalEl.textContent = `${fmt(perMonth)} ₽ / месяц`;
   breakdownEl.textContent =
@@ -346,13 +345,16 @@ function calc(){
     `в день ${qty} × ${fmt(perItem)}₽ = ${fmt(perDay)}₽; в неделю ${days} дн = ${fmt(perWeek)}₽.`;
 }
 
-/* init — дефолты: НЕ САМ, Без, товар Шу пуэр + минимальный вес */
-buildProductList();
-chipify(whoWrap,'data-name','not');
-chipify(packWrap,'data-pack','none');
-selectProduct('shu'); // это проставит подпись и вызовет renderWeights()
-qtyEl.value = 0; daysEl.value = 0; // нули
-calc();
+/* init — дефолты */
+function init(){
+  buildProductList();
+  chipify(whoWrap,'data-name','not');   // НЕ САМ
+  chipify(packWrap,'data-pack','none'); // Без
+  selectProduct('shu');                 // товар и минимальный вес
+  qtyEl.value = 0; daysEl.value = 0;    // нули
+  calc();
+}
+init();
 </script>
 </body>
 </html>
