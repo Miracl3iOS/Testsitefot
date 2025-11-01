@@ -35,20 +35,24 @@ body{
 .menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}
 .menu-btn span{width:22px;height:2.5px;background:#000;border-radius:3px}
 
-/* ===== УЧАСТОК 1: полноэкранный hero ===== */
+/* ===== УЧАСТОК 1: полноэкранный hero без «окна» ===== */
 .hero-top{
   height:var(--heroH);
-  background:center / cover no-repeat;
-  background-image:url('hero.jpg');
+  background: center / cover no-repeat;
+  background-image:url('hero.jpg'); /* проверь, что файл рядом */
 }
 
-/* Разделительная линия */
-.divider{height:1px;background:#d9d9de;margin:0}
+/* Разделительная серая линия */
+.divider{
+  height:1px;
+  background:#d9d9de;
+  margin:0;
+}
 
 /* Участок 2 — контент */
 .wrap{padding:12px 16px 22px}
 
-/* Заголовок — неон */
+/* Заголовок — неон только тут */
 .headline{
   margin:12px 0 10px;font-weight:900;font-size:clamp(22px,6vw,34px);line-height:1.08;
   text-wrap:balance;letter-spacing:.2px;color:#fff5e6;
@@ -71,53 +75,74 @@ body{
 .promo-visual .gift-img{width:100%;height:100%;background:center/contain no-repeat;background-image:url('gift.png')}
 .promo-visual .gift-fallback{width:70%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 35% 35%, #ffd7e8 0%, #ff6ea9 40%, #8a2aa6 100%);box-shadow:0 15px 30px rgba(0,0,0,.25)}
 
-/* Новый промо-блок: ЧЁРНАЯ кнопка «РАБОТА» */
-.promo-job{margin-top:12px;padding:14px;border-radius:18px;background:var(--card);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.job-text{font-weight:800;color:#2c2c33}
-.job-btn{
-  position:relative;overflow:hidden;
-  display:inline-flex;align-items:center;gap:10px;
-  text-decoration:none;border-radius:14px;border:1px solid #000;
-  padding:10px 14px;
-  font-weight:900;font-size:13px;color:#fff;
-  background:linear-gradient(135deg,#000 0%, #0a0a0a 35%, #1a1a1a 65%, #000 100%);
-  box-shadow:0 0 10px rgba(0,0,0,.25), var(--shadow);
-  transition:transform .12s ease, box-shadow .12s ease;
-  min-width:160px;justify-content:center;
+/* БАННЕР "РАБОТА" — чёрно-белый премиум */
+.job-banner{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:14px;
+  height:clamp(100px, 12vh, 150px);
+  width:100%;
+  text-decoration:none;
+  font-weight:900;
+  font-size:clamp(22px, 6vw, 34px);
+  color:#fff;
+  border-radius:20px;
+  border:1px solid #000;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,.18), transparent 55%),
+    linear-gradient(160deg, #000 0%, #0c0c0c 35%, #161616 65%, #000 100%);
+  box-shadow:
+    0 6px 16px rgba(0,0,0,.45),
+    inset 0 1px 4px rgba(255,255,255,.12);
+  transition:transform .15s ease, box-shadow .15s ease;
+  overflow:hidden; /* вспышки остаются в пределах кнопки */
 }
-.job-btn:active{transform:translateY(1px) scale(.985);box-shadow:var(--inset)}
-.job-btn .ninja{font-size:18px;line-height:1}
-.job-btn::after{
-  content:"";
-  position:absolute;inset:0;
-  background:linear-gradient(120deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 35%);
-  pointer-events:none;
+.job-banner:hover{
+  transform:scale(1.01);
+  box-shadow:
+    0 10px 26px rgba(0,0,0,.55),
+    inset 0 1px 6px rgba(255,255,255,.16);
 }
-/* всплывашка денег (одна нода) */
-.earn{
-  position:absolute;right:10px;top:10px;
-  font-weight:900;font-size:12px;color:#27c93f;
-  white-space:nowrap;pointer-events:none;
-  opacity:0;transform:translateY(-6px) scale(.9);
-  text-shadow:0 1px 0 #0b5, 0 0 10px rgba(39,201,63,.35);
+.job-banner:active{transform:scale(.985)}
+.job-banner span{pointer-events:none}
+
+/* "Тихие вспышки денег" — элементы */
+.job-amount{
+  position:absolute;
+  right:10px; /* базово — правый верх */
+  top:8px;
+  font-weight:900;
+  font-size:14px;
+  color:#00d47a;
+  text-shadow:0 0 6px rgba(0,212,122,.35);
+  opacity:0;
+  transform:translateY(-6px) scale(.95);
+  will-change: transform, opacity;
+  /* Плавная, лёгкая анимация */
+  animation: jobFloat 1.9s ease-out forwards;
 }
-@keyframes earn-pop{
-  0%   {opacity:0;transform:translateY(-6px) scale(.9)}
-  15%  {opacity:1;transform:translateY(-12px) scale(1)}
-  60%  {opacity:1;transform:translateY(6px)   scale(1)}
-  100% {opacity:0;transform:translateY(28px)  scale(.98)}
+
+/* Ключевые кадры: лёгкий выезд вниз и исчезновение */
+@keyframes jobFloat{
+  0%   { opacity:0; transform:translateY(-6px) scale(.95); }
+  10%  { opacity:1; transform:translateY(0)    scale(1);   }
+  70%  { opacity:1; transform:translateY(10px) scale(1.02);}
+  100% { opacity:0; transform:translateY(22px) scale(.98); }
 }
-.earn.play{animation:earn-pop 1.25s ease forwards}
 
 /* Сетка кнопок 2×4 */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:14px}
 .btn{background:var(--card);box-shadow:var(--shadow);border-radius:16px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;padding:12px;display:flex;align-items:center;gap:10px;transition:.15s}
 .btn:hover{box-shadow:var(--inset)}
 
-/* ✅ Фикс SVG-иконок Telegram */
+/* ✅ Фикс SVG-иконок Telegram (не ломаются) */
 .btn svg{
-  width:20px;height:20px;display:inline-block;
-  vertical-align:middle;overflow:visible;flex:0 0 auto;
+  width:20px;
+  height:20px;
+  flex:0 0 20px; /* не тянутся и не схлопываются */
+  display:inline-block;
+  vertical-align:middle;
+  overflow:visible;
 }
 
 /* Маркеты */
@@ -143,6 +168,12 @@ body{
 .drawer-wrap.active .drawer{transform:none}
 .drawer h2{margin:0 0 14px;font-size:18px}
 .m-link{display:block;padding:12px 10px;margin-bottom:8px;background:#fff;border-radius:12px;box-shadow:var(--shadow);text-decoration:none;color:#2f2f36;font-weight:600}
+
+/* Меньше движения для тех, кто просит */
+@media (prefers-reduced-motion: reduce){
+  .job-amount{animation:none;opacity:0}
+  .job-banner,.promo,.btn,.pill-black{transition:none}
+}
 </style>
 </head>
 <body>
@@ -166,16 +197,14 @@ body{
 
     <p class="desc">Работаем не покладая рук с 2016 года для того, чтобы радовать покупателей надёжным и качественным по всей России.</p>
 
-    <!-- Промо-карточка: Колесо фортуны -->
+    <!-- Промо-карточка -->
     <div class="promo" id="promo">
       <div class="promo-inner">
         <div class="timer" id="timer">24:00:00</div>
         <h3>Бесплатное колесо фортуны</h3>
         <p>Вы имеете возможность прокрутить бесплатное колесо фортуны 1 раз в сутки на нашем сайте.</p>
         <a class="spin-btn" href="fortune.html" id="spinBtn">
-          <svg class="gift" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#111" d="M20 7h-2.4c.6-.6 1-1.4 1-2.3 0-1.9-1.6-3.5-3.5-3.5-1.6 0-2.9 1.1-3.3 2.5-.5-1.4-1.8-2.5-3.4-2.5C4.6 1.2 3 2.8 3 4.7c0 .9.4 1.7 1 2.3H2c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1h9V8H6.3c-.9 0-1.6-.7-1.6-1.6S5.4 4.8 6.3 4.8c1.1 0 2 .9 2 2V7h1.7c.6 0 1-.4 1-1 0-1.1.9-2 2-2 1 0 1.9.9 1.9 2 0 .6.5 1 1.1 1H13v5h9c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1zM2 13v8c0 .6.4 1 1 1h8v-9H2zm11 0v9h8c.6 0 1-.4 1-1v-8h-9z"/>
-          </svg>
+          <svg class="gift" viewBox="0 0 24 24" aria-hidden="true"><path fill="#111" d="M20 7h-2.4c.6-.6 1-1.4 1-2.3 0-1.9-1.6-3.5-3.5-3.5-1.6 0-2.9 1.1-3.3 2.5-.5-1.4-1.8-2.5-3.4-2.5C4.6 1.2 3 2.8 3 4.7c0 .9.4 1.7 1 2.3H2c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1h9V8H6.3c-.9 0-1.6-.7-1.6-1.6S5.4 4.8 6.3 4.8c1.1 0 2 .9 2 2V7h1.7c.6 0 1-.4 1-1 0-1.1.9-2 2-2 1 0 1.9.9 1.9 2 0 .6.5 1 1.1 1H13v5h9c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1zM2 13v8c0 .6.4 1 1 1h8v-9H2zm11 0v9h8c.6 0 1-.4 1-1v-8h-9z"/></svg>
           <span>КРУТИТЬ</span>
         </a>
       </div>
@@ -185,63 +214,58 @@ body{
       </div>
     </div>
 
-    <!-- Новый промо-блок: Работа -->
-    <div class="promo-job">
-      <div class="job-text">Ищем ответственных — быстрые выплаты, гибкий график.</div>
-      <a href="#" class="job-btn" id="jobBtn" aria-label="Работа">
-        <span class="ninja">🥷</span>
-        <span>РАБОТА</span>
-        <span class="earn" id="earnOne"></span>
-      </a>
-    </div>
+    <!-- Баннер "РАБОТА 🥷" -->
+    <a href="work.html" class="job-banner" id="jobBanner" aria-label="РАБОТА">
+      <span>РАБОТА 🥷</span>
+    </a>
 
     <!-- Кнопки (исправлены иконки) -->
     <div class="grid" aria-label="Ссылки">
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Оператор
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47l2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92l3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5l5.36 1.67Л19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Чаты
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Отзывы
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Бот автопродаж
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Канал
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Обменник
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Вакансии
       </a>
       <a href="https://t.me/" class="btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98 .62 1.67 .31 1.95 -.92л3.62 -16.9c.26 -1.22 -.43 -1.68 -1.39 -1.31L1.3 9.06C.14 9.52 .15 10.22 1 10.5л5.36 1.67L19 4.33c.61 -.36 1.08 -.16 .69 .22L9.04 15.46Z"/>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#000" d="M9.04 15.46 8.7 18.88c.48 0 .76-.2 1.06-.47л2.55-2.35 5.18 3.68c.98.62 1.67.31 1.95-.92л3.62-16.9c.26-1.22-.43-1.68-1.39-1.31L1.3 9.06C.14 9.52.15 10.22 1 10.5л5.36 1.67L19 4.33c.61-.36 1.08-.16.69.22L9.04 15.46Z"/>
         </svg>
         Поддержка
       </a>
@@ -288,7 +312,7 @@ body{
 </div>
 
 <script>
-/* бургер */
+/* ===== Бургер-меню ===== */
 const btn=document.getElementById('menuBtn');
 const drawer=document.getElementById('drawer');
 const backdrop=document.getElementById('backdrop');
@@ -296,11 +320,11 @@ btn.addEventListener('click',()=>drawer.classList.add('active'));
 backdrop.addEventListener('click',()=>drawer.classList.remove('active'));
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') drawer.classList.remove('active'); });
 
-/* логотипы маркетов (как hero.jpg) */
+/* Логотипы маркетов (как hero.jpg) */
 document.getElementById('logo-kraken').style.backgroundImage="url('kraken.png')";
 document.getElementById('logo-blacksprut').style.backgroundImage="url('blacksprut.png')";
 
-/* промо: fallback подарка */
+/* Промо: fallback подарка */
 const giftImg = document.getElementById('giftImg');
 const giftFallback = document.getElementById('giftFallback');
 const img = new Image();
@@ -308,56 +332,62 @@ img.onload=()=>{giftFallback.style.display='none';};
 img.onerror=()=>{giftImg.style.display='none';};
 img.src='gift.png';
 
-/* Таймер 24 часа — через setInterval раз в 1с */
+/* Таймер 24 часа (лёгкий) */
 const timerEl=document.getElementById('timer');
-const spinBtn=document.getElementById('spinBtn');
 const KEY='fortuneResetAt_v1';
-
-function renderTimer(target){
-  const left=target-Date.now();
-  if(left<=0){timerEl.textContent='00:00:00';return false;}
-  const h=Math.floor(left/3600000),
-        m=Math.floor((left%3600000)/60000),
-        s=Math.floor((left%60000)/1000);
-  timerEl.textContent=[h,m,s].map(v=>String(v).padStart(2,'0')).join(':');
-  return true;
+function startCountdown(target){
+  function tick(){
+    const left=target-Date.now();
+    if(left<=0){timerEl.textContent='00:00:00';return;}
+    const h=Math.floor(left/3600000), m=Math.floor((left%3600000)/60000), s=Math.floor((left%60000)/1000);
+    timerEl.textContent=[h,m,s].map(v=>String(v).padStart(2,'0')).join(':');
+    if(!document.hidden) requestAnimationFrame(tick); else setTimeout(tick,500);
+  }
+  tick();
 }
-
 let resetAt=Number(localStorage.getItem(KEY));
 if(!resetAt || resetAt<Date.now()){resetAt=Date.now()+24*60*60*1000;localStorage.setItem(KEY,String(resetAt));}
-renderTimer(resetAt);
+startCountdown(resetAt);
 
-let timerInt = setInterval(()=>{
-  if(!renderTimer(resetAt)){ clearInterval(timerInt); }
-},1000);
+/* ===== "Тихие вспышки денег" в кнопке РАБОТА ===== */
+(function(){
+  const banner = document.getElementById('jobBanner');
+  if(!banner) return;
 
-/* Кнопка «КРУТИТЬ» открывает страницу колеса */
-spinBtn.addEventListener('click',e=>{
-  e.preventDefault();
-  window.location.href='fortune.html';
-});
+  const amounts = ['+1200₽','+3000₽','+7000₽','+5000₽','+30000₽','+60000₽','+75000₽','+110000₽'];
+  let alive = 0;
+  const MAX_ALIVE = 6;
 
-/* Всплывающие суммы в кнопке «РАБОТА» — один переиспользуемый элемент */
-const jobBtn=document.getElementById('jobBtn');
-const earnOne=document.getElementById('earnOne');
-const amounts=['+1200р','+3000р','+7000р','+5000р','+30000р','+60000р','+75000р','+110000р'];
+  function spawn(){
+    if(document.hidden) { schedule(); return; }
+    if(alive >= MAX_ALIVE || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      schedule(); return;
+    }
 
-function showEarn(){
-  earnOne.textContent = amounts[Math.floor(Math.random()*amounts.length)];
-  // небольшое случайное смещение в углу
-  const dx=Math.floor(Math.random()*8);
-  const dy=Math.floor(Math.random()*6);
-  earnOne.style.right=(10+dx)+'px';
-  earnOne.style.top=(8+dy)+'px';
-  // перезапуск анимации
-  earnOne.classList.remove('play');
-  void earnOne.offsetWidth; // reflow
-  earnOne.classList.add('play');
-  // следующее появление через 2–3 сек.
-  const next=2000+Math.floor(Math.random()*1000);
-  setTimeout(showEarn,next);
-}
-setTimeout(showEarn,1200);
+    const el = document.createElement('span');
+    el.className = 'job-amount';
+    el.textContent = amounts[(Math.random()*amounts.length)|0];
+
+    // Нежная вариативность: небольшой сдвиг по X/Y внутри правого верха
+    const padX = Math.random()*6;   // 0..6px
+    const padY = Math.random()*6;   // 0..6px
+    el.style.right = (6 + padX) + 'px';
+    el.style.top   = (6 + padY) + 'px';
+
+    alive++;
+    el.addEventListener('animationend', ()=>{ alive--; el.remove(); }, {once:true});
+
+    banner.appendChild(el);
+    schedule();
+  }
+
+  function schedule(){
+    const delay = 2000 + Math.random()*1200; // 2.0–3.2s
+    setTimeout(spawn, delay);
+  }
+
+  schedule();
+})();
 </script>
 </body>
 </html>
