@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Вакансии</title>
+<style>
+:root{
+  --bg:#f0f0f3; --card:#fafafd;
+  --ink:#2f2f36; --maxw:428px;
+  --shadow:5px 5px 10px #cfcfd6, -5px -5px 10px #ffffff;
+  --inset:inset 5px 5px 10px #cfcfd6, inset -5px -5px 10px #ffffff;
+}
+
+body{
+  margin:0;background:var(--bg);font:15px/1.45 -apple-system,BlinkMacSystemFont;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+.phone{
+  width:min(100vw,var(--maxw));margin:0 auto;min-height:100dvh;
+  background:var(--bg);box-shadow:var(--shadow);border-radius:24px;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+
+/* Верх меню */
+.status{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.back{background:#fff;text-decoration:none;padding:8px 12px;border-radius:12px;font-weight:800;color:#000;box-shadow:var(--shadow)}
+.menu-btn{width:48px;height:34px;border:none;border-radius:12px;background:var(--bg);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:5px;justify-content:center;align-items:center}
+.menu-btn span{width:22px;height:3px;background:#000;border-radius:3px}
+
+/* Drawer */
+.drawer-wrap{position:fixed;inset:0;display:none;z-index:50}
+.drawer-wrap.active{display:block}
+.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(6px)}
+.drawer{position:absolute;left:0;top:0;height:100%;width:min(84vw,340px);
+  background:rgba(240,240,243,.85);backdrop-filter:blur(15px);
+  box-shadow:12px 0 28px rgba(0,0,0,.15);border-radius:0 20px 20px 0;
+  padding:22px 20px;transform:translateX(-100%);transition:0.25s}
+.drawer-wrap.active .drawer{transform:none}
+.m-link{display:block;padding:12px;border-radius:14px;margin-bottom:10px;background:#fff;text-decoration:none;color:#000;font-weight:700;box-shadow:var(--shadow)}
+
+/* Заголовок чёрный неон */
+h1{
+  font-weight:900;font-size:28px;margin:12px 0 20px;
+  text-shadow:0 0 3px rgba(0,0,0,.4),0 0 8px rgba(0,0,0,.25);
+}
+
+/* Вакансии сетка */
+.jobs-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.job-card{
+  background:var(--card);border-radius:18px;box-shadow:var(--shadow);
+  padding:10px;display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.job-card img{width:100%;aspect-ratio:1/1;border-radius:14px;object-fit:cover}
+.job-title{margin-top:8px;font-weight:800;font-size:14px}
+.job-sub{font-size:12px;color:#555;margin-top:4px;line-height:1.2}
+
+/* кнопки */
+.btn{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;padding:13px;border-radius:14px;font-weight:800;
+  text-decoration:none;font-size:15px;margin-top:18px;
+}
+.btn-tg{
+  background:linear-gradient(135deg,#0da46f,#10c985,#36ffd0);
+  color:#000;border:1px solid #000;box-shadow:var(--shadow);
+}
+.btn-black{
+  background:linear-gradient(135deg,#000,#1a1a1a,#000);
+  color:#fff;box-shadow:var(--shadow);
+}
+.btn img{width:18px;height:18px}
+
+/* wrapper */
+.wrap{padding:16px}
+</style>
+</head>
+<body>
+<main class="phone">
+
+<!-- top bar -->
+<div class="status">
+  <a class="back" href="index.html">← Назад</a>
+  <div></div>
+  <button class="menu-btn" id="menuBtn">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+<section class="wrap">
+  <h1>Наши вакансии</h1>
+
+  <div class="jobs-grid">
+
+    <div class="job-card">
+      <img src="job1.jpg">
+      <div class="job-title">Курьер</div>
+      <div class="job-sub">Доставка на мопеде. Зарплата от 30,000₽</div>
+    </div>
+
+    <div class="job-card">
+      <img src="job2.jpg">
+      <div class="job-title">Закладчик</div>
+      <div class="job-sub">Аккуратная работа в городе. Доход до 120,000₽</div>
+    </div>
+
+    <div class="job-card">
+      <img src="job3.jpg">
+      <div class="job-title">Оператор</div>
+      <div class="job-sub">Работа с клиентами. От 50,000₽</div>
+    </div>
+
+    <div class="job-card">
+      <img src="job4.jpg">
+      <div class="job-title">Фасовщик</div>
+      <div class="job-sub">Фасовка продукции. От 40,000₽</div>
+    </div>
+
+    <div class="job-card">
+      <img src="job5.jpg">
+      <div class="job-title">Логист</div>
+      <div class="job-sub">Маршруты, управление. От 70,000₽</div>
+    </div>
+
+    <div class="job-card">
+      <img src="job6.jpg">
+      <div class="job-title">Менеджер</div>
+      <div class="job-sub">Контроль работы команды. От 80,000₽</div>
+    </div>
+
+  </div>
+
+  <a class="btn btn-tg" href="https://t.me/" target="_blank">
+    <img src="telegram.png"> Начать работу
+  </a>
+
+  <a class="btn btn-black" href="calc.html">
+    Калькулятор дохода
+  </a>
+
+</section>
+</main>
+
+<!-- drawer -->
+<div class="drawer-wrap" id="drawer">
+  <div class="backdrop" id="backdrop"></div>
+  <aside class="drawer">
+    <h3>Меню</h3>
+    <a class="m-link" href="index.html">Главная</a>
+    <a class="m-link" href="fortune.html">Колесо фортуны</a>
+    <a class="m-link" href="calc.html">Калькулятор дохода</a>
+    <a class="m-link" href="jobs.html">Вакансии</a>
+  </aside>
+</div>
+
+<script>
+const btn=document.getElementById("menuBtn");
+const drawer=document.getElementById("drawer");
+const backdrop=document.getElementById("backdrop");
+btn.addEventListener("click",()=>drawer.classList.add("active"));
+backdrop.addEventListener("click",()=>drawer.classList.remove("active"));
+</script>
+</body>
+</html>
